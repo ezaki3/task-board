@@ -18,8 +18,9 @@ production:
   adapter: postgresql
   encoding: unicode
   pool: 5
-  database: <%= ENV['RAILS_DATABASE'] || 'taskboard' %>
-  host: <%= ENV['RAILS_DATABASE_HOST'] || 'localhost' %>
-  port: <%= ENV['RAILS_DATABASE_PORT'] || '5432' %>
-  username: <%= ENV['RAILS_DATABASE_USERNAME'] || 'ezaki3' %> # FIXME: Delete default value some day
-  password: <%= ENV['RAILS_DATABASE_PASSWORD'] || 'tenukiW!2@d' %> # FIXME: Delete default value some day
+  # database: <%= ENV['RAILS_DATABASE'] || 'taskboard' %>
+  # username: <%= ENV['RAILS_DATABASE_USERNAME'] %>
+  # password: <%= ENV['RAILS_DATABASE_PASSWORD'] %>
+  # host: <%= ENV['RAILS_DATABASE_HOST'] || 'localhost' %>
+  # port: <%= ENV['RAILS_DATABASE_PORT'] || '5432' %>
+  url: <%= ENV['DATABASE_URL'] %> # For Heroku / Dokku

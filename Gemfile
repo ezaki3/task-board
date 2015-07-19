@@ -53,6 +53,7 @@ end
 
 group :production do
   # For Heroku / Dokku environment
+  gem 'puma'
   gem 'pg'
   gem 'rails_12factor'
 end
