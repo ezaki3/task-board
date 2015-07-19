@@ -45,8 +45,7 @@ group :development, :test do
 end
 
 group :production do
+  # For Heroku / Dokku environment
   gem 'pg'
-
-  # For Heroku
-  #gem 'rails_12factor'
+  gem 'rails_12factor'
 end
