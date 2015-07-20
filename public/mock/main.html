@@ -18,7 +18,7 @@
                 <a class="navbar-brand" href="#">task-board</a>
             </div>
             <div class="navbar-right">
-                <button type="button" class="btn btn-default navbar-btn">Add a list</button>
+                <button type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-default navbar-btn">Add a group</button>
             </div>
         </div>
     </nav>
@@ -26,38 +26,107 @@
         <div class="page-header">
             <h1>Board名</h1>
         </div>
+        <div class="alert alert-success">
+        	<button class="close" data-dismiss="alert">&times;</button>
+        	success系メッセージ
+        </div>
+        <div class="alert alert-danger">
+        	<button class="close" data-dismiss="alert">&times;</button>
+        	error系メッセージ
+        </div>
         <div class="row">
             <div class="col-md-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading">グループ1</div>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">タスク1</a>
-                        <a href="#" class="list-group-item">タスク2</a>
-                        <a href="#" class="list-group-item">タスク3</a>
+                    <div class="panel-heading">
+                        <a href="#groupModal" data-toggle="modal"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
+                        グループ1
                     </div>
-                    <div class="panel-footer"><a href="#">Add a card...</a></div>
+                    <div class="list-group">
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク1</a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク2</a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク3</a>
+                    </div>
+                    <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading">グループ2</div>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">タスク4</a>
-                        <a href="#" class="list-group-item">タスク5</a>
+                    <div class="panel-heading">
+                        <a href="#groupModal" data-toggle="modal"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
+                        グループ2
                     </div>
-                    <div class="panel-footer"><a href="#">Add a card...</a></div>
+                    <div class="list-group">
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク4</a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク5</a>
+                    </div>
+                    <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="panel panel-default">
-                    <div class="panel-heading">グループ3</div>
-                    <div class="list-group">
-                        <a href="#" class="list-group-item">タスク6</a>
+                    <div class="panel-heading">
+                        <a href="#groupModal" data-toggle="modal"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
+                        グループ3
                     </div>
-                    <div class="panel-footer"><a href="#">Add a card...</a></div>
+                    <div class="list-group">
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク6</a>
+                    </div>
+                    <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="taskModalLabel">Task</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="subject" class="control-label">タスク名:</label>
+                            <input type="text" class="form-control" id="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="body" class="control-label">内容:</label>
+                            <textarea class="form-control" id="body"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="groupModalLabel">Group</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="subject" class="control-label">グループ名:</label>
+                            <input type="text" class="form-control" id="subject">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 </doby>
 </html>
