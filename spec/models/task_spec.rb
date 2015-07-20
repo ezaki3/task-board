@@ -8,15 +8,15 @@ describe Task do
     )
   end
 
-  subject {@task}
+  subject { @task }
 
-  it {should respond_to(:subject)}
-  it {should respond_to(:body)}
+  it { should respond_to(:subject) }
+  it { should respond_to(:body) }
 
-  it {should be_valid}
+  it { should be_valid }
 
   describe 'when subject is not present' do
-    before {@task.subject = ''}
-    it {should_not be_valid}
+    before { @task.subject = '' }
+    it { should_not be_valid }
   end
 end
