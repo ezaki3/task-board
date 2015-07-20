@@ -18,9 +18,17 @@ Bundler.require(*Rails.groups)
 module TaskBoard
   class Application < Rails::Application
     config.time_zone = 'Tokyo'
-    config.i18n.load_path +=
-      Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
-    #config.i18n.default_locale = :ja
+    # TODO: Support i18n
+    # config.i18n.load_path +=
+    #   Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
+    # config.i18n.default_locale = :ja
+    config.generators do |g|
+      g.helper false
+      g.assets false
+      g.test_framework :rspec
+      g.controller_specs false
+      g.view_specs false
+    end
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
