@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="ja">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <title>task-board</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">task-board</a>
+            </div>
+            <div class="navbar-right">
+                <button type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-default navbar-btn">Add a group</button>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="page-header">
+            <h1>Board名</h1>
+        </div>
+        <div class="alert alert-success">
+        	<button class="close" data-dismiss="alert">&times;</button>
+        	success系メッセージ
+        </div>
+        <div class="alert alert-danger">
+        	<button class="close" data-dismiss="alert">&times;</button>
+        	error系メッセージ
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <a href="#groupModal" data-toggle="modal"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
+                        グループ1
+                    </div>
+                    <div class="list-group" data-bind="foreach: tasks">
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item" data-bind="text: subject"></a>
+                    </div>
+                    <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="taskModalLabel">Task</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="subject" class="control-label">タスク名:</label>
+                            <input type="text" class="form-control" id="subject">
+                        </div>
+                        <div class="form-group">
+                            <label for="body" class="control-label">内容:</label>
+                            <textarea class="form-control" id="body"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="groupModalLabel">Group</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="subject" class="control-label">グループ名:</label>
+                            <input type="text" class="form-control" id="subject">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-danger">Delete</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/knockout-3.3.0.js"></script>
+    <script src="js/app.js"></script>
+</doby>
+</html>
