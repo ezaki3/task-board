@@ -31,13 +31,13 @@
         <div class="page-header">
             <h1>Board名</h1>
         </div>
-        <div class="alert alert-success">
+        <div class="alert alert-success" data-bind="visible: alertSuccessMessage">
         	<button class="close" data-dismiss="alert">&times;</button>
-        	success系メッセージ
+        	<!-- ko text: alertSuccessMessage--><!--/ko-->
         </div>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" data-bind="visible: alertErrorMessage">
         	<button class="close" data-dismiss="alert">&times;</button>
-        	error系メッセージ
+            <!-- ko text: alertErrorMessage--><!--/ko-->
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -66,18 +66,18 @@
                     <form>
                         <div class="form-group">
                             <label for="subject" class="control-label">タスク名:</label>
-                            <input type="text" class="form-control" id="subject">
+                            <input type="text" class="form-control" id="subject" data-bind="value: task.subject">
                         </div>
                         <div class="form-group">
                             <label for="body" class="control-label">内容:</label>
-                            <textarea class="form-control" id="body"></textarea>
+                            <textarea class="form-control" id="body" data-bind="value: task.body"></textarea>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
-                    <button type="button" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-primary" data-bind="click: save">Save</button>
+                    <button type="button" class="btn btn-danger" data-bind="visible: task.id">Delete</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

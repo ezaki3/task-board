@@ -11,7 +11,12 @@
 
     var ViewModel = function () {
         var self = this;
+
+        self.task = new Task(null, null, null, 1); // group_id固定
         self.tasks = ko.observableArray();
+
+        self.alertSuccessMessage = ko.observable();
+        self.alertErrorMessage = ko.observable();
 
         self.list = function () {
             $.ajax({
@@ -24,6 +29,30 @@
                 error: function (response) {
                     console.log(response);
                 }
+            });
+        }.bind(self);
+
+        self.save = function () {
+            $.ajax({
+                url: '/api/v1/tasks',
+                method: 'POST',
+                contentType: 'application/json',
+                data: ko.toJSON({'task': self.task}),
+                success: function (response) {
+                    console.log(response);
+                    self.tasks.push(new Task(response.id, response.subject, response.body, response.group_id));
+                    self.task.id(null);
+                    self.task.subject(null);
+                    self.task.body(null);
+                    self.task.group_id(1); // group_id固定
+                    $('#taskModal').modal('hide');
+                    self.alertSuccessMessage('success');
+                },
+                error: function (response) {
+                    console.log(response);
+                    self.alertErrorMessage('error');
+                }
+
             });
         }.bind(self);
 
