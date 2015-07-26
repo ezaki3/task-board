@@ -15,7 +15,7 @@
 
         self.list = function () {
             $.ajax({
-                url: '/tasks.json',
+                url: '/api/v1/tasks',
                 success: function (response) {
                     self.tasks(response.map(function (task) {
                         return new Task(task.id, task.subject, task.body, task.group.id);
