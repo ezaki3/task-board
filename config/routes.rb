@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
-  resources :groups
-  resources :tasks
+  namespace :api, { format: 'json' } do
+    namespace :v1 do
+      resources :groups
+      resources :tasks, except: [:new, :edit]
+    end
+  end
 end

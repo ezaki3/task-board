@@ -1,4 +1,4 @@
-class GroupsController < ApplicationController
+class Api::V1::GroupsController < Api::V1::ApplicationController
   before_action :set_group, only: [:show, :edit, :update, :destroy]
 
   # GET /groups
