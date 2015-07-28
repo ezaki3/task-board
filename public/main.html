@@ -47,7 +47,7 @@
                         グループ1
                     </div>
                     <div class="list-group" data-bind="foreach: tasks">
-                        <a href="#" class="list-group-item" data-bind="text: subject, click: $parent.find"></a>
+                        <a href="#" class="list-group-item" data-bind="text: subject, click: $parent.findTask"></a>
                     </div>
                     <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
                 </div>
@@ -75,10 +75,10 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-bind="click: cancel">Cancel</button>
-                    <button type="button" class="btn btn-primary" data-bind="visible: !task.id(), click: create">Create</button>
-                    <button type="button" class="btn btn-primary" data-bind="visible: task.id, click: edit">Edit</button>
-                    <button type="button" class="btn btn-danger" data-bind="visible: task.id">Delete</button>
+                    <button type="button" class="btn btn-default" data-bind="click: cancelTask">Cancel</button>
+                    <button type="button" class="btn btn-primary" data-bind="visible: !task.id(), click: createTask">Create</button>
+                    <button type="button" class="btn btn-primary" data-bind="visible: task.id, click: editTask">Edit</button>
+                    <button type="button" class="btn btn-danger" data-bind="visible: task.id, click: deleteTask">Delete</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->

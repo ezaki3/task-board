@@ -20,7 +20,7 @@
         self.alertSuccessMessage = ko.observable();
         self.alertErrorMessage = ko.observable();
 
-        self.list = function () {
+        self.listTask = function () {
             $.ajax({
                 url: '/api/v1/tasks',
                 success: function (response) {
@@ -34,8 +34,7 @@
             });
         }.bind(self);
 
-        self.find = function (item) {
-            console.log(item.id());
+        self.findTask = function (item) {
             self.selectedTask = item;
             self.task.id(item.id());
             self.task.subject(item.subject());
@@ -44,7 +43,7 @@
             $('#taskModal').modal('show');
         }.bind(self);
 
-        self.create = function () {
+        self.createTask = function () {
             $.ajax({
                 url: '/api/v1/tasks',
                 method: 'POST',
@@ -53,7 +52,7 @@
                 success: function (response) {
                     console.log(response);
                     self.tasks.push(new Task(response.id, response.subject, response.body, response.group_id));
-                    self.cancel();
+                    self.cancelTask();
                     self.alertSuccessMessage('success');
                 },
                 error: function (response) {
@@ -64,7 +63,7 @@
             });
         }.bind(self);
 
-        self.edit = function () {
+        self.editTask = function () {
             $.ajax({
                 url: '/api/v1/tasks/' + self.task.id(),
                 method: 'PATCH',
@@ -75,7 +74,7 @@
                     self.selectedTask.subject(response.subject);
                     self.selectedTask.body(response.body);
                     self.selectedTask.group_id(response.group.id);
-                    self.cancel();
+                    self.cancelTask();
                     self.alertSuccessMessage('success');
                 },
                 error: function (response) {
@@ -85,7 +84,7 @@
             });
         }.bind(self);
 
-        self.cancel = function () {
+        self.cancelTask = function () {
             self.task.id(null);
             self.task.subject(null);
             self.task.body(null);
@@ -93,7 +92,24 @@
             $('#taskModal').modal('hide');
         }.bind(self);
 
-        self.list();
+        self.deleteTask = function () {
+            $.ajax({
+                url: '/api/v1/tasks/' + self.task.id(),
+                method: 'DELETE',
+                success: function (response) {
+                    console.log(response);
+                    self.tasks.remove(self.selectedTask);
+                    self.cancelTask();
+                    self.alertSuccessMessage('success');
+                },
+                error: function (response) {
+                    console.log(response);
+                    self.alertErrorMessage('error');
+                }
+            });
+        }.bind(self);
+
+        self.listTask();
     };
 
     var viewModel = new ViewModel();
