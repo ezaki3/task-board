@@ -17,6 +17,8 @@
 !/log/.keep
 /tmp
 
+spec/examples.txt
+
 # Ignore other unneeded files.
 doc/
 *.swp
