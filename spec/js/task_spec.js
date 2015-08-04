@@ -10,7 +10,7 @@ describe('task', function () {
     });
 
     it('listTask', function () {
-        spyOn($, 'ajax').andCallFake(function(e) {
+        spyOn($, 'ajax').and.callFake(function(e) {
             e.success([
                 {
                     'id': 1,
@@ -42,7 +42,7 @@ describe('task', function () {
     });
 
     it('createTask', function () {
-        spyOn($, 'ajax').andCallFake(function(e) {
+        spyOn($, 'ajax').and.callFake(function(e) {
             e.success({
                 'id': 1,
                 'subject': 'Happy task',
@@ -60,7 +60,7 @@ describe('task', function () {
     });
 
     it('editTask', function () {
-        spyOn($, 'ajax').andCallFake(function(e) {
+        spyOn($, 'ajax').and.callFake(function(e) {
             e.success({
                 'id': 1,
                 'subject': 'Edit task',
@@ -81,7 +81,7 @@ describe('task', function () {
     });
 
     it('deleteTask', function () {
-        spyOn($, 'ajax').andCallFake(function(e) {
+        spyOn($, 'ajax').and.callFake(function(e) {
             e.success();
         });
 

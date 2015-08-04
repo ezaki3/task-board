@@ -18,7 +18,7 @@ module.exports = function(config) {
         'public/js/jquery-1.11.3.min.js',
         'public/js/bootstrap.min.js',
         'public/js/knockout-3.3.0.js',
-        'public/js/**/*.js',
+        'js/concat/app.js',
         'spec/js/**/*.js'
     ],
 
