@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Task do
+RSpec.describe Task, type: :model do
   before do
     @task = Task.new(
       subject: 'Happy task',

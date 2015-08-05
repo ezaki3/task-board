@@ -9,7 +9,7 @@ RSpec.describe Group, type: :model do
 
   subject { @group }
 
-  it {should respond_to(:subject) }
+  it { should respond_to(:subject) }
 
   it { should be_valid }
 
