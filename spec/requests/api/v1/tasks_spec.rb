@@ -78,7 +78,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       }
     end
 
-    context 'with valid param' do
+    context 'with valid params' do
       it 'updates a task' do
         expect {
           is_expected.to eq 200
@@ -87,7 +87,6 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['id']).to eq task.id
         expect(res['subject']).to eq params[:task][:subject]
         expect(res['body']).to eq params[:task][:body]
-        expect(res['created_at']).to eq res['created_at']
         expect(res['updated_at']).not_to eq res['created_at']
       end
     end
