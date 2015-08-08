@@ -47,8 +47,11 @@ end
 group :test do
   gem 'rspec-rails'
   gem 'spring-commands-rspec'
-  gem 'capybara'
   gem 'factory_girl_rails'
+  # gem 'capybara'
+  gem 'rspec-request_describer'
+  # gem 'autodoc'
+  # gem 'database_rewinder'
 end
 
 group :production do
