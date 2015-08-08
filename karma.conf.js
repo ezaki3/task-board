@@ -15,9 +15,9 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-        'public/js/jquery-1.11.3.min.js',
-        'public/js/bootstrap.min.js',
-        'public/js/knockout-3.3.0.js',
+        'app/assets/javascripts/jquery-1.11.3.min.js',
+        'app/assets/javascripts/bootstrap.min.js',
+        'app/assets/javascripts/knockout-3.3.0.js',
         'js/concat/app.js',
         'spec/js/**/*.js'
     ],

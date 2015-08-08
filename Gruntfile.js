@@ -12,10 +12,10 @@ module.exports = function (grunt) {
             build: {
                 options: {
                     sourceMap: true,
-                    sourceMapName : 'public/js/app.map'
+                    sourceMapName : 'app/assets/javascripts/app.map'
                 },
                 src: 'js/concat/app.js',
-                dest: 'public/js/app.min.js'
+                dest: 'app/assets/javascripts/app.min.js'
             }
         },
 
