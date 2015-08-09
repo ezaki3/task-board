@@ -1,4 +1,10 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
+#  require 'crudable'
+  include Crudable
+end
+
+class Fugahoge
+=begin
   before_action :set_task, only: [:show, :update, :destroy]
 
   # GET /tasks
@@ -48,4 +54,5 @@ class Api::V1::TasksController < Api::V1::ApplicationController
     def task_params
       params.require(:task).permit(:subject, :body, :group_id)
     end
+=end
 end
