@@ -51,6 +51,7 @@ group :test do
   # gem 'capybara'
   gem 'rspec-request_describer'
   gem 'autodoc'
+  gem "redcarpet"
   # gem 'database_rewinder'
 end
 

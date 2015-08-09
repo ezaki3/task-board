@@ -120,6 +120,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
+    redcarpet (3.3.2)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -192,6 +193,7 @@ DEPENDENCIES
   puma
   rails (= 4.2.3)
   rails_12factor
+  redcarpet
   rspec-rails
   rspec-request_describer
   sass-rails (~> 5.0)
