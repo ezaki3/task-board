@@ -50,7 +50,8 @@ group :test do
   gem 'factory_girl_rails'
   # gem 'capybara'
   gem 'rspec-request_describer'
-  # gem 'autodoc'
+  gem 'autodoc'
+  gem "redcarpet"
   # gem 'database_rewinder'
 end
 

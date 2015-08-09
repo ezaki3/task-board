@@ -23,7 +23,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     # 最後に実行したリクエストに対するレスポンスが response から参照できるので、
     # subjectを評価したあと、レスポンスボディの内容をテストしています
     context 'with valid id' do
-      it 'returns a task' do
+      it 'returns a task', autodoc: true do
         is_expected.to eq 200
         res = JSON(response.body)
         expect(res['id']).to eq id
@@ -43,7 +43,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     end
 
     context 'with valid params' do
-      it 'adds a task' do
+      it 'adds a task', autodoc: true do
         expect {
           is_expected.to eq 201
         }.to change(Task, :count).by(1)
@@ -79,7 +79,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     end
 
     context 'with valid params' do
-      it 'updates a task' do
+      it 'updates a task', autodoc: true do
         expect {
           is_expected.to eq 200
         }.not_to change(Task, :count)
@@ -108,7 +108,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     let!(:task) { FactoryGirl.create(:task) }
     let(:id) { task.id }
 
-    context 'with valid id' do
+    context 'with valid id', autodoc: true do
       it 'deletes a task' do
         expect {
           is_expected.to eq 204
@@ -128,7 +128,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   describe 'GET /api/v1/tasks' do
     let!(:tasks) { FactoryGirl.create_list(:task, 2) }
 
-    it 'returns tasks' do
+    it 'returns tasks', autodoc: true do
       is_expected.to eq 200
       res = JSON(response.body)
       expect(res.size).to eq tasks.size

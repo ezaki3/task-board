@@ -1,0 +1,461 @@
+<head>
+  <style>
+    .api-docs {
+      left: 210px;
+    }
+
+    .api-docs, .api-docs-toc {
+      width: 66%;
+     }
+
+     .api-action {
+       padding: 10px;
+     }
+
+    .tocify-wrapper {
+      overflow-y: auto;
+      overflow-x: hidden;
+      position: fixed;
+      width: 210px;
+      float: left;
+      font-size: 16px;
+      background-color: #AAAADD;
+      top: 1px;
+      bottom: -1px;
+      padding: 10px;
+    }
+
+    .generated-at {
+      position: fixed;
+      bottom: 10px;
+    }
+
+    .api-resource {
+      border-bottom: black 1px solid;
+    }
+
+    pre {
+      padding: 10px;
+      background-color: #CCCCEE;
+    }
+
+    .page-wrapper {
+      margin-left: 240px;
+      min-width: 700px;
+      position: relative;
+      z-index: 10;
+    }
+  </style>
+</head>
+
+
+<html>
+<div class='tocify-wrapper'>
+<h1> Table of Contents </h1>
+      <li>
+    <a href="#doc/api/v1/groups.md">api/v1/groups.md</a>
+  </li>
+  
+      <li>
+    <a href="#doc/api/v1/tasks.md">api/v1/tasks.md</a>
+  </li>
+  
+<div class='generated-at'>
+Generated at:
+<br>
+2015-08-09 15:45:14 +0900</div>
+</div>
+
+<div class='page-wrapper'>
+  <div id="doc/api/v1/groups.md" class="api-resource"><div class="api-action"><h2>PATCH /api/v1/groups/:id</h2>
+
+<p>Updates a group.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>PATCH /api/v1/groups/1 HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 30
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+
+group[subject]=changed+subject
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 200
+Cache-Control: max-age=0, private, must-revalidate
+Content-Length: 126
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;99d7389c8900c15fe09844c1438d452e&quot;
+Location: http://www.example.com/api/v1/groups/1
+Set-Cookie: request_method=PATCH; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 22111940-7478-4383-a044-3e375174d0fc
+X-Runtime: 0.004745
+X-XSS-Protection: 1; mode=block
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;created_at&quot;: &quot;2015-08-09T15:45:14.777+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.781+09:00&quot;
+}
+</code></pre>
+</div><div class="api-action"><h2>DELETE /api/v1/groups/:id</h2>
+
+<p>Deletes a group.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>DELETE /api/v1/groups/1 HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 0
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 204
+Cache-Control: no-cache
+Set-Cookie: request_method=DELETE; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: a728b376-f31f-42b5-a50d-99b352cf216b
+X-Runtime: 0.001773
+X-XSS-Protection: 1; mode=block
+</code></pre>
+</div><div class="api-action"><h2>POST /api/v1/groups</h2>
+
+<p>Adds a group.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>POST /api/v1/groups HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 54
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+
+group[subject]=%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97-11
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 201
+Cache-Control: max-age=0, private, must-revalidate
+Content-Length: 126
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;300bfe53629c41bd4ad0406f42aa2581&quot;
+Location: http://www.example.com/api/v1/groups/1
+Set-Cookie: request_method=POST; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 0a026698-09d5-4c57-a20c-d9dde6fb6622
+X-Runtime: 0.004088
+X-XSS-Protection: 1; mode=block
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;グループ-11&quot;,
+  &quot;created_at&quot;: &quot;2015-08-09T15:45:14.800+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.800+09:00&quot;
+}
+</code></pre>
+</div><div class="api-action"><h2>GET /api/v1/groups</h2>
+
+<p>Returns groups.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>GET /api/v1/groups HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 0
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 200
+Cache-Control: max-age=0, private, must-revalidate
+Content-Length: 169
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;85bdb9118d04d5e394ef882d5d2a76be&quot;
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: b82310a3-6100-4221-b818-9bbd8e01f575
+X-Runtime: 0.002374
+X-XSS-Protection: 1; mode=block
+
+[
+  {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;グループ-12&quot;,
+    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/1&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;subject&quot;: &quot;グループ-13&quot;,
+    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
+  }
+]
+</code></pre>
+</div><div class="api-action"><h2>GET /api/v1/groups/:id</h2>
+
+<p>Retruns a group.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>GET /api/v1/groups/1 HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 0
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 200
+Cache-Control: max-age=0, private, must-revalidate
+Content-Length: 126
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;a0057b5ffa0b8ef095f7d443e27a238b&quot;
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 5cee1808-15d5-4c06-8d9e-9537dac986cc
+X-Runtime: 0.001763
+X-XSS-Protection: 1; mode=block
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;グループ-14&quot;,
+  &quot;created_at&quot;: &quot;2015-08-09T15:45:14.815+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.815+09:00&quot;
+}
+</code></pre>
+</div></div><div id="doc/api/v1/tasks.md" class="api-resource"><div class="api-action"><h2>GET /api/v1/tasks</h2>
+
+<p>Returns tasks.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>GET /api/v1/tasks HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 0
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 200
+Cache-Control: max-age=0, private, must-revalidate
+Content-Length: 457
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;b7ecc35f8422fc0645ab07bc23c4f65e&quot;
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: d1c2753e-9e9d-42a0-bcc9-c56563ce9859
+X-Runtime: 0.020887
+X-XSS-Protection: 1; mode=block
+
+[
+  {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;件名-1&quot;,
+    &quot;body&quot;: &quot;本文-1&quot;,
+    &quot;group&quot;: {
+      &quot;id&quot;: 1,
+      &quot;subject&quot;: &quot;グループ-1&quot;,
+      &quot;created_at&quot;: &quot;2015-08-09T15:45:14.666+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.666+09:00&quot;
+    },
+    &quot;url&quot;: &quot;http://www.example.com/api/v1/tasks/1&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;subject&quot;: &quot;件名-2&quot;,
+    &quot;body&quot;: &quot;本文-2&quot;,
+    &quot;group&quot;: {
+      &quot;id&quot;: 2,
+      &quot;subject&quot;: &quot;グループ-2&quot;,
+      &quot;created_at&quot;: &quot;2015-08-09T15:45:14.673+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.673+09:00&quot;
+    },
+    &quot;url&quot;: &quot;http://www.example.com/api/v1/tasks/2&quot;
+  }
+]
+</code></pre>
+</div><div class="api-action"><h2>POST /api/v1/tasks</h2>
+
+<p>Adds a task.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>POST /api/v1/tasks HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 66
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+
+task[subject]=%E4%BB%B6%E5%90%8D-3&amp;task[body]=%E6%9C%AC%E6%96%87-3
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 201
+Cache-Control: max-age=0, private, must-revalidate
+Content-Length: 150
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;6b941c6b46f6006a0a23f94e443a8056&quot;
+Location: http://www.example.com/api/v1/tasks/1
+Set-Cookie: request_method=POST; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 7ebdb8cd-84e3-41c7-b236-8c8719153422
+X-Runtime: 0.003672
+X-XSS-Protection: 1; mode=block
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;件名-3&quot;,
+  &quot;body&quot;: &quot;本文-3&quot;,
+  &quot;group&quot;: null,
+  &quot;created_at&quot;: &quot;2015-08-09T15:45:14.702+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.702+09:00&quot;
+}
+</code></pre>
+</div><div class="api-action"><h2>GET /api/v1/tasks/:id</h2>
+
+<p>Returns a task.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>GET /api/v1/tasks/1 HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 0
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 200
+Cache-Control: max-age=0, private, must-revalidate
+Content-Length: 271
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;4e43d00fb690043131ae7b9eabf681b7&quot;
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: efe63950-d4a3-41e0-8705-fcc5b1c64f14
+X-Runtime: 0.002382
+X-XSS-Protection: 1; mode=block
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;件名-4&quot;,
+  &quot;body&quot;: &quot;本文-4&quot;,
+  &quot;group&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;グループ-3&quot;,
+    &quot;created_at&quot;: &quot;2015-08-09T15:45:14.718+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.718+09:00&quot;
+  },
+  &quot;created_at&quot;: &quot;2015-08-09T15:45:14.719+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.719+09:00&quot;
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/tasks/:id</h2>
+
+<p>Updates a task.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>PATCH /api/v1/tasks/1 HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 53
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+
+task[subject]=changed+subject&amp;task[body]=changed+body
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 200
+Cache-Control: max-age=0, private, must-revalidate
+Content-Length: 282
+Content-Type: application/json; charset=utf-8
+ETag: W/&quot;97886f40f3ba067577aca96689f4e0e8&quot;
+Location: http://www.example.com/api/v1/tasks/1
+Set-Cookie: request_method=PATCH; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: cb85eff9-157c-49e3-9eba-f0a691c90ca6
+X-Runtime: 0.004471
+X-XSS-Protection: 1; mode=block
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;body&quot;: &quot;changed body&quot;,
+  &quot;group&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;グループ-4&quot;,
+    &quot;created_at&quot;: &quot;2015-08-09T15:45:14.724+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.724+09:00&quot;
+  },
+  &quot;created_at&quot;: &quot;2015-08-09T15:45:14.725+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-08-09T15:45:14.729+09:00&quot;
+}
+</code></pre>
+</div><div class="api-action"><h2>DELETE /api/v1/tasks/:id</h2>
+
+<p>Deletes a task.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<pre><code>DELETE /api/v1/tasks/1 HTTP/1.1
+Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+Content-Length: 0
+Content-Type: application/x-www-form-urlencoded
+Host: www.example.com
+</code></pre>
+
+<h4>Response</h4>
+
+<pre><code>HTTP/1.1 204
+Cache-Control: no-cache
+Set-Cookie: request_method=DELETE; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 307a40bb-0f54-4db2-a198-53004115a5aa
+X-Runtime: 0.001818
+X-XSS-Protection: 1; mode=block
+</code></pre>
+</div></div></div>
+</html>

@@ -6,7 +6,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     let(:id) { group.id }
 
     context 'with valid id' do
-      it 'retruns a group' do
+      it 'retruns a group', autodoc: true do
         is_expected.to eq 200
         res = JSON(response.body)
         expect(res['id']).to eq id
@@ -24,7 +24,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     let(:params) { { group: FactoryGirl.attributes_for(:group) } }
 
     context 'with valid params' do
-      it 'adds a group' do
+      it 'adds a group', autodoc: true do
         expect { is_expected.to eq 201 }.to change(Group, :count).by(1)
         res = JSON(response.body)
         expect(res['subject']).to eq params[:group][:subject]
@@ -55,7 +55,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     end
 
     context 'with valid params' do
-      it 'updates a group' do
+      it 'updates a group', autodoc: true do
         expect {
           is_expected.to eq 200
         }.not_to change(Group, :count)
@@ -82,7 +82,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     let(:id) { group.id }
 
     context 'with valid id' do
-      it 'deletes a group' do
+      it 'deletes a group', autodoc: true do
         expect {
           is_expected.to eq 204
         }.to change(Group, :count).by(-1)
@@ -98,7 +98,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   describe 'GET /api/v1/groups' do
     let!(:groups) { FactoryGirl.create_list(:group, 2) }
 
-    it 'returns groups' do
+    it 'returns groups', autodoc: true do
       is_expected.to eq 200
       res = JSON(response.body)
       expect(res.size).to eq groups.size
