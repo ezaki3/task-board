@@ -8,6 +8,9 @@
 /.bundle
 /vendor
 
+# Ignore node modules
+/node_modules
+
 # Ignore the default SQLite database.
 /db/*.sqlite3
 /db/*.sqlite3-journal
@@ -17,10 +20,13 @@
 !/log/.keep
 /tmp
 
+# Ignore documentations
+/doc/*
+!/doc/api
+
 spec/examples.txt
 
 # Ignore other unneeded files.
-doc/
 *.swp
 *~
 .#*
@@ -28,4 +34,3 @@ doc/
 .DS_Store
 .idea
 .secret
-/node_modules
