@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'boards' => 'boards#index'
+
   namespace :api, {format: 'json'} do
     namespace :v1 do
       resources :groups, except: [:new, :edit], constraints: {id: /[0-9]+/}
