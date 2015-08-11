@@ -35,7 +35,7 @@ module Crudable
       respond_to do |format|
         if instance_variable_get("@#{model_name.underscore}").save
           format.html { redirect_to action: :index, notice: 'Resource was successfully created.' }
-          format.json { render :show, status: :created, location: instance_variable_get("@#{model_name.underscore}") }
+          format.json { render :show, status: :created, location: get_location }
         else
           format.html { render :new }
           format.json { render json: instance_variable_get("@#{model_name.underscore}").errors, status: :unprocessable_entity }
@@ -49,7 +49,7 @@ module Crudable
       respond_to do |format|
         if instance_variable_get("@#{model_name.underscore}").update(resource_params)
           format.html { redirect_to action: :index, notice: 'Resource was successfully updated.' }
-          format.json { render :show, status: :ok, location: instance_variable_get("@#{model_name.underscore}") }
+          format.json { render :show, status: :ok, location: get_location }
         else
           format.html { render :edit }
           format.json { render json: instance_variable_get("@#{model_name.underscore}").errors, status: :unprocessable_entity }
@@ -76,6 +76,10 @@ module Crudable
 
     def model_name
       @model.to_s
+    end
+
+    def get_location
+      instance_variable_get("@#{model_name.underscore}")
     end
 
     # Use callbacks to share common setup or constraints between actions.

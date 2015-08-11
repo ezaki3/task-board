@@ -51,6 +51,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['subject']).to eq params[:task][:subject]
         expect(res['body']).to eq params[:task][:body]
         expect(res['updated_at']).to eq res['created_at']
+        expect(response.header['location']).to eq '/api/v1/tasks/%d' % res['id']
       end
     end
 
@@ -88,6 +89,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['subject']).to eq params[:task][:subject]
         expect(res['body']).to eq params[:task][:body]
         expect(res['updated_at']).not_to eq res['created_at']
+        expect(response.header['location']).to eq '/api/v1/tasks/%d' % id
       end
     end
 
