@@ -1,3 +1,6 @@
+var ViewModel = require('../../js/src/viewmodel.js');
+var Task = require('../../js/src/task.js');
+
 describe('task', function () {
     var viewModel = null;
 

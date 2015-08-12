@@ -1,11 +1,13 @@
 module.exports = function (grunt) {
     var pkg = grunt.file.readJSON('package.json');
     grunt.initConfig({
-        concat: {
-            files: {
-                src: 'js/src/*.js',
-                dest: 'js/concat/app.js'
+        browserify: {
+            dist: {
+                files: {
+                    'js/browserify/app.js': ['js/src/app.js']
+                }
             }
+
         },
 
         uglify: {
@@ -14,7 +16,7 @@ module.exports = function (grunt) {
                     sourceMap: true,
                     sourceMapName : 'app/assets/javascripts/app.map'
                 },
-                src: 'js/concat/app.js',
+                src: 'js/browserify/app.js',
                 dest: 'app/assets/javascripts/app.min.js'
             }
         },
@@ -36,16 +38,16 @@ module.exports = function (grunt) {
         watch: {
             js: {
                 files: ['js/src/*.js', 'spec/js/*.js'],
-                tasks: ['concat', 'karma:continuous:run', 'uglify']
+                tasks: ['karma:continuous:run', 'browserify', 'uglify']
             }
         }
     });
 
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-karma');
+    grunt.loadNpmTasks('grunt-browserify');
 
-    grunt.registerTask('default', ['concat', 'karma:unit', 'uglify']);
+    grunt.registerTask('default', ['karma:unit', 'browserify', 'uglify']);
     grunt.registerTask('serve', ['karma:continuous:start', 'watch'])
 };

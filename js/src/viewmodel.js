@@ -1,3 +1,4 @@
+var Task = require('./task.js');
 var ViewModel = function () {
     var self = this;
 
@@ -98,3 +99,5 @@ var ViewModel = function () {
         });
     }.bind(self);
 };
+
+module.exports = ViewModel;
