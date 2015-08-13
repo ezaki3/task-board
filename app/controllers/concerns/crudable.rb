@@ -10,7 +10,7 @@ module Crudable
     # GET /resources
     # GET /resources.json
     def index
-      instance_variable_set :"@#{model_name.tableize}", @model.all
+      instance_variable_set(resource(:tableize), @model.all)
     end
 
     # GET /resources/1
@@ -20,7 +20,7 @@ module Crudable
 
     # GET /resources/new
     def new
-      instance_variable_set :"@#{model_name.underscore}", @model.new
+      instance_variable_set(resource, @model.new)
     end
 
     # GET /resources/1/edit
@@ -30,15 +30,15 @@ module Crudable
     # POST /resources
     # POST /resources.json
     def create
-      instance_variable_set :"@#{model_name.underscore}", @model.new(resource_params)
+      instance_variable_set(resource, @model.new(resource_params))
 
       respond_to do |format|
-        if instance_variable_get("@#{model_name.underscore}").save
+        if instance_variable_get(resource).save
           format.html { redirect_to action: :index, notice: 'Resource was successfully created.' }
           format.json { render :show, status: :created, location: get_location }
         else
           format.html { render :new }
-          format.json { render json: instance_variable_get("@#{model_name.underscore}").errors, status: :unprocessable_entity }
+          format.json { render json: instance_variable_get(resource).errors, status: :unprocessable_entity }
         end
       end
     end
@@ -47,12 +47,12 @@ module Crudable
     # PATCH/PUT /resources/1.json
     def update
       respond_to do |format|
-        if instance_variable_get("@#{model_name.underscore}").update(resource_params)
+        if instance_variable_get(resource).update(resource_params)
           format.html { redirect_to action: :index, notice: 'Resource was successfully updated.' }
           format.json { render :show, status: :ok, location: get_location }
         else
           format.html { render :edit }
-          format.json { render json: instance_variable_get("@#{model_name.underscore}").errors, status: :unprocessable_entity }
+          format.json { render json: instance_variable_get(resource).errors, status: :unprocessable_entity }
         end
       end
     end
@@ -60,7 +60,7 @@ module Crudable
     # DELETE /resources/1
     # DELETE /resources/1.json
     def destroy
-      instance_variable_get("@#{model_name.underscore}").destroy
+      instance_variable_get(resource).destroy
 
       respond_to do |format|
         format.html { redirect_to action: :index, notice: 'Resource was successfully destroyed.' }
@@ -78,13 +78,17 @@ module Crudable
       @model.to_s
     end
 
+    def resource(inflector = :underscore)
+      :"@#{model_name.send(inflector)}"
+    end
+
     def get_location
-      instance_variable_get("@#{model_name.underscore}")
+      instance_variable_get(resource)
     end
 
     # Use callbacks to share common setup or constraints between actions.
     def set_resource
-      instance_variable_set :"@#{model_name.underscore}", @model.find(params[:id])
+      instance_variable_set(resource, @model.find(params[:id]))
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
