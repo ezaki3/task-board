@@ -11,6 +11,66 @@ var Task = function (id, subject, body, group_id) {
     this.subject = ko.observable(subject);
     this.body = ko.observable(body);
     this.group_id = ko.observable(group_id);
+
+    this.apiUrl = '/api/v1/tasks';
+};
+
+Task.prototype.search = function () {
+    var d = $.Deferred();
+    $.ajax({url: this.apiUrl})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+Task.prototype.create = function (data) {
+    var d = $.Deferred();
+    $.ajax({
+        url: this.apiUrl,
+        method: 'POST',
+        contentType: 'application/json',
+        data: data})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+Task.prototype.edit = function (id, data) {
+    var d = $.Deferred();
+    $.ajax({
+        url: this.apiUrl + '/' + id,
+        method: 'PATCH',
+        contentType: 'application/json',
+        data: data})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+Task.prototype.delete = function (id) {
+    var d = $.Deferred();
+    $.ajax({
+        url: this.apiUrl + '/' + id,
+        method: 'DELETE'})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
 };
 
 module.exports = Task;
@@ -29,17 +89,15 @@ var ViewModel = function () {
     self.alertErrorMessage = ko.observable();
 
     self.listTask = function () {
-        $.ajax({
-            url: '/api/v1/tasks',
-            success: function (response) {
+        self.task.search()
+            .done(function (response) {
                 self.tasks(response.map(function (task) {
                     return new Task(task.id, task.subject, task.body, task.group.id);
                 }));
-            },
-            error: function (response) {
+            })
+            .fail(function (reponse) {
                 console.log(response);
-            }
-        });
+            });
     }.bind(self);
 
     self.findTask = function (item) {
@@ -52,44 +110,33 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createTask = function () {
-        $.ajax({
-            url: '/api/v1/tasks',
-            method: 'POST',
-            contentType: 'application/json',
-            data: ko.toJSON({'task': self.task}),
-            success: function (response) {
+        self.task.create(ko.toJSON({'task': self.task}))
+            .done(function (response) {
                 console.log(response);
                 self.tasks.push(new Task(response.id, response.subject, response.body, response.group_id));
                 self.cancelTask();
                 self.alertSuccessMessage('success');
-            },
-            error: function (response) {
+            })
+            .fail(function (response) {
                 console.log(response);
                 self.alertErrorMessage('error');
-            }
-
-        });
+            });
     }.bind(self);
 
     self.editTask = function () {
-        $.ajax({
-            url: '/api/v1/tasks/' + self.task.id(),
-            method: 'PATCH',
-            contentType: 'application/json',
-            data: ko.toJSON({'task': self.task}),
-            success: function (response) {
+        self.task.edit(self.task.id(), ko.toJSON({'task': self.task}))
+            .done(function (response) {
                 console.log(response);
                 self.selectedTask.subject(response.subject);
                 self.selectedTask.body(response.body);
                 self.selectedTask.group_id(response.group.id);
                 self.cancelTask();
                 self.alertSuccessMessage('success');
-            },
-            error: function (response) {
+            })
+            .fail(function (response) {
                 console.log(response);
-                self.alertErrorMessage('error');
-            }
-        });
+                self.alertErrorMessage('error')
+            });
     }.bind(self);
 
     self.cancelTask = function () {
@@ -101,20 +148,17 @@ var ViewModel = function () {
     }.bind(self);
 
     self.deleteTask = function () {
-        $.ajax({
-            url: '/api/v1/tasks/' + self.task.id(),
-            method: 'DELETE',
-            success: function (response) {
+        self.task.delete(self.task.id())
+            .done(function (response) {
                 console.log(response);
                 self.tasks.remove(self.selectedTask);
                 self.cancelTask();
                 self.alertSuccessMessage('success');
-            },
-            error: function (response) {
+            })
+            .fail(function (response) {
                 console.log(response);
                 self.alertErrorMessage('error');
-            }
-        });
+            });
     }.bind(self);
 };
 
