@@ -92,10 +92,3 @@
 <%= javascript_include_tag 'bootstrap.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'knockout-3.3.0.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'app.min.js', 'data-turbolinks-track' => true %>
-<script>
-(function () {
-    var viewModel = new ViewModel();
-    viewModel.listTask();
-    ko.applyBindings(viewModel);
-}());
-</script>

@@ -1,3 +1,6 @@
+var ViewModel = require('../../js/src/viewmodel.js');
+var Task = require('../../js/src/task.js');
+
 describe('task', function () {
     var viewModel = null;
 
@@ -10,8 +13,9 @@ describe('task', function () {
     });
 
     it('listTask', function () {
-        spyOn($, 'ajax').and.callFake(function(e) {
-            e.success([
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve([
                 {
                     'id': 1,
                     'subject': 'Happy task',
@@ -22,6 +26,7 @@ describe('task', function () {
                     }
                 }
             ]);
+            return d.promise();
         });
 
         viewModel.listTask();
@@ -42,13 +47,15 @@ describe('task', function () {
     });
 
     it('createTask', function () {
-        spyOn($, 'ajax').and.callFake(function(e) {
-            e.success({
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
                 'id': 1,
                 'subject': 'Happy task',
                 'body': 'Create something new',
                 'group_id': 1
             });
+            return d.promise();
         });
 
         var beforeCount = viewModel.tasks().length;
@@ -60,8 +67,9 @@ describe('task', function () {
     });
 
     it('editTask', function () {
-        spyOn($, 'ajax').and.callFake(function(e) {
-            e.success({
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
                 'id': 1,
                 'subject': 'Edit task',
                 'body': 'Create something new',
@@ -70,6 +78,7 @@ describe('task', function () {
                     'subject': 'Happy group'
                 }
             });
+            return d.promise();
         });
 
         var task = new Task(1, 'Happy task', 'Create something new', 1);
@@ -81,8 +90,10 @@ describe('task', function () {
     });
 
     it('deleteTask', function () {
-        spyOn($, 'ajax').and.callFake(function(e) {
-            e.success();
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve();
+            return d.promise();
         });
 
         viewModel.tasks.push(new Task(1, 'Happy task', 'Create something new', 1));
