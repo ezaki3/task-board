@@ -16,7 +16,9 @@ RSpec.describe 'Api::V1::Groups', type: :request do
 
     context 'with invalid id' do
       let(:id) { 0 }
-      it 'returns no groups' # TODO: implement
+      it {
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      }
     end
   end
 
@@ -29,6 +31,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         res = JSON(response.body)
         expect(res['subject']).to eq params[:group][:subject]
         expect(res['updated_at']).to eq res['created_at']
+        expect(response.header['location']).to eq '/api/v1/groups/%d' % res['id']
       end
     end
 
@@ -63,6 +66,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         expect(res['id']).to eq group.id
         expect(res['subject']).to eq params[:group][:subject]
         expect(res['updated_at']).not_to eq res['created_at']
+        expect(response.header['location']).to eq '/api/v1/groups/%d' % id
       end
     end
 
@@ -91,7 +95,9 @@ RSpec.describe 'Api::V1::Groups', type: :request do
 
     context 'with invalid id' do
       let(:id) { 0 }
-      it 'not deletes a group' # TODO: implement
+      it {
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      }
     end
   end
 

@@ -15,8 +15,8 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       # rspec-railsではリクエストを送るメソッドがstatus codeを返すので、
       # (shouldのレシーバを省略することで) subjectの実行結果を呼び出してテストしています
       it {
-        pending 'TODO: Fix error handling on Super-Controller when ActiveRecord::RecordNotFound occurs'
-        is_expected.to eq 404
+        # is_expected.to eq 404 # This is on like `production` environment
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       }
     end
 
@@ -51,6 +51,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['subject']).to eq params[:task][:subject]
         expect(res['body']).to eq params[:task][:body]
         expect(res['updated_at']).to eq res['created_at']
+        expect(response.header['location']).to eq '/api/v1/tasks/%d' % res['id']
       end
     end
 
@@ -88,6 +89,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['subject']).to eq params[:task][:subject]
         expect(res['body']).to eq params[:task][:body]
         expect(res['updated_at']).not_to eq res['created_at']
+        expect(response.header['location']).to eq '/api/v1/tasks/%d' % id
       end
     end
 
@@ -119,8 +121,8 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     context 'with invalid id' do
       let(:id) { 0 }
       it {
-        pending 'TODO: Fix error handling on Super-Controller when ActiveRecord::RecordNotFound occurs'
-        is_expected.to eq 404
+        # is_expected.to eq 404 # This is on like `production` environment
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       }
     end
   end
