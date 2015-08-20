@@ -16,7 +16,9 @@ RSpec.describe 'Api::V1::Groups', type: :request do
 
     context 'with invalid id' do
       let(:id) { 0 }
-      it 'returns no groups' # TODO: implement
+      it {
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      }
     end
   end
 
@@ -93,7 +95,9 @@ RSpec.describe 'Api::V1::Groups', type: :request do
 
     context 'with invalid id' do
       let(:id) { 0 }
-      it 'not deletes a group' # TODO: implement
+      it {
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      }
     end
   end
 
