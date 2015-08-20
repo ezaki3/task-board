@@ -1,14 +1,34 @@
 var Task = require('./task.js');
+var Group = require('./group.js');
 var ViewModel = function () {
     var self = this;
 
     self.task = new Task(null, null, null, 1); // group_id固定
     self.tasks = ko.observableArray();
-
     self.selectedTask;
+
+    self.group = new Group(null, null);
+    self.groups = ko.observableArray();
+    self.selectedGroup;
 
     self.alertSuccessMessage = ko.observable();
     self.alertErrorMessage = ko.observable();
+
+    self.listGroup = function () {
+        self.group.search()
+            .done(function (response) {
+                self.groups(response.map(function (group) {
+                    var g = new Group(group.id, group.subject);
+                    g.tasks(group.tasks.map(function (task) {
+                        return new Task(task.id, task.subject, task.body, task.group_id);
+                    }));
+                    return g;
+                }));
+            })
+            .fail(function (response) {
+                console.log(response);
+            });
+    }.bind(self);
 
     self.listTask = function () {
         self.task.search()

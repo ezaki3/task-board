@@ -3,6 +3,8 @@ var Group = function (id, subject) {
     this.id = ko.observable(id);
     this.subject = ko.observable(subject);
 
+    this.tasks = ko.observableArray();
+
     this.apiUrl = '/api/v1/groups';
 };
 

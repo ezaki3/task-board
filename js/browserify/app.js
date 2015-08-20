@@ -2,20 +2,31 @@
 'use strict';
 var ViewModel = require('./viewmodel.js');
 var viewModel = new ViewModel();
-viewModel.listTask();
+//viewModel.listTask();
+viewModel.listGroup();
 ko.applyBindings(viewModel);
 
-},{"./viewmodel.js":3}],2:[function(require,module,exports){
-var Task = function (id, subject, body, group_id) {
+},{"./viewmodel.js":5}],2:[function(require,module,exports){
+var Model = require('./model.js');
+var Group = function (id, subject) {
     this.id = ko.observable(id);
     this.subject = ko.observable(subject);
-    this.body = ko.observable(body);
-    this.group_id = ko.observable(group_id);
 
-    this.apiUrl = '/api/v1/tasks';
+    this.tasks = ko.observableArray();
+
+    this.apiUrl = '/api/v1/groups';
 };
 
-Task.prototype.search = function () {
+Group.prototype = Model.prototype;
+
+module.exports = Group;
+
+},{"./model.js":3}],3:[function(require,module,exports){
+var Model = function () {
+    this.apiUrl;
+};
+
+Model.prototype.search = function () {
     var d = $.Deferred();
     $.ajax({url: this.apiUrl})
         .done(function (response) {
@@ -27,7 +38,7 @@ Task.prototype.search = function () {
     return d.promise();
 };
 
-Task.prototype.create = function (data) {
+Model.prototype.create = function (data) {
     var d = $.Deferred();
     $.ajax({
         url: this.apiUrl,
@@ -43,7 +54,7 @@ Task.prototype.create = function (data) {
     return d.promise();
 };
 
-Task.prototype.edit = function (id, data) {
+Model.prototype.edit = function (id, data) {
     var d = $.Deferred();
     $.ajax({
         url: this.apiUrl + '/' + id,
@@ -59,7 +70,7 @@ Task.prototype.edit = function (id, data) {
     return d.promise();
 };
 
-Task.prototype.delete = function (id) {
+Model.prototype.delete = function (id) {
     var d = $.Deferred();
     $.ajax({
         url: this.apiUrl + '/' + id,
@@ -73,20 +84,55 @@ Task.prototype.delete = function (id) {
     return d.promise();
 };
 
+module.exports = Model;
+
+},{}],4:[function(require,module,exports){
+var Model = require('./model.js');
+var Task = function (id, subject, body, group_id) {
+    this.id = ko.observable(id);
+    this.subject = ko.observable(subject);
+    this.body = ko.observable(body);
+    this.group_id = ko.observable(group_id);
+
+    this.apiUrl = '/api/v1/tasks';
+};
+
+Task.prototype = Model.prototype;
+
 module.exports = Task;
 
-},{}],3:[function(require,module,exports){
+},{"./model.js":3}],5:[function(require,module,exports){
 var Task = require('./task.js');
+var Group = require('./group.js');
 var ViewModel = function () {
     var self = this;
 
     self.task = new Task(null, null, null, 1); // group_id固定
     self.tasks = ko.observableArray();
-
     self.selectedTask;
+
+    self.group = new Group(null, null);
+    self.groups = ko.observableArray();
+    self.selectedGroup;
 
     self.alertSuccessMessage = ko.observable();
     self.alertErrorMessage = ko.observable();
+
+    self.listGroup = function () {
+        self.group.search()
+            .done(function (response) {
+                self.groups(response.map(function (group) {
+                    var g = new Group(group.id, group.subject);
+                    g.tasks(group.tasks.map(function (task) {
+                        return new Task(task.id, task.subject, task.body, task.group_id);
+                    }));
+                    return g;
+                }));
+            })
+            .fail(function (response) {
+                console.log(response);
+            });
+    }.bind(self);
 
     self.listTask = function () {
         self.task.search()
@@ -164,4 +210,4 @@ var ViewModel = function () {
 
 module.exports = ViewModel;
 
-},{"./task.js":2}]},{},[1]);
+},{"./group.js":2,"./task.js":4}]},{},[1]);

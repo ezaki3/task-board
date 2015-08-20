@@ -20,15 +20,15 @@
         <button class="close" data-dismiss="alert">&times;</button>
         <!-- ko text: alertErrorMessage--><!--/ko-->
     </div>
-    <div class="row">
+    <div class="row" data-bind="foreach: groups">
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a href="#groupModal" data-toggle="modal"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
-                    グループ1
+                    <!-- ko text: subject--><!--/ko-->
                 </div>
                 <div class="list-group" data-bind="foreach: tasks">
-                    <a href="#" class="list-group-item" data-bind="text: subject, click: $parent.findTask"></a>
+                    <a href="#" class="list-group-item" data-bind="text: subject, click: $parents[1].findTask"></a>
                 </div>
                 <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
             </div>
