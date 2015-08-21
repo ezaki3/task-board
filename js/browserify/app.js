@@ -107,8 +107,7 @@ var Group = require('./group.js');
 var ViewModel = function () {
     var self = this;
 
-    self.task = new Task(null, null, null, 1); // group_id固定
-    self.tasks = ko.observableArray();
+    self.task = new Task(null, null, null, null);
     self.selectedTask;
 
     self.group = new Group(null, null);
@@ -134,24 +133,22 @@ var ViewModel = function () {
             });
     }.bind(self);
 
-    self.listTask = function () {
-        self.task.search()
-            .done(function (response) {
-                self.tasks(response.map(function (task) {
-                    return new Task(task.id, task.subject, task.body, task.group.id);
-                }));
-            })
-            .fail(function (reponse) {
-                console.log(response);
-            });
+    self.openTaskModal = function (group) {
+        self.selectedGroup = group;
+        self.task.id(null);
+        self.task.subject(null);
+        self.task.body(null);
+        self.task.group_id(group.id());
+        $('#taskModal').modal('show');
     }.bind(self);
 
-    self.findTask = function (item) {
-        self.selectedTask = item;
-        self.task.id(item.id());
-        self.task.subject(item.subject());
-        self.task.body(item.body());
-        self.task.group_id(item.group_id());
+    self.findTask = function (group, task) {
+        self.selectedTask = task;
+        self.selectedGroup = group;
+        self.task.id(task.id());
+        self.task.subject(task.subject());
+        self.task.body(task.body());
+        self.task.group_id(task.group_id());
         $('#taskModal').modal('show');
     }.bind(self);
 
@@ -159,8 +156,8 @@ var ViewModel = function () {
         self.task.create(ko.toJSON({'task': self.task}))
             .done(function (response) {
                 console.log(response);
-                self.tasks.push(new Task(response.id, response.subject, response.body, response.group_id));
-                self.cancelTask();
+                self.selectedGroup.tasks.push(new Task(response.id, response.subject, response.body, response.group_id));
+                $('#taskModal').modal('hide');
                 self.alertSuccessMessage('success');
             })
             .fail(function (response) {
@@ -176,7 +173,7 @@ var ViewModel = function () {
                 self.selectedTask.subject(response.subject);
                 self.selectedTask.body(response.body);
                 self.selectedTask.group_id(response.group.id);
-                self.cancelTask();
+                $('#taskModal').modal('hide');
                 self.alertSuccessMessage('success');
             })
             .fail(function (response) {
@@ -185,20 +182,12 @@ var ViewModel = function () {
             });
     }.bind(self);
 
-    self.cancelTask = function () {
-        self.task.id(null);
-        self.task.subject(null);
-        self.task.body(null);
-        self.task.group_id(1); // group_id固定
-        $('#taskModal').modal('hide');
-    }.bind(self);
-
     self.deleteTask = function () {
-        self.task.delete(self.task.id())
+        self.task.delete(self.selectedTask.id())
             .done(function (response) {
                 console.log(response);
-                self.tasks.remove(self.selectedTask);
-                self.cancelTask();
+                self.selectedGroup.tasks.remove(self.selectedTask);
+                $('#taskModal').modal('hide');
                 self.alertSuccessMessage('success');
             })
             .fail(function (response) {
