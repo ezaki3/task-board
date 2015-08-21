@@ -4,7 +4,7 @@
             <a class="navbar-brand" href="#">task-board</a>
         </div>
         <div class="navbar-right">
-            <button type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-default navbar-btn">Add a group</button>
+            <button type="button" class="btn btn-default navbar-btn" data-bind="click: openGroupModal">Add a group</button>
         </div>
     </div>
 </nav>
@@ -24,7 +24,7 @@
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <a href="#groupModal" data-toggle="modal"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
+                    <a href="#" data-bind="click: $parent.findGroup"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
                     <!-- ko text: subject--><!--/ko-->
                 </div>
                 <div class="list-group" data-bind="foreach: tasks">
@@ -76,14 +76,15 @@
                 <form>
                     <div class="form-group">
                         <label for="subject" class="control-label">グループ名:</label>
-                        <input type="text" class="form-control" id="subject">
+                        <input type="text" class="form-control" id="subject" data-bind="value: group.subject">
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save</button>
-                <button type="button" class="btn btn-danger">Delete</button>
+                <button type="button" class="btn btn-primary" data-bind="visible: !group.id(), click: createGroup">Create</button>
+                <button type="button" class="btn btn-primary" data-bind="visible: group.id, click: editGroup">Edit</button>
+                <button type="button" class="btn btn-danger" data-bind="visible: group.id, click: deleteGroup">Delete</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -13,40 +13,6 @@ describe('task', function () {
         viewModel = null;
     });
 
-    it('listGroup', function () {
-        spyOn($, 'ajax').and.callFake(function() {
-            var d = $.Deferred();
-            d.resolve([
-                {
-                    'id': 1,
-                    'subject': 'Happy group',
-                    'tasks': [
-                        {
-                            'id': 1,
-                            'subject': 'Happy task',
-                            'body': 'Create something new',
-                            'group_id': 1
-                        }
-                    ]
-                }
-            ]);
-            return d.promise();
-        });
-
-        viewModel.listGroup();
-        expect(viewModel.groups().length).toBe(1);
-
-        var group = viewModel.groups()[0];
-        expect(group.id()).toBe(1);
-        expect(group.subject()).toBe('Happy group');
-
-        var task = viewModel.groups()[0].tasks()[0];
-        expect(task.id()).toBe(1);
-        expect(task.subject()).toBe('Happy task');
-        expect(task.body()).toBe('Create something new');
-        expect(task.group_id()).toBe(1);
-    });
-
     it('findTask', function () {
         expect(viewModel.task.id()).toBe(null);
         var task = new Task(1, 'Happy task', 'Create something new', 1);
