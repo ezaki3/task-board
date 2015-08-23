@@ -29,6 +29,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['id']).to eq id
         expect(res['subject']).to eq task['subject']
         expect(res['group']['id']).to eq task.group['id']
+        expect(res['priority']).to eq task['priority']
       end
     end
   end
@@ -50,6 +51,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         res = JSON(response.body)
         expect(res['subject']).to eq params[:task][:subject]
         expect(res['body']).to eq params[:task][:body]
+        expect(res['priority']).to eq params[:task][:priority]
         expect(res['updated_at']).to eq res['created_at']
         expect(response.header['location']).to eq '/api/v1/tasks/%d' % res['id']
       end
@@ -88,6 +90,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['id']).to eq task.id
         expect(res['subject']).to eq params[:task][:subject]
         expect(res['body']).to eq params[:task][:body]
+        expect(res['priority']).to eq params[:task][:priority]
         expect(res['updated_at']).not_to eq res['created_at']
         expect(response.header['location']).to eq '/api/v1/tasks/%d' % id
       end
@@ -135,6 +138,8 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       res = JSON(response.body)
       expect(res.size).to eq tasks.size
       expect(res.first['id']).to eq tasks.first['id']
+      expect(res.first['subject']).to eq tasks.first['subject']
+      expect(res.first['priority']).to eq tasks.first['priority']
       expect(res.first['group']['id']).to eq tasks.first.group['id']
       expect(res.second['id']).to eq tasks.second['id']
     end
