@@ -139,25 +139,4 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       expect(res.second['id']).to eq tasks.second['id']
     end
   end
-
-  describe 'GET /api/v1/groups/:group_id/tasks' do
-    let(:tasks) { FactoryGirl.create_list(:task, 2) }
-    let(:group_id) { tasks.first.group_id }
-
-    context 'with valid group id' do
-      it 'returns tasks with thier group', autodoc: true do
-        is_expected.to eq 200
-        res = JSON(response.body)
-        expect(res.first['id']).to eq tasks.first['id']
-        expect(res.first['group']['id']).to eq tasks.first.group['id']
-      end
-    end
-
-    context 'with invalid group id' do
-      let(:group_id) { 0 }
-      it {
-        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
-      }
-    end
-  end
 end
