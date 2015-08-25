@@ -11,12 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150822125256) do
+ActiveRecord::Schema.define(version: 20150823233649) do
 
   create_table "groups", force: :cascade do |t|
     t.string   "subject",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "priority"
   end
 
   create_table "tasks", force: :cascade do |t|
