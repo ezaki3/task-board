@@ -11,6 +11,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         res = JSON(response.body)
         expect(res['id']).to eq id
         expect(res['subject']).to eq group['subject']
+        expect(res['priority']).to eq group['priority']
       end
     end
 
@@ -30,6 +31,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         expect { is_expected.to eq 201 }.to change(Group, :count).by(1)
         res = JSON(response.body)
         expect(res['subject']).to eq params[:group][:subject]
+        expect(res['priority']).to eq params[:group][:priority]
         expect(res['updated_at']).to eq res['created_at']
         expect(response.header['location']).to eq '/api/v1/groups/%d' % res['id']
       end
@@ -65,6 +67,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         res = JSON(response.body)
         expect(res['id']).to eq group.id
         expect(res['subject']).to eq params[:group][:subject]
+        expect(res['priority']).to eq params[:group][:priority]
         expect(res['updated_at']).not_to eq res['created_at']
         expect(response.header['location']).to eq '/api/v1/groups/%d' % id
       end
@@ -109,6 +112,8 @@ RSpec.describe 'Api::V1::Groups', type: :request do
       res = JSON(response.body)
       expect(res.size).to eq groups.size
       expect(res.first['id']).to eq groups.first['id']
+      expect(res.first['subject']).to eq groups.first['subject']
+      expect(res.first['priority']).to eq groups.first['priority']
       expect(res.second['id']).to eq groups.second['id']
     end
   end
