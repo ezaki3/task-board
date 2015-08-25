@@ -20,14 +20,14 @@
         <button class="close" data-dismiss="alert">&times;</button>
         <!-- ko text: alertErrorMessage--><!--/ko-->
     </div>
-    <div class="row" data-bind="foreach: groups">
+    <div class="row" data-bind="sortable: {data: groups, connectClass: 'row'}">
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <a href="#" data-bind="click: $parent.findGroup"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
                     <!-- ko text: subject--><!--/ko-->
                 </div>
-                <div class="list-group" data-bind="foreach: tasks">
+                <div class="list-group" data-bind="sortable: {data: tasks, connectClass: 'list-group'}">
                     <a href="#" class="list-group-item" data-bind="text: subject, click: $parents[1].findTask.bind($data, $parent)"></a>
                 </div>
                 <div class="panel-footer"><a href="#" data-bind="click: $parent.openTaskModal">Add a task...</a></div>
@@ -90,6 +90,8 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <%= javascript_include_tag 'jquery-1.11.3.min', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'jquery-ui.min', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'bootstrap.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'knockout-3.3.0.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'knockout-sortable.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'app.min.js', 'data-turbolinks-track' => true %>
