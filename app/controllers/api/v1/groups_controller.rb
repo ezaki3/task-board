@@ -6,4 +6,12 @@ class Api::V1::GroupsController < Api::V1::ApplicationController
       @groups = @groups.where(board_id: board.id)
     end
   end
+
+  def show
+    if params[:board_id]
+      @group = Group.find_by!(id: params[:id], board_id: params[:board_id])
+    else
+      super
+    end
+  end
 end
