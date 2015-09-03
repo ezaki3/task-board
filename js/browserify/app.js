@@ -7,9 +7,10 @@ ko.applyBindings(viewModel);
 
 },{"./viewmodel.js":5}],2:[function(require,module,exports){
 var Model = require('./model.js');
-var Group = function (id, subject) {
+var Group = function (id, subject, priority) {
     this.id = ko.observable(id);
     this.subject = ko.observable(subject);
+    this.priority = ko.observable(priority);
 
     this.tasks = ko.observableArray();
 
@@ -87,11 +88,12 @@ module.exports = Model;
 
 },{}],4:[function(require,module,exports){
 var Model = require('./model.js');
-var Task = function (id, subject, body, group_id) {
+var Task = function (id, subject, body, group_id, priority) {
     this.id = ko.observable(id);
     this.subject = ko.observable(subject);
     this.body = ko.observable(body);
     this.group_id = ko.observable(group_id);
+    this.priority = ko.observable(priority);
 
     this.apiUrl = '/api/v1/tasks';
 };
@@ -106,10 +108,10 @@ var Group = require('./group.js');
 var ViewModel = function () {
     var self = this;
 
-    self.task = new Task(null, null, null, null);
+    self.task = new Task(null, null, null, null, null);
     self.selectedTask;
 
-    self.group = new Group(null, null);
+    self.group = new Group(null, null, null);
     self.groups = ko.observableArray();
     self.selectedGroup;
 
@@ -138,12 +140,14 @@ var ViewModel = function () {
         self.task.subject(null);
         self.task.body(null);
         self.task.group_id(group.id());
+        self.task.priority(0); // 暫定的な固定値
         $('#taskModal').modal('show');
     }.bind(self);
 
     self.openGroupModal = function () {
         self.group.id();
         self.group.subject();
+        self.group.priority(0); // 暫定的な固定値
         $('#groupModal').modal('show');
     }.bind(self);
 
