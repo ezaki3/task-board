@@ -133,6 +133,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
 
     context 'with invalid group id' do
       let(:group_id) { 0 }
+
       it {
         expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
       }

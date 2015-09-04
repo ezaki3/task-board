@@ -1,7 +1,6 @@
 FactoryGirl.define do
-  factory :group do
-    board
+  factory :board do
     sequence(:subject) { |n| "グループ-#{n}" }
-    sequence(:priority) { |n| n + 10 }
+    sequence(:priority) { |n| n + 1000 }
   end
 end

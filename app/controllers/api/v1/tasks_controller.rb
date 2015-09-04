@@ -7,11 +7,11 @@ class Api::V1::TasksController < Api::V1::ApplicationController
     end
   end
 
-  # def show
-  #   if params[:group_id]
-  #     @task = Task.find_by!(id: params[:id], group_id: params[:group_id])
-  #   else
-  #     super
-  #   end
-  # end
+  def show
+    if params[:group_id]
+      @task = Task.find_by!(id: params[:id], group_id: params[:group_id])
+    else
+      super
+    end
+  end
 end

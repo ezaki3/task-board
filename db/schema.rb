@@ -11,14 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150823233649) do
+ActiveRecord::Schema.define(version: 20150901110730) do
+
+  create_table "boards", force: :cascade do |t|
+    t.string   "subject",    null: false
+    t.integer  "priority"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "groups", force: :cascade do |t|
     t.string   "subject",    null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "priority"
+    t.integer  "board_id"
   end
+
+  add_index "groups", ["board_id"], name: "index_groups_on_board_id"
 
   create_table "tasks", force: :cascade do |t|
     t.string   "subject",    null: false
