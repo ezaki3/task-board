@@ -3,10 +3,10 @@ var Group = require('./group.js');
 var ViewModel = function () {
     var self = this;
 
-    self.task = new Task(null, null, null, null);
+    self.task = new Task(null, null, null, null, null);
     self.selectedTask;
 
-    self.group = new Group(null, null);
+    self.group = new Group(null, null, null);
     self.groups = ko.observableArray();
     self.selectedGroup;
 
@@ -35,12 +35,14 @@ var ViewModel = function () {
         self.task.subject(null);
         self.task.body(null);
         self.task.group_id(group.id());
+        self.task.priority(0); // 暫定的な固定値
         $('#taskModal').modal('show');
     }.bind(self);
 
     self.openGroupModal = function () {
         self.group.id();
         self.group.subject();
+        self.group.priority(0); // 暫定的な固定値
         $('#groupModal').modal('show');
     }.bind(self);
 

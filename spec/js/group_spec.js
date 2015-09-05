@@ -19,12 +19,14 @@ describe('group', function () {
                 {
                     'id': 1,
                     'subject': 'Happy group',
+                    'priority': 1,
                     'tasks': [
                         {
                             'id': 1,
                             'subject': 'Happy task',
                             'body': 'Create something new',
-                            'group_id': 1
+                            'group_id': 1,
+                            'priority': 1
                         }
                     ]
                 }
@@ -48,7 +50,7 @@ describe('group', function () {
 
     it('findGroup', function () {
         expect(viewModel.group.id()).toBe(null);
-        var group = new Group(1, 'Happy group');
+        var group = new Group(1, 'Happy group', 1);
         viewModel.findGroup(group);
         expect(viewModel.group.id()).toBe(group.id());
     });
@@ -58,13 +60,15 @@ describe('group', function () {
             var d = $.Deferred();
             d.resolve({
                 'id': 1,
-                'subject': 'Happy group'
+                'subject': 'Happy group',
+                'priority': 1,
             });
             return d.promise();
         });
 
         var beforeCount = viewModel.groups().length;
         viewModel.group.subject('Happy group');
+        viewModel.group.priority(1);
         viewModel.createGroup();
         expect(viewModel.groups().length).toBe(beforeCount + 1);
     });
@@ -74,12 +78,13 @@ describe('group', function () {
             var d = $.Deferred();
             d.resolve({
                 'id': 1,
-                'subject': 'Edit group'
+                'subject': 'Edit group',
+                'priority': 1,
             });
             return d.promise();
         });
 
-        var group = new Group(1, 'Happy group');
+        var group = new Group(1, 'Happy group', 1);
         viewModel.findGroup(group);
         expect(viewModel.selectedGroup.subject()).toBe('Happy group');
         viewModel.group.subject('Edit group');
@@ -94,8 +99,8 @@ describe('group', function () {
             return d.promise();
         });
 
-        viewModel.groups.push(new Group(1, 'Happy group'));
-        viewModel.groups.push(new Group(2, 'Delete group'));
+        viewModel.groups.push(new Group(1, 'Happy group', 1));
+        viewModel.groups.push(new Group(2, 'Delete group', 2));
         expect(viewModel.groups().length).toBe(2);
         viewModel.selectedGroup = viewModel.groups()[1];
         viewModel.deleteGroup();
