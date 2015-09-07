@@ -126,7 +126,6 @@ RSpec.describe 'Api::V1::Boards', type: :request do
       it 'returns groups with thier board', autodoc: true do
         is_expected.to eq 200
         res = JSON(response.body)
-        p res
         expect(res.first['id']).to eq groups.first['id']
         expect(res.first['board']['id']).to eq groups.first.board['id']
       end
