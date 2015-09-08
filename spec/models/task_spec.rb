@@ -31,4 +31,9 @@ RSpec.describe Task, type: :model do
     before { @task.priority = 100.1 }
     it { should_not be_valid }
   end
+
+  describe 'when priority is not present' do
+    before { @task.priority = '' }
+    it { should be_valid }
+  end
 end

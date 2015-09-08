@@ -29,4 +29,9 @@ RSpec.describe Group, type: :model do
     before { @group.priority = 10.1 }
     it { should_not be_valid }
   end
+
+  describe 'when priority is not present' do
+    before { @group.priority = '' }
+    it { should be_valid }
+  end
 end

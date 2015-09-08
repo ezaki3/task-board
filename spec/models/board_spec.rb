@@ -29,4 +29,9 @@ RSpec.describe Board, type: :model do
     before { @board.priority = 10.1 }
     it { should_not be_valid }
   end
+
+  describe 'when priority is not present' do
+    before { @board.priority = '' }
+    it { should be_valid }
+  end
 end
