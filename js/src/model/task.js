@@ -1,4 +1,4 @@
-var Model = require('./model.js');
+var BaseModel = require('./basemodel.js');
 var Task = function (id, subject, body, group_id, priority) {
     this.id = ko.observable(id);
     this.subject = ko.observable(subject);
@@ -9,6 +9,6 @@ var Task = function (id, subject, body, group_id, priority) {
     this.apiUrl = '/api/v1/tasks';
 };
 
-Task.prototype = Model.prototype;
+Task.prototype = BaseModel.prototype;
 
 module.exports = Task;

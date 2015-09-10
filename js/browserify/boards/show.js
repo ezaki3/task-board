@@ -1,5 +1,119 @@
-var Task = require('./task.js');
-var Group = require('./group.js');
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+var ViewModel = require('../viewmodel/boards/show.js');
+var viewModel = new ViewModel();
+viewModel.listGroup();
+ko.applyBindings(viewModel);
+
+},{"../viewmodel/boards/show.js":6}],2:[function(require,module,exports){
+var BaseModel = function () {
+    this.apiUrl;
+};
+
+BaseModel.prototype.search = function () {
+    var d = $.Deferred();
+    $.ajax({url: this.apiUrl})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+BaseModel.prototype.create = function (data) {
+    var d = $.Deferred();
+    $.ajax({
+        url: this.apiUrl,
+        method: 'POST',
+        contentType: 'application/json',
+        data: data})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+BaseModel.prototype.edit = function (id, data) {
+    var d = $.Deferred();
+    $.ajax({
+        url: this.apiUrl + '/' + id,
+        method: 'PATCH',
+        contentType: 'application/json',
+        data: data})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+BaseModel.prototype.delete = function (id) {
+    var d = $.Deferred();
+    $.ajax({
+        url: this.apiUrl + '/' + id,
+        method: 'DELETE'})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+module.exports = BaseModel;
+
+},{}],3:[function(require,module,exports){
+var BaseModel = require('./basemodel.js');
+var Group = function (id, subject, priority) {
+    this.id = ko.observable(id);
+    this.subject = ko.observable(subject);
+    this.priority = ko.observable(priority);
+
+    this.tasks = ko.observableArray();
+
+    this.apiUrl = '/api/v1/groups';
+};
+
+Group.prototype = BaseModel.prototype;
+
+module.exports = Group;
+
+},{"./basemodel.js":2}],4:[function(require,module,exports){
+var BaseModel = require('./basemodel.js');
+var Task = function (id, subject, body, group_id, priority) {
+    this.id = ko.observable(id);
+    this.subject = ko.observable(subject);
+    this.body = ko.observable(body);
+    this.group_id = ko.observable(group_id);
+    this.priority = ko.observable(priority);
+
+    this.apiUrl = '/api/v1/tasks';
+};
+
+Task.prototype = BaseModel.prototype;
+
+module.exports = Task;
+
+},{"./basemodel.js":2}],5:[function(require,module,exports){
+var BaseViewModel = function () {
+    this.alertSuccessMessage = ko.observable();
+    this.alertErrorMessage = ko.observable();
+};
+
+module.exports = BaseViewModel;
+
+},{}],6:[function(require,module,exports){
+var BaseViewModel = require('../baseviewmodel.js');
+var Task = require('../../model/task.js');
+var Group = require('../../model/group.js');
 var ViewModel = function () {
     var self = this;
 
@@ -10,8 +124,7 @@ var ViewModel = function () {
     self.groups = ko.observableArray();
     self.selectedGroup;
 
-    self.alertSuccessMessage = ko.observable();
-    self.alertErrorMessage = ko.observable();
+    self.baseViewModel = new BaseViewModel();
 
     self.listGroup = function () {
         self.group.search()
@@ -69,11 +182,11 @@ var ViewModel = function () {
                 console.log(response);
                 self.selectedGroup.tasks.push(new Task(response.id, response.subject, response.body, response.group_id));
                 $('#taskModal').modal('hide');
-                self.alertSuccessMessage('success');
+                self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 console.log(response);
-                self.alertErrorMessage('error');
+                self.baseViewModel.alertErrorMessage('error');
             });
     }.bind(self);
 
@@ -83,11 +196,11 @@ var ViewModel = function () {
                 console.log(response);
                 self.groups.push(new Group(response.id, response.subject));
                 $('#groupModal').modal('hide');
-                self.alertSuccessMessage('success');
+                self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 console.log(response);
-                self.alertErrorMessage('error');
+                self.baseViewModel.alertErrorMessage('error');
             });
     }.bind(self);
 
@@ -99,11 +212,11 @@ var ViewModel = function () {
                 self.selectedTask.body(response.body);
                 self.selectedTask.group_id(response.group.id);
                 $('#taskModal').modal('hide');
-                self.alertSuccessMessage('success');
+                self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 console.log(response);
-                self.alertErrorMessage('error')
+                self.baseViewModel.alertErrorMessage('error')
             });
     }.bind(self);
 
@@ -113,11 +226,11 @@ var ViewModel = function () {
                 console.log(response);
                 self.selectedGroup.subject(response.subject);
                 $('#groupModal').modal('hide');
-                self.alertSuccessMessage('success');
+                self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 console.log(response);
-                self.alertErrorMessage('error')
+                self.baseViewModel.alertErrorMessage('error')
             });
     }.bind(self);
 
@@ -127,11 +240,11 @@ var ViewModel = function () {
                 console.log(response);
                 self.selectedGroup.tasks.remove(self.selectedTask);
                 $('#taskModal').modal('hide');
-                self.alertSuccessMessage('success');
+                self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 console.log(response);
-                self.alertErrorMessage('error');
+                self.baseViewModel.alertErrorMessage('error');
             });
     }.bind(self);
 
@@ -141,13 +254,15 @@ var ViewModel = function () {
                 console.log(response);
                 self.groups.remove(self.selectedGroup);
                 $('#groupModal').modal('hide');
-                self.alertSuccessMessage('success');
+                self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 console.log(response);
-                self.alertErrorMessage('error');
+                self.baseViewModel.alertErrorMessage('error');
             });
     }.bind(self);
 };
 
 module.exports = ViewModel;
+
+},{"../../model/group.js":3,"../../model/task.js":4,"../baseviewmodel.js":5}]},{},[1]);

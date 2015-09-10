@@ -1,8 +1,8 @@
-var Model = function () {
+var BaseModel = function () {
     this.apiUrl;
 };
 
-Model.prototype.search = function () {
+BaseModel.prototype.search = function () {
     var d = $.Deferred();
     $.ajax({url: this.apiUrl})
         .done(function (response) {
@@ -14,7 +14,7 @@ Model.prototype.search = function () {
     return d.promise();
 };
 
-Model.prototype.create = function (data) {
+BaseModel.prototype.create = function (data) {
     var d = $.Deferred();
     $.ajax({
         url: this.apiUrl,
@@ -30,7 +30,7 @@ Model.prototype.create = function (data) {
     return d.promise();
 };
 
-Model.prototype.edit = function (id, data) {
+BaseModel.prototype.edit = function (id, data) {
     var d = $.Deferred();
     $.ajax({
         url: this.apiUrl + '/' + id,
@@ -46,7 +46,7 @@ Model.prototype.edit = function (id, data) {
     return d.promise();
 };
 
-Model.prototype.delete = function (id) {
+BaseModel.prototype.delete = function (id) {
     var d = $.Deferred();
     $.ajax({
         url: this.apiUrl + '/' + id,
@@ -60,4 +60,4 @@ Model.prototype.delete = function (id) {
     return d.promise();
 };
 
-module.exports = Model;
+module.exports = BaseModel;

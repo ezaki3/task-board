@@ -1,4 +1,4 @@
-var Model = require('./model.js');
+var BaseModel = require('./basemodel.js');
 var Group = function (id, subject, priority) {
     this.id = ko.observable(id);
     this.subject = ko.observable(subject);
@@ -9,6 +9,6 @@ var Group = function (id, subject, priority) {
     this.apiUrl = '/api/v1/groups';
 };
 
-Group.prototype = Model.prototype;
+Group.prototype = BaseModel.prototype;
 
 module.exports = Group;

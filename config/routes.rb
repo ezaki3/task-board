@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  get 'boards' => 'boards#index'
+  resources :boards, only: [:index, :show], constraints: {id: /[0-9]+/}
+  root 'boards#index'
 
   namespace :api, {format: 'json'} do
     namespace :v1 do

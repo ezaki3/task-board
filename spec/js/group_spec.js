@@ -1,5 +1,5 @@
-var ViewModel = require('../../js/src/viewmodel.js');
-var Group = require('../../js/src/group.js');
+var ViewModel = require('../../js/src/viewmodel/boards/show.js');
+var Group = require('../../js/src/model/group.js');
 
 describe('group', function () {
     var viewModel = null;
