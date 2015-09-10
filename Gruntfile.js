@@ -4,7 +4,8 @@ module.exports = function (grunt) {
         browserify: {
             dist: {
                 files: {
-                    'js/browserify/boards/show.js': ['js/src/boards/show.js']
+                    'js/browserify/boards/show.js': ['js/src/boards/show.js'],
+                    'js/browserify/boards/index.js': ['js/src/boards/index.js']
                 }
             }
 
@@ -16,7 +17,8 @@ module.exports = function (grunt) {
                     sourceMap: true,
                 },
                 files: {
-                    'app/assets/javascripts/boards/show.min.js': ['js/browserify/boards/show.js']
+                    'app/assets/javascripts/boards/show.min.js': ['js/browserify/boards/show.js'],
+                    'app/assets/javascripts/boards/index.min.js': ['js/browserify/boards/index.js']
                 }
             }
         },

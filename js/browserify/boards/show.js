@@ -124,8 +124,6 @@ var ViewModel = function () {
     self.groups = ko.observableArray();
     self.selectedGroup;
 
-    // self.alertSuccessMessage = ko.observable();
-    // self.alertErrorMessage = ko.observable();
     self.baseViewModel = new BaseViewModel();
 
     self.listGroup = function () {
