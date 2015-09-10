@@ -1,6 +1,6 @@
-var ViewModel = require('../../js/src/viewmodel.js');
-var Task = require('../../js/src/task.js');
-var Group = require('../../js/src/group.js');
+var ViewModel = require('../../js/src/viewmodel/boards/show.js');
+var Task = require('../../js/src/model/task.js');
+var Group = require('../../js/src/model/group.js');
 
 describe('task', function () {
     var viewModel = null;
