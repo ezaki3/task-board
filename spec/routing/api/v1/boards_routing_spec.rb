@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe Api::V1::BoardsController, type: :routing do
   describe "routing" do
-
     it "routes to #index" do
       expect(get: "/api/v1/boards").to route_to("api/v1/boards#index", format: "json")
     end
@@ -32,8 +31,7 @@ RSpec.describe Api::V1::BoardsController, type: :routing do
     end
 
     it "routes to #destroy" do
-      expect(:delete => "/api/v1/boards/1").to route_to("api/v1/boards#destroy", id: "1", format: "json")
+      expect(delete: "/api/v1/boards/1").to route_to("api/v1/boards#destroy", id: "1", format: "json")
     end
-
   end
 end

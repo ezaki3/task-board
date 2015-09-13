@@ -1,1 +1,6 @@
-json.extract! @board, :id, :subject, :groups, :priority, :created_at, :updated_at
+json.partial! @board
+json.groups do
+  json.array! @board.groups do |group|
+    json.partial! group
+  end
+end
