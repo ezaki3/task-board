@@ -1,16 +1,15 @@
 Rails.application.routes.draw do
-  resources :boards, only: [:index, :show], constraints: {id: /[0-9]+/}
   root 'boards#index'
+
+  resources :boards, only: [:index, :show], constraints: {id: /[0-9]+/}
 
   namespace :api, {format: 'json'} do
     namespace :v1 do
-      resources :boards, except: [:new, :edit], constraints: {id: /[0-9]+/} do
-        resources :groups, only: [:index, :show]
+      resources :boards, except: [:new, :edit], constraints: {id: /[0-9]+/}, shallow: true do
+        resources :groups, except: [:new, :edit], constraints: {id: /[0-9]+/} do
+          resources :tasks, except: [:new, :edit], constraints: {id: /[0-9]+/}
+        end
       end
-      resources :groups, except: [:new, :edit], constraints: {id: /[0-9]+/} do
-        resources :tasks, only: [:index, :show]
-      end
-      resources :tasks, except: [:new, :edit], constraints: {id: /[0-9]+/}
     end
   end
 end

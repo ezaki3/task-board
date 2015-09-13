@@ -1,1 +1,4 @@
-json.extract! @task, :id, :subject, :body, :group, :priority, :created_at, :updated_at
+json.partial! @task
+json.group do
+  json.partial! @task.group
+end
