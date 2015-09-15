@@ -30,6 +30,18 @@ BaseModel.prototype.create = function (data) {
     return d.promise();
 };
 
+BaseModel.prototype.find = function (id) {
+    var d = $.Deferred();
+    $.ajax({url: this.apiUrl + '/' + id})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
 BaseModel.prototype.edit = function (id, data) {
     var d = $.Deferred();
     $.ajax({

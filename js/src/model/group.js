@@ -1,6 +1,7 @@
 var BaseModel = require('./basemodel.js');
-var Group = function (id, subject, priority) {
+var Group = function (id, board_id, subject, priority) {
     this.id = ko.observable(id);
+    this.board_id = ko.observable(board_id);
     this.subject = ko.observable(subject);
     this.priority = ko.observable(priority);
 

@@ -1,25 +1,30 @@
 var BaseViewModel = require('../baseviewmodel.js');
 var Task = require('../../model/task.js');
 var Group = require('../../model/group.js');
+var Board = require('../../model/board.js');
 var ViewModel = function () {
     var self = this;
 
     self.task = new Task(null, null, null, null, null);
     self.selectedTask;
 
-    self.group = new Group(null, null, null);
-    self.groups = ko.observableArray();
+    self.group = new Group(null, null, null, null);
     self.selectedGroup;
+
+    self.board = new Board(null, null, null);
 
     self.baseViewModel = new BaseViewModel();
 
-    self.listGroup = function () {
-        self.group.search()
+    self.listGroup = function (id) {
+        self.board.find(id)
             .done(function (response) {
-                self.groups(response.map(function (group) {
-                    var g = new Group(group.id, group.subject);
+                self.board.id(response.id);
+                self.board.subject(response.subject);
+                self.board.priority(response.priority);
+                self.board.groups(response.groups.map(function (group) {
+                    var g = new Group(group.id, response.id, group.subject, group.priority);
                     g.tasks(group.tasks.map(function (task) {
-                        return new Task(task.id, task.subject, task.body, task.group_id);
+                        return new Task(task.id, group.id, task.subject, task.body, task.priority);
                     }));
                     return g;
                 }));
@@ -35,14 +40,15 @@ var ViewModel = function () {
         self.task.subject(null);
         self.task.body(null);
         self.task.group_id(group.id());
-        self.task.priority(0); // 暫定的な固定値
+        self.task.priority(null);
         $('#taskModal').modal('show');
     }.bind(self);
 
     self.openGroupModal = function () {
         self.group.id();
+        self.group.board_id(self.board.id());
         self.group.subject();
-        self.group.priority(0); // 暫定的な固定値
+        self.group.priority(null);
         $('#groupModal').modal('show');
     }.bind(self);
 
@@ -53,13 +59,16 @@ var ViewModel = function () {
         self.task.subject(task.subject());
         self.task.body(task.body());
         self.task.group_id(task.group_id());
+        self.task.priority(task.priority());
         $('#taskModal').modal('show');
     }.bind(self);
 
     self.findGroup = function (group) {
         self.selectedGroup = group;
         self.group.id(group.id());
+        self.group.board_id(group.board_id());
         self.group.subject(group.subject());
+        self.group.priority(group.priority());
         $('#groupModal').modal('show');
     }.bind(self);
 
@@ -67,7 +76,7 @@ var ViewModel = function () {
         self.task.create(ko.toJSON({'task': self.task}))
             .done(function (response) {
                 console.log(response);
-                self.selectedGroup.tasks.push(new Task(response.id, response.subject, response.body, response.group_id));
+                self.selectedGroup.tasks.push(new Task(response.id, response.group_id, response.subject, response.body, response.priority));
                 $('#taskModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -81,7 +90,7 @@ var ViewModel = function () {
         self.group.create(ko.toJSON({'group': self.group}))
             .done(function (response) {
                 console.log(response);
-                self.groups.push(new Group(response.id, response.subject));
+                self.board.groups.push(new Group(response.id, response.board_id, response.subject, response.priority));
                 $('#groupModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -97,7 +106,6 @@ var ViewModel = function () {
                 console.log(response);
                 self.selectedTask.subject(response.subject);
                 self.selectedTask.body(response.body);
-                self.selectedTask.group_id(response.group.id);
                 $('#taskModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -139,7 +147,7 @@ var ViewModel = function () {
         self.group.delete(self.selectedGroup.id())
             .done(function (response) {
                 console.log(response);
-                self.groups.remove(self.selectedGroup);
+                self.board.groups.remove(self.selectedGroup);
                 $('#groupModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })

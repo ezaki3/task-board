@@ -11,7 +11,7 @@ crossroads.addRoute('/', function() {
 crossroads.addRoute('/boards/{id}', function(id) {
     var ViewModel = require('./viewmodel/boards/show.js');
     var viewModel = new ViewModel();
-    viewModel.listGroup();
+    viewModel.listGroup(id);
     ko.applyBindings(viewModel);
 });
 

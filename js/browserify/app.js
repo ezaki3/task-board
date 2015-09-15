@@ -12,13 +12,13 @@ crossroads.addRoute('/', function() {
 crossroads.addRoute('/boards/{id}', function(id) {
     var ViewModel = require('./viewmodel/boards/show.js');
     var viewModel = new ViewModel();
-    viewModel.listGroup();
+    viewModel.listGroup(id);
     ko.applyBindings(viewModel);
 });
 
-// crossroads.bypassed.add(function(request){
-//     console.log(request);
-// });
+crossroads.bypassed.add(function(request){
+    console.log(request);
+});
 
 crossroads.parse(window.location.pathname + window.location.search + window.location.hash);
 
@@ -46,6 +46,18 @@ BaseModel.prototype.create = function (data) {
         method: 'POST',
         contentType: 'application/json',
         data: data})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+BaseModel.prototype.find = function (id) {
+    var d = $.Deferred();
+    $.ajax({url: this.apiUrl + '/' + id})
         .done(function (response) {
             d.resolve(response);
         })
@@ -105,8 +117,9 @@ module.exports = Board;
 
 },{"./basemodel.js":2}],4:[function(require,module,exports){
 var BaseModel = require('./basemodel.js');
-var Group = function (id, subject, priority) {
+var Group = function (id, board_id, subject, priority) {
     this.id = ko.observable(id);
+    this.board_id = ko.observable(board_id);
     this.subject = ko.observable(subject);
     this.priority = ko.observable(priority);
 
@@ -121,11 +134,11 @@ module.exports = Group;
 
 },{"./basemodel.js":2}],5:[function(require,module,exports){
 var BaseModel = require('./basemodel.js');
-var Task = function (id, subject, body, group_id, priority) {
+var Task = function (id, group_id, subject, body, priority) {
     this.id = ko.observable(id);
+    this.group_id = ko.observable(group_id);
     this.subject = ko.observable(subject);
     this.body = ko.observable(body);
-    this.group_id = ko.observable(group_id);
     this.priority = ko.observable(priority);
 
     this.apiUrl = '/api/v1/tasks';
@@ -230,25 +243,30 @@ module.exports = ViewModel;
 var BaseViewModel = require('../baseviewmodel.js');
 var Task = require('../../model/task.js');
 var Group = require('../../model/group.js');
+var Board = require('../../model/board.js');
 var ViewModel = function () {
     var self = this;
 
     self.task = new Task(null, null, null, null, null);
     self.selectedTask;
 
-    self.group = new Group(null, null, null);
-    self.groups = ko.observableArray();
+    self.group = new Group(null, null, null, null);
     self.selectedGroup;
+
+    self.board = new Board(null, null, null);
 
     self.baseViewModel = new BaseViewModel();
 
-    self.listGroup = function () {
-        self.group.search()
+    self.listGroup = function (id) {
+        self.board.find(id)
             .done(function (response) {
-                self.groups(response.map(function (group) {
-                    var g = new Group(group.id, group.subject);
+                self.board.id(response.id);
+                self.board.subject(response.subject);
+                self.board.priority(response.priority);
+                self.board.groups(response.groups.map(function (group) {
+                    var g = new Group(group.id, response.id, group.subject, group.priority);
                     g.tasks(group.tasks.map(function (task) {
-                        return new Task(task.id, task.subject, task.body, task.group_id);
+                        return new Task(task.id, group.id, task.subject, task.body, task.priority);
                     }));
                     return g;
                 }));
@@ -264,14 +282,15 @@ var ViewModel = function () {
         self.task.subject(null);
         self.task.body(null);
         self.task.group_id(group.id());
-        self.task.priority(0); // 暫定的な固定値
+        self.task.priority(null);
         $('#taskModal').modal('show');
     }.bind(self);
 
     self.openGroupModal = function () {
         self.group.id();
+        self.group.board_id(self.board.id());
         self.group.subject();
-        self.group.priority(0); // 暫定的な固定値
+        self.group.priority(null);
         $('#groupModal').modal('show');
     }.bind(self);
 
@@ -282,13 +301,16 @@ var ViewModel = function () {
         self.task.subject(task.subject());
         self.task.body(task.body());
         self.task.group_id(task.group_id());
+        self.task.priority(task.priority());
         $('#taskModal').modal('show');
     }.bind(self);
 
     self.findGroup = function (group) {
         self.selectedGroup = group;
         self.group.id(group.id());
+        self.group.board_id(group.board_id());
         self.group.subject(group.subject());
+        self.group.priority(group.priority());
         $('#groupModal').modal('show');
     }.bind(self);
 
@@ -296,7 +318,7 @@ var ViewModel = function () {
         self.task.create(ko.toJSON({'task': self.task}))
             .done(function (response) {
                 console.log(response);
-                self.selectedGroup.tasks.push(new Task(response.id, response.subject, response.body, response.group_id));
+                self.selectedGroup.tasks.push(new Task(response.id, response.group_id, response.subject, response.body, response.priority));
                 $('#taskModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -310,7 +332,7 @@ var ViewModel = function () {
         self.group.create(ko.toJSON({'group': self.group}))
             .done(function (response) {
                 console.log(response);
-                self.groups.push(new Group(response.id, response.subject));
+                self.board.groups.push(new Group(response.id, response.board_id, response.subject, response.priority));
                 $('#groupModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -326,7 +348,6 @@ var ViewModel = function () {
                 console.log(response);
                 self.selectedTask.subject(response.subject);
                 self.selectedTask.body(response.body);
-                self.selectedTask.group_id(response.group.id);
                 $('#taskModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -368,7 +389,7 @@ var ViewModel = function () {
         self.group.delete(self.selectedGroup.id())
             .done(function (response) {
                 console.log(response);
-                self.groups.remove(self.selectedGroup);
+                self.board.groups.remove(self.selectedGroup);
                 $('#groupModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -381,7 +402,7 @@ var ViewModel = function () {
 
 module.exports = ViewModel;
 
-},{"../../model/group.js":4,"../../model/task.js":5,"../baseviewmodel.js":6}],9:[function(require,module,exports){
+},{"../../model/board.js":3,"../../model/group.js":4,"../../model/task.js":5,"../baseviewmodel.js":6}],9:[function(require,module,exports){
 /** @license
  * crossroads <http://millermedeiros.github.com/crossroads.js/>
  * Author: Miller Medeiros | MIT License

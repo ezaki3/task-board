@@ -15,7 +15,7 @@ describe('task', function () {
 
     it('findTask', function () {
         expect(viewModel.task.id()).toBe(null);
-        var task = new Task(1, 'Happy task', 'Create something new', 1, 1);
+        var task = new Task(1, 1, 'Happy task', 'Create something new', 1);
         viewModel.findTask({}, task);
         expect(viewModel.task.id()).toBe(task.id());
     });
@@ -33,7 +33,7 @@ describe('task', function () {
             return d.promise();
         });
 
-        var group = new Group(1, 'Happy group', 1);
+        var group = new Group(1, 1, 'Happy group', 1);
         viewModel.selectedGroup = group;
         var beforeCount = group.tasks().length;
         viewModel.task.subject('Happy task');
@@ -60,7 +60,7 @@ describe('task', function () {
             return d.promise();
         });
 
-        var task = new Task(1, 'Happy task', 'Create something new', 1, 1);
+        var task = new Task(1, 1, 'Happy task', 'Create something new', 1);
         viewModel.findTask({}, task);
         expect(viewModel.selectedTask.subject()).toBe('Happy task');
         viewModel.task.subject('Edit task');
@@ -75,9 +75,9 @@ describe('task', function () {
             return d.promise();
         });
 
-        var group = new Group(1, 'Happy group', 1);
-        group.tasks().push(new Task(1, 'Happy task', 'Create something new', 1, 1));
-        group.tasks().push(new Task(2, 'Delete task', 'This task is wrong', 1, 2));
+        var group = new Group(1, 1, 'Happy group', 1);
+        group.tasks().push(new Task(1, 1, 'Happy task', 'Create something new', 1));
+        group.tasks().push(new Task(2, 1, 'Delete task', 'This task is wrong', 2));
         expect(group.tasks().length).toBe(2);
         viewModel.selectedGroup = group;
         viewModel.selectedTask = group.tasks()[1];
