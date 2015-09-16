@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">task-board</a>
+            <a class="navbar-brand" href="/">task-board</a>
         </div>
         <div class="navbar-right">
             <button type="button" class="btn btn-default navbar-btn" data-bind="click: openGroupModal">Add a group</button>
@@ -10,7 +10,7 @@
 </nav>
 <div class="container">
     <div class="page-header">
-        <h1>Board名</h1>
+        <h1 data-bind="text: board.subject"></h1>
     </div>
     <div class="alert alert-success" data-bind="visible: baseViewModel.alertSuccessMessage">
         <button class="close" data-dismiss="alert">&times;</button>
@@ -20,7 +20,7 @@
         <button class="close" data-dismiss="alert">&times;</button>
         <!-- ko text: baseViewModel.alertErrorMessage--><!--/ko-->
     </div>
-    <div class="row" data-bind="sortable: {data: groups, connectClass: 'row'}">
+    <div class="row" data-bind="sortable: {data: board.groups, connectClass: 'row'}">
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -94,4 +94,4 @@
 <%= javascript_include_tag 'bootstrap.min.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'knockout-3.3.0.js', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'knockout-sortable.min.js', 'data-turbolinks-track' => true %>
-<%= javascript_include_tag 'boards/show.min.js', 'data-turbolinks-track' => true %>
+<%= javascript_include_tag 'app.min.js', 'data-turbolinks-track' => true %>

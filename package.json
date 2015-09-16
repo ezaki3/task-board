@@ -27,5 +27,8 @@
     "karma-browserify": "^4.3.0",
     "karma-chrome-launcher": "^0.2.0",
     "karma-jasmine": "^0.3.6"
+  },
+  "dependencies": {
+    "crossroads": "^0.12.2"
   }
 }

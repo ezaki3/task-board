@@ -6,7 +6,10 @@ var Board = function (id, subject, priority) {
 
     this.groups = ko.observableArray();
 
-    this.apiUrl = '/api/v1/boards';
+    this.apiUrl = {
+        'collection': null,
+        'member': '/api/v1/boards'
+    };
 };
 
 Board.prototype = BaseModel.prototype;
