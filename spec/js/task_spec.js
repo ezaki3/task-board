@@ -27,8 +27,12 @@ describe('task', function () {
                 'id': 1,
                 'subject': 'Happy task',
                 'body': 'Create something new',
-                'group_id': 1,
                 'priority': 1,
+                'group': {
+                    'id': 1,
+                    'subject': 'Happy group',
+                    'priority': 1
+                }
             });
             return d.promise();
         });
@@ -54,7 +58,8 @@ describe('task', function () {
                 'priority': 1,
                 'group': {
                     'id': 1,
-                    'subject': 'Happy group'
+                    'subject': 'Happy group',
+                    'priority': 1
                 }
             });
             return d.promise();

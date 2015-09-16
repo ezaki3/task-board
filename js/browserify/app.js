@@ -24,12 +24,15 @@ crossroads.parse(window.location.pathname + window.location.search + window.loca
 
 },{"./viewmodel/boards/index.js":7,"./viewmodel/boards/show.js":8,"crossroads":9}],2:[function(require,module,exports){
 var BaseModel = function () {
-    this.apiUrl;
+    this.apiUrl = {
+        'collection': null,
+        'member': null
+    };
 };
 
-BaseModel.prototype.search = function () {
+BaseModel.prototype.search = function (urlType) {
     var d = $.Deferred();
-    $.ajax({url: this.apiUrl})
+    $.ajax({url: this.apiUrl[urlType || 'member']})
         .done(function (response) {
             d.resolve(response);
         })
@@ -39,10 +42,10 @@ BaseModel.prototype.search = function () {
     return d.promise();
 };
 
-BaseModel.prototype.create = function (data) {
+BaseModel.prototype.create = function (data, urlType) {
     var d = $.Deferred();
     $.ajax({
-        url: this.apiUrl,
+        url: this.apiUrl[urlType || 'member'],
         method: 'POST',
         contentType: 'application/json',
         data: data})
@@ -57,7 +60,7 @@ BaseModel.prototype.create = function (data) {
 
 BaseModel.prototype.find = function (id) {
     var d = $.Deferred();
-    $.ajax({url: this.apiUrl + '/' + id})
+    $.ajax({url: this.apiUrl.member + '/' + id})
         .done(function (response) {
             d.resolve(response);
         })
@@ -70,7 +73,7 @@ BaseModel.prototype.find = function (id) {
 BaseModel.prototype.edit = function (id, data) {
     var d = $.Deferred();
     $.ajax({
-        url: this.apiUrl + '/' + id,
+        url: this.apiUrl.member + '/' + id,
         method: 'PATCH',
         contentType: 'application/json',
         data: data})
@@ -86,7 +89,7 @@ BaseModel.prototype.edit = function (id, data) {
 BaseModel.prototype.delete = function (id) {
     var d = $.Deferred();
     $.ajax({
-        url: this.apiUrl + '/' + id,
+        url: this.apiUrl.member + '/' + id,
         method: 'DELETE'})
         .done(function (response) {
             d.resolve(response);
@@ -108,7 +111,10 @@ var Board = function (id, subject, priority) {
 
     this.groups = ko.observableArray();
 
-    this.apiUrl = '/api/v1/boards';
+    this.apiUrl = {
+        'collection': null,
+        'member': '/api/v1/boards'
+    };
 };
 
 Board.prototype = BaseModel.prototype;
@@ -125,7 +131,10 @@ var Group = function (id, board_id, subject, priority) {
 
     this.tasks = ko.observableArray();
 
-    this.apiUrl = '/api/v1/groups';
+    this.apiUrl = {
+        'collection': '/api/v1/boards/' + board_id + '/groups',
+        'member': '/api/v1/groups'
+    };
 };
 
 Group.prototype = BaseModel.prototype;
@@ -141,7 +150,10 @@ var Task = function (id, group_id, subject, body, priority) {
     this.body = ko.observable(body);
     this.priority = ko.observable(priority);
 
-    this.apiUrl = '/api/v1/tasks';
+    this.apiUrl = {
+        'collection': '/api/v1/groups/' + group_id + '/tasks',
+        'member': '/api/v1/tasks'
+    };
 };
 
 Task.prototype = BaseModel.prototype;
@@ -287,9 +299,9 @@ var ViewModel = function () {
     }.bind(self);
 
     self.openGroupModal = function () {
-        self.group.id();
+        self.group.id(null);
         self.group.board_id(self.board.id());
-        self.group.subject();
+        self.group.subject(null);
         self.group.priority(null);
         $('#groupModal').modal('show');
     }.bind(self);
@@ -315,7 +327,8 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createTask = function () {
-        self.task.create(ko.toJSON({'task': self.task}))
+        var task = new Task(null, self.task.group_id(), self.task.subject(), self.task.body(), self.task.priority());
+        task.create(ko.toJSON({'task': self.task}), 'collection')
             .done(function (response) {
                 console.log(response);
                 self.selectedGroup.tasks.push(new Task(response.id, response.group_id, response.subject, response.body, response.priority));
@@ -329,10 +342,11 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createGroup = function () {
-        self.group.create(ko.toJSON({'group': self.group}))
+        var group = new Group(null, self.group.board_id(), self.group.subject(), self.group.priority());
+        group.create(ko.toJSON({'group': group}), 'collection')
             .done(function (response) {
                 console.log(response);
-                self.board.groups.push(new Group(response.id, response.board_id, response.subject, response.priority));
+                self.board.groups.push(new Group(response.id, response.board.id, response.subject, response.priority));
                 $('#groupModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })

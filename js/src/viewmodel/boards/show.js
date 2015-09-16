@@ -45,9 +45,9 @@ var ViewModel = function () {
     }.bind(self);
 
     self.openGroupModal = function () {
-        self.group.id();
+        self.group.id(null);
         self.group.board_id(self.board.id());
-        self.group.subject();
+        self.group.subject(null);
         self.group.priority(null);
         $('#groupModal').modal('show');
     }.bind(self);
@@ -73,7 +73,8 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createTask = function () {
-        self.task.create(ko.toJSON({'task': self.task}))
+        var task = new Task(null, self.task.group_id(), self.task.subject(), self.task.body(), self.task.priority());
+        task.create(ko.toJSON({'task': self.task}), 'collection')
             .done(function (response) {
                 console.log(response);
                 self.selectedGroup.tasks.push(new Task(response.id, response.group_id, response.subject, response.body, response.priority));
@@ -87,10 +88,11 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createGroup = function () {
-        self.group.create(ko.toJSON({'group': self.group}))
+        var group = new Group(null, self.group.board_id(), self.group.subject(), self.group.priority());
+        group.create(ko.toJSON({'group': group}), 'collection')
             .done(function (response) {
                 console.log(response);
-                self.board.groups.push(new Group(response.id, response.board_id, response.subject, response.priority));
+                self.board.groups.push(new Group(response.id, response.board.id, response.subject, response.priority));
                 $('#groupModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
