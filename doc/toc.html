@@ -67,7 +67,7 @@
 <div class='generated-at'>
 Generated at:
 <br>
-2015-09-04 08:55:08 +0900</div>
+2015-09-20 13:33:25 +0900</div>
 </div>
 
 <div class='page-wrapper'>
@@ -90,24 +90,24 @@ Host: www.example.com
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 153
+Content-Length: 150
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;2ddc7785fdce7fcdc87f3e879da6cead&quot;
+ETag: W/&quot;d936baeb0b29793fc76c5edb2049ad8b&quot;
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: f265a080-fbb9-4939-999b-a5d96ea39011
-X-Runtime: 0.027157
+X-Request-Id: b141d414-1f87-49f3-9fd7-057b88007e11
+X-Runtime: 0.039809
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
-  &quot;subject&quot;: &quot;グループ-1&quot;,
+  &quot;subject&quot;: &quot;ボード-1&quot;,
+  &quot;priority&quot;: 1001,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.376+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.376+09:00&quot;,
   &quot;groups&quot;: [
 
-  ],
-  &quot;priority&quot;: 1001,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.480+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.480+09:00&quot;
+  ]
 }
 </code></pre>
 </div><div class="api-action"><h2>POST /api/v1/boards</h2>
@@ -120,37 +120,37 @@ X-XSS-Protection: 1; mode=block
 
 <pre><code>POST /api/v1/boards HTTP/1.1
 Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 74
+Content-Length: 65
 Content-Type: application/x-www-form-urlencoded
 Host: www.example.com
 
-board[subject]=%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97-2&amp;board[priority]=1002
+board[subject]=%E3%83%9C%E3%83%BC%E3%83%89-2&amp;board[priority]=1002
 </code></pre>
 
 <h4>Response</h4>
 
 <pre><code>HTTP/1.1 201
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 153
+Content-Length: 150
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;07084e14cdf4f74ba5f8fa680c5e6cdf&quot;
+ETag: W/&quot;9a35b52be206ffbd8780ebb075f7bcbe&quot;
 Location: /api/v1/boards/1
 Set-Cookie: request_method=POST; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 0fae2f1f-e146-4a19-909d-9542cbcf7718
-X-Runtime: 0.003689
+X-Request-Id: b95c9df5-a728-4156-8c9b-2ea40dade849
+X-Runtime: 0.004652
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
-  &quot;subject&quot;: &quot;グループ-2&quot;,
+  &quot;subject&quot;: &quot;ボード-2&quot;,
+  &quot;priority&quot;: 1002,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.432+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.432+09:00&quot;,
   &quot;groups&quot;: [
 
-  ],
-  &quot;priority&quot;: 1002,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.525+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.525+09:00&quot;
+  ]
 }
 </code></pre>
 </div><div class="api-action"><h2>PATCH /api/v1/boards/:id</h2>
@@ -176,24 +176,24 @@ board[subject]=changed+subject&amp;board[priority]=1004
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 154
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;07bcf334237088641c4b0862580e72e5&quot;
+ETag: W/&quot;e5b7e4b7f01b1d46b641cfe31188df76&quot;
 Location: /api/v1/boards/1
 Set-Cookie: request_method=PATCH; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 49dfbe2e-16bf-4fa0-b664-b16e4ec756f7
-X-Runtime: 0.004485
+X-Request-Id: 1464a31d-b77e-476a-aa7e-02f22797cbae
+X-Runtime: 0.005937
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
   &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 1004,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.442+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.446+09:00&quot;,
   &quot;groups&quot;: [
 
-  ],
-  &quot;priority&quot;: 1004,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.535+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.539+09:00&quot;
+  ]
 }
 </code></pre>
 </div><div class="api-action"><h2>DELETE /api/v1/boards/:id</h2>
@@ -218,8 +218,8 @@ Cache-Control: no-cache
 Set-Cookie: request_method=DELETE; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 0ae7231c-d00d-413d-8cd3-49681a0f8f6e
-X-Runtime: 0.001969
+X-Request-Id: b2e9ea11-7678-4b22-9ed6-5ac764a78cf1
+X-Runtime: 0.002305
 X-XSS-Protection: 1; mode=block
 </code></pre>
 </div><div class="api-action"><h2>GET /api/v1/boards</h2>
@@ -241,31 +241,25 @@ Host: www.example.com
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 223
+Content-Length: 193
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;8927d40718c7597229d2a00c52dca49b&quot;
+ETag: W/&quot;6bc024b16250d9d811d7bd368a5cb4fc&quot;
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 72157072-16d2-4dd4-82e3-e0a889c39a3f
-X-Runtime: 0.004408
+X-Request-Id: 6e8672f0-34ba-47e0-b7ed-05912769a4b9
+X-Runtime: 0.003178
 X-XSS-Protection: 1; mode=block
 
 [
   {
     &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;グループ-7&quot;,
-    &quot;groups&quot;: [
-
-    ],
+    &quot;subject&quot;: &quot;ボード-7&quot;,
     &quot;priority&quot;: 1008,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/1&quot;
   },
   {
     &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-8&quot;,
-    &quot;groups&quot;: [
-
-    ],
+    &quot;subject&quot;: &quot;ボード-8&quot;,
     &quot;priority&quot;: 1009,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/2&quot;
   }
@@ -273,7 +267,7 @@ X-XSS-Protection: 1; mode=block
 </code></pre>
 </div><div class="api-action"><h2>GET /api/v1/boards/:board_id/groups</h2>
 
-<p>Returns groups with thier board.</p>
+<p>Returns board.</p>
 
 <h3>Example</h3>
 
@@ -290,31 +284,33 @@ Host: www.example.com
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 259
+Content-Length: 292
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;6be1353833a0010e70846b627b19e810&quot;
+ETag: W/&quot;16c7f9c7240ebb6cfde14b5a8955f024&quot;
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 7649feb9-5ff2-4582-b868-99aa5d7c644b
-X-Runtime: 0.006138
+X-Request-Id: 4bd3fd32-9898-48e9-a90a-72f00e8920ba
+X-Runtime: 0.004328
 X-XSS-Protection: 1; mode=block
 
 [
   {
     &quot;id&quot;: 1,
     &quot;subject&quot;: &quot;グループ-1&quot;,
-    &quot;board&quot;: {
-      &quot;id&quot;: 1,
-      &quot;subject&quot;: &quot;グループ-9&quot;,
-      &quot;priority&quot;: 1010,
-      &quot;created_at&quot;: &quot;2015-09-04T08:55:08.568+09:00&quot;,
-      &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.568+09:00&quot;
-    },
-    &quot;tasks&quot;: [
-
-    ],
     &quot;priority&quot;: 11,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/1&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;subject&quot;: &quot;グループ-2&quot;,
+    &quot;priority&quot;: 12,
+    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
+  },
+  {
+    &quot;id&quot;: 3,
+    &quot;subject&quot;: &quot;グループ-3&quot;,
+    &quot;priority&quot;: 13,
+    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/3&quot;
   }
 ]
 </code></pre>
@@ -337,34 +333,34 @@ Host: www.example.com
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 301
+Content-Length: 298
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;6ecf792325b61e62e307e239a9241594&quot;
+ETag: W/&quot;bda39de28f9b68eb2182ea53444ad8cd&quot;
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 8f2b8942-96f9-46f4-a04e-6954dd27542d
-X-Runtime: 0.003971
+X-Request-Id: 72ab40f7-df41-4cc2-b69e-1cc07b579f23
+X-Runtime: 0.007271
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
-  &quot;subject&quot;: &quot;グループ-3&quot;,
+  &quot;subject&quot;: &quot;グループ-4&quot;,
+  &quot;priority&quot;: 14,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.506+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.506+09:00&quot;,
   &quot;board&quot;: {
     &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;グループ-11&quot;,
-    &quot;priority&quot;: 1012,
-    &quot;created_at&quot;: &quot;2015-09-04T08:55:08.586+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.586+09:00&quot;
+    &quot;subject&quot;: &quot;ボード-10&quot;,
+    &quot;priority&quot;: 1011,
+    &quot;created_at&quot;: &quot;2015-09-20T13:33:25.504+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.504+09:00&quot;
   },
   &quot;tasks&quot;: [
 
-  ],
-  &quot;priority&quot;: 13,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.587+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.587+09:00&quot;
+  ]
 }
 </code></pre>
-</div><div class="api-action"><h2>POST /api/v1/groups</h2>
+</div><div class="api-action"><h2>POST /api/v1/boards/:board_id/groups</h2>
 
 <p>Adds a group.</p>
 
@@ -372,40 +368,46 @@ X-XSS-Protection: 1; mode=block
 
 <h4>Request</h4>
 
-<pre><code>POST /api/v1/groups HTTP/1.1
+<pre><code>POST /api/v1/boards/1/groups HTTP/1.1
 Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 72
+Content-Length: 90
 Content-Type: application/x-www-form-urlencoded
 Host: www.example.com
 
-group[subject]=%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97-4&amp;group[priority]=14
+group[subject]=%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97-5&amp;group[priority]=15&amp;group[board_id]=1
 </code></pre>
 
 <h4>Response</h4>
 
 <pre><code>HTTP/1.1 201
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 163
+Content-Length: 298
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;1a55de94ab87bd2e29865b6cf60d6c90&quot;
+ETag: W/&quot;1848219e410e8ad5d84e841043885882&quot;
 Location: /api/v1/groups/1
 Set-Cookie: request_method=POST; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: ce6b7004-448c-466a-8450-81138bc3cce5
-X-Runtime: 0.003783
+X-Request-Id: d1d9961a-ec54-4c2c-9c69-9a8bb56f72e7
+X-Runtime: 0.005421
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
-  &quot;subject&quot;: &quot;グループ-4&quot;,
-  &quot;board&quot;: null,
+  &quot;subject&quot;: &quot;グループ-5&quot;,
+  &quot;priority&quot;: 15,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.525+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.525+09:00&quot;,
+  &quot;board&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;ボード-11&quot;,
+    &quot;priority&quot;: 1012,
+    &quot;created_at&quot;: &quot;2015-09-20T13:33:25.521+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.521+09:00&quot;
+  },
   &quot;tasks&quot;: [
 
-  ],
-  &quot;priority&quot;: 14,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.601+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.601+09:00&quot;
+  ]
 }
 </code></pre>
 </div><div class="api-action"><h2>PATCH /api/v1/groups/:id</h2>
@@ -422,40 +424,40 @@ Content-Length: 49
 Content-Type: application/x-www-form-urlencoded
 Host: www.example.com
 
-group[subject]=changed+subject&amp;group[priority]=16
+group[subject]=changed+subject&amp;group[priority]=17
 </code></pre>
 
 <h4>Response</h4>
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 302
+Content-Length: 299
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;df681deaf913f7670360f65b196c0d90&quot;
+ETag: W/&quot;d4101a899765f5f7d9574ef84c7720f8&quot;
 Location: /api/v1/groups/1
 Set-Cookie: request_method=PATCH; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: bc83ac6a-42a1-4869-870e-788fd2167b82
-X-Runtime: 0.004491
+X-Request-Id: b992e7f7-d337-4f52-9a13-59d3d8cf901a
+X-Runtime: 0.005446
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
   &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 17,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.541+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.545+09:00&quot;,
   &quot;board&quot;: {
     &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;グループ-12&quot;,
-    &quot;priority&quot;: 1013,
-    &quot;created_at&quot;: &quot;2015-09-04T08:55:08.611+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.611+09:00&quot;
+    &quot;subject&quot;: &quot;ボード-13&quot;,
+    &quot;priority&quot;: 1014,
+    &quot;created_at&quot;: &quot;2015-09-20T13:33:25.539+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.539+09:00&quot;
   },
   &quot;tasks&quot;: [
 
-  ],
-  &quot;priority&quot;: 16,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.612+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.616+09:00&quot;
+  ]
 }
 </code></pre>
 </div><div class="api-action"><h2>DELETE /api/v1/groups/:id</h2>
@@ -480,11 +482,11 @@ Cache-Control: no-cache
 Set-Cookie: request_method=DELETE; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 5cea2328-4dfb-43d2-861b-665c69cce200
-X-Runtime: 0.001932
+X-Request-Id: 83f5257a-3f97-4cec-936f-b365cf2f553f
+X-Runtime: 0.002249
 X-XSS-Protection: 1; mode=block
 </code></pre>
-</div><div class="api-action"><h2>GET /api/v1/groups</h2>
+</div><div class="api-action"><h2>GET /api/v1/boards/:board_id/groups</h2>
 
 <p>Returns groups.</p>
 
@@ -492,7 +494,7 @@ X-XSS-Protection: 1; mode=block
 
 <h4>Request</h4>
 
-<pre><code>GET /api/v1/groups HTTP/1.1
+<pre><code>GET /api/v1/boards/1/groups HTTP/1.1
 Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
 Content-Length: 0
 Content-Type: application/x-www-form-urlencoded
@@ -503,93 +505,27 @@ Host: www.example.com
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 520
+Content-Length: 197
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;21372ede6850d56df6ee0df9888f881a&quot;
+ETag: W/&quot;4748801155262a73087788e627225811&quot;
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: ff6867f8-d898-4adb-9983-38fb41c7efe4
-X-Runtime: 0.003923
+X-Request-Id: 893d4581-f604-4dbc-8b27-ae54dd68a8f9
+X-Runtime: 0.003806
 X-XSS-Protection: 1; mode=block
 
 [
   {
     &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;グループ-9&quot;,
-    &quot;board&quot;: {
-      &quot;id&quot;: 1,
-      &quot;subject&quot;: &quot;グループ-16&quot;,
-      &quot;priority&quot;: 1017,
-      &quot;created_at&quot;: &quot;2015-09-04T08:55:08.642+09:00&quot;,
-      &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.642+09:00&quot;
-    },
-    &quot;tasks&quot;: [
-
-    ],
-    &quot;priority&quot;: 20,
+    &quot;subject&quot;: &quot;グループ-10&quot;,
+    &quot;priority&quot;: 21,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/1&quot;
   },
   {
     &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-10&quot;,
-    &quot;board&quot;: {
-      &quot;id&quot;: 2,
-      &quot;subject&quot;: &quot;グループ-17&quot;,
-      &quot;priority&quot;: 1018,
-      &quot;created_at&quot;: &quot;2015-09-04T08:55:08.645+09:00&quot;,
-      &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.645+09:00&quot;
-    },
-    &quot;tasks&quot;: [
-
-    ],
-    &quot;priority&quot;: 21,
+    &quot;subject&quot;: &quot;グループ-11&quot;,
+    &quot;priority&quot;: 22,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
-  }
-]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/groups/:group_id/tasks</h2>
-
-<p>Returns tasks with thier group.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code>GET /api/v1/groups/1/tasks HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
-Host: www.example.com
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code>HTTP/1.1 200
-Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 272
-Content-Type: application/json; charset=utf-8
-ETag: W/&quot;606f9e0cfdf2a06479877d8570c1bf72&quot;
-X-Content-Type-Options: nosniff
-X-Frame-Options: SAMEORIGIN
-X-Request-Id: c222d76d-0fd7-4dc2-9afe-f4e1b2d84ef1
-X-Runtime: 0.004447
-X-XSS-Protection: 1; mode=block
-
-[
-  {
-    &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;件名-1&quot;,
-    &quot;body&quot;: &quot;本文-1&quot;,
-    &quot;group&quot;: {
-      &quot;id&quot;: 1,
-      &quot;subject&quot;: &quot;グループ-11&quot;,
-      &quot;created_at&quot;: &quot;2015-09-04T08:55:08.655+09:00&quot;,
-      &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.655+09:00&quot;,
-      &quot;priority&quot;: 22,
-      &quot;board_id&quot;: 1
-    },
-    &quot;priority&quot;: 101,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/tasks/1&quot;
   }
 ]
 </code></pre>
@@ -612,33 +548,32 @@ Host: www.example.com
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 314
+Content-Length: 301
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;d38adfff5e7cdec5540bcd2a9d6a7003&quot;
+ETag: W/&quot;d55f5bd1fd10a1d750f097adad654565&quot;
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: ddc8c51c-9140-4dcd-b5d8-66f78be67608
-X-Runtime: 0.002903
+X-Request-Id: a2dc9a0b-44bb-423f-8a70-d9646a8ce8e5
+X-Runtime: 0.006579
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
-  &quot;subject&quot;: &quot;件名-3&quot;,
-  &quot;body&quot;: &quot;本文-3&quot;,
+  &quot;subject&quot;: &quot;件名-1&quot;,
+  &quot;body&quot;: &quot;本文-1&quot;,
+  &quot;priority&quot;: 101,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.597+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.597+09:00&quot;,
   &quot;group&quot;: {
     &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;グループ-13&quot;,
-    &quot;created_at&quot;: &quot;2015-09-04T08:55:08.676+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.676+09:00&quot;,
-    &quot;priority&quot;: 24,
-    &quot;board_id&quot;: 1
-  },
-  &quot;priority&quot;: 103,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.677+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.677+09:00&quot;
+    &quot;subject&quot;: &quot;グループ-12&quot;,
+    &quot;priority&quot;: 23,
+    &quot;created_at&quot;: &quot;2015-09-20T13:33:25.595+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.595+09:00&quot;
+  }
 }
 </code></pre>
-</div><div class="api-action"><h2>POST /api/v1/tasks</h2>
+</div><div class="api-action"><h2>POST /api/v1/groups/:group_id/tasks</h2>
 
 <p>Adds a task.</p>
 
@@ -646,38 +581,44 @@ X-XSS-Protection: 1; mode=block
 
 <h4>Request</h4>
 
-<pre><code>POST /api/v1/tasks HTTP/1.1
+<pre><code>POST /api/v1/groups/1/tasks HTTP/1.1
 Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 85
+Content-Length: 102
 Content-Type: application/x-www-form-urlencoded
 Host: www.example.com
 
-task[subject]=%E4%BB%B6%E5%90%8D-4&amp;task[body]=%E6%9C%AC%E6%96%87-4&amp;task[priority]=104
+task[subject]=%E4%BB%B6%E5%90%8D-2&amp;task[body]=%E6%9C%AC%E6%96%87-2&amp;task[priority]=102&amp;task[group_id]=1
 </code></pre>
 
 <h4>Response</h4>
 
 <pre><code>HTTP/1.1 201
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 165
+Content-Length: 301
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;92fac508c37251be151c236628ec1335&quot;
+ETag: W/&quot;a013a421798f61765329c65ee794e07d&quot;
 Location: /api/v1/tasks/1
 Set-Cookie: request_method=POST; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: e24915d6-6685-490e-9269-8e7a1b958524
-X-Runtime: 0.004319
+X-Request-Id: 1890d5d4-0e5e-43e5-97e1-00c6ea790447
+X-Runtime: 0.006349
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
-  &quot;subject&quot;: &quot;件名-4&quot;,
-  &quot;body&quot;: &quot;本文-4&quot;,
-  &quot;group&quot;: null,
-  &quot;priority&quot;: 104,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.686+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.686+09:00&quot;
+  &quot;subject&quot;: &quot;件名-2&quot;,
+  &quot;body&quot;: &quot;本文-2&quot;,
+  &quot;priority&quot;: 102,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.613+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.613+09:00&quot;,
+  &quot;group&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;グループ-13&quot;,
+    &quot;priority&quot;: 24,
+    &quot;created_at&quot;: &quot;2015-09-20T13:33:25.610+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.610+09:00&quot;
+  }
 }
 </code></pre>
 </div><div class="api-action"><h2>PATCH /api/v1/tasks/:id</h2>
@@ -694,39 +635,38 @@ Content-Length: 72
 Content-Type: application/x-www-form-urlencoded
 Host: www.example.com
 
-task[subject]=changed+subject&amp;task[body]=changed+body&amp;task[priority]=106
+task[subject]=changed+subject&amp;task[body]=changed+body&amp;task[priority]=104
 </code></pre>
 
 <h4>Response</h4>
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 325
+Content-Length: 312
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;6ca22668b9cccbce4642dc3714af9c20&quot;
+ETag: W/&quot;7f506a7f36adb6242975263581da18d9&quot;
 Location: /api/v1/tasks/1
 Set-Cookie: request_method=PATCH; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: a48b1515-9a4a-4eb8-b22f-faedb8a4c9b8
-X-Runtime: 0.004074
+X-Request-Id: e444fda8-8f74-4c27-892e-98faf7d1ff4c
+X-Runtime: 0.004890
 X-XSS-Protection: 1; mode=block
 
 {
   &quot;id&quot;: 1,
   &quot;subject&quot;: &quot;changed subject&quot;,
   &quot;body&quot;: &quot;changed body&quot;,
+  &quot;priority&quot;: 104,
+  &quot;created_at&quot;: &quot;2015-09-20T13:33:25.634+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.638+09:00&quot;,
   &quot;group&quot;: {
     &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;グループ-14&quot;,
-    &quot;created_at&quot;: &quot;2015-09-04T08:55:08.697+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.697+09:00&quot;,
-    &quot;priority&quot;: 25,
-    &quot;board_id&quot;: 1
-  },
-  &quot;priority&quot;: 106,
-  &quot;created_at&quot;: &quot;2015-09-04T08:55:08.698+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.702+09:00&quot;
+    &quot;subject&quot;: &quot;グループ-15&quot;,
+    &quot;priority&quot;: 26,
+    &quot;created_at&quot;: &quot;2015-09-20T13:33:25.632+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-09-20T13:33:25.632+09:00&quot;
+  }
 }
 </code></pre>
 </div><div class="api-action"><h2>DELETE /api/v1/tasks/:id</h2>
@@ -751,11 +691,11 @@ Cache-Control: no-cache
 Set-Cookie: request_method=DELETE; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 28be4651-9656-488c-b027-7112487b03d2
-X-Runtime: 0.001858
+X-Request-Id: 30bf386a-2fd3-4982-9257-39ad2de53f26
+X-Runtime: 0.002296
 X-XSS-Protection: 1; mode=block
 </code></pre>
-</div><div class="api-action"><h2>GET /api/v1/tasks</h2>
+</div><div class="api-action"><h2>GET /api/v1/groups/:group_id/tasks</h2>
 
 <p>Returns tasks.</p>
 
@@ -763,7 +703,7 @@ X-XSS-Protection: 1; mode=block
 
 <h4>Request</h4>
 
-<pre><code>GET /api/v1/tasks HTTP/1.1
+<pre><code>GET /api/v1/groups/1/tasks HTTP/1.1
 Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
 Content-Length: 0
 Content-Type: application/x-www-form-urlencoded
@@ -774,44 +714,28 @@ Host: www.example.com
 
 <pre><code>HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 545
+Content-Length: 219
 Content-Type: application/json; charset=utf-8
-ETag: W/&quot;8a5faf8e5ea7955b7befe7df391e3c55&quot;
+ETag: W/&quot;ebbeed44313cb1d96fcb31d713cf9590&quot;
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 7959c542-a511-437f-9ff5-762914fc7e82
-X-Runtime: 0.003261
+X-Request-Id: 4d1337d6-36fb-4d64-90a0-2e9df9a8184c
+X-Runtime: 0.003298
 X-XSS-Protection: 1; mode=block
 
 [
   {
     &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;件名-9&quot;,
-    &quot;body&quot;: &quot;本文-9&quot;,
-    &quot;group&quot;: {
-      &quot;id&quot;: 1,
-      &quot;subject&quot;: &quot;グループ-18&quot;,
-      &quot;created_at&quot;: &quot;2015-09-04T08:55:08.733+09:00&quot;,
-      &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.733+09:00&quot;,
-      &quot;priority&quot;: 29,
-      &quot;board_id&quot;: 1
-    },
-    &quot;priority&quot;: 110,
+    &quot;subject&quot;: &quot;件名-7&quot;,
+    &quot;body&quot;: &quot;本文-7&quot;,
+    &quot;priority&quot;: 108,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/tasks/1&quot;
   },
   {
     &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;件名-10&quot;,
-    &quot;body&quot;: &quot;本文-10&quot;,
-    &quot;group&quot;: {
-      &quot;id&quot;: 2,
-      &quot;subject&quot;: &quot;グループ-19&quot;,
-      &quot;created_at&quot;: &quot;2015-09-04T08:55:08.736+09:00&quot;,
-      &quot;updated_at&quot;: &quot;2015-09-04T08:55:08.736+09:00&quot;,
-      &quot;priority&quot;: 30,
-      &quot;board_id&quot;: 2
-    },
-    &quot;priority&quot;: 111,
+    &quot;subject&quot;: &quot;件名-8&quot;,
+    &quot;body&quot;: &quot;本文-8&quot;,
+    &quot;priority&quot;: 109,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/tasks/2&quot;
   }
 ]

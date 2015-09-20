@@ -119,24 +119,23 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'GET /api/v1/boards/:board_id/groups' do
-    let(:groups) { FactoryGirl.create_list(:group, 2) }
-    let(:board_id) { groups.first.board_id }
+    let(:board) { FactoryGirl.create(:board_with_groups, groups_count: 3) }
+    let(:board_id) { board.id }
 
     context 'with valid board id' do
-      it 'returns groups with thier board', autodoc: true do
+      it 'returns board', autodoc: true do
         is_expected.to eq 200
         res = JSON(response.body)
-        expect(res.first['id']).to eq groups.first['id']
-        expect(res.first['board']['id']).to eq groups.first.board['id']
+        expect(res.size).to eq 3
+        expect(res.first['id']).to eq board.groups.first.id
+        expect(res.last['id']).to eq board.groups.last.id
       end
     end
 
     context 'with invalid board id' do
       let(:board_id) { 0 }
 
-      it{
-        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
-      }
+      it { expect { subject }.to raise_error(ActiveRecord::RecordNotFound) }
     end
   end
 end
