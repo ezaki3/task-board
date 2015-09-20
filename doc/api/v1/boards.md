@@ -16,24 +16,24 @@ Host: www.example.com
 ```
 HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 153
+Content-Length: 150
 Content-Type: application/json; charset=utf-8
-ETag: W/"2ddc7785fdce7fcdc87f3e879da6cead"
+ETag: W/"d936baeb0b29793fc76c5edb2049ad8b"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: f265a080-fbb9-4939-999b-a5d96ea39011
-X-Runtime: 0.027157
+X-Request-Id: b141d414-1f87-49f3-9fd7-057b88007e11
+X-Runtime: 0.039809
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
-  "subject": "グループ-1",
+  "subject": "ボード-1",
+  "priority": 1001,
+  "created_at": "2015-09-20T13:33:25.376+09:00",
+  "updated_at": "2015-09-20T13:33:25.376+09:00",
   "groups": [
 
-  ],
-  "priority": 1001,
-  "created_at": "2015-09-04T08:55:08.480+09:00",
-  "updated_at": "2015-09-04T08:55:08.480+09:00"
+  ]
 }
 ```
 
@@ -46,37 +46,37 @@ Adds a new board.
 ```
 POST /api/v1/boards HTTP/1.1
 Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 74
+Content-Length: 65
 Content-Type: application/x-www-form-urlencoded
 Host: www.example.com
 
-board[subject]=%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97-2&board[priority]=1002
+board[subject]=%E3%83%9C%E3%83%BC%E3%83%89-2&board[priority]=1002
 ```
 
 #### Response
 ```
 HTTP/1.1 201
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 153
+Content-Length: 150
 Content-Type: application/json; charset=utf-8
-ETag: W/"07084e14cdf4f74ba5f8fa680c5e6cdf"
+ETag: W/"9a35b52be206ffbd8780ebb075f7bcbe"
 Location: /api/v1/boards/1
 Set-Cookie: request_method=POST; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 0fae2f1f-e146-4a19-909d-9542cbcf7718
-X-Runtime: 0.003689
+X-Request-Id: b95c9df5-a728-4156-8c9b-2ea40dade849
+X-Runtime: 0.004652
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
-  "subject": "グループ-2",
+  "subject": "ボード-2",
+  "priority": 1002,
+  "created_at": "2015-09-20T13:33:25.432+09:00",
+  "updated_at": "2015-09-20T13:33:25.432+09:00",
   "groups": [
 
-  ],
-  "priority": 1002,
-  "created_at": "2015-09-04T08:55:08.525+09:00",
-  "updated_at": "2015-09-04T08:55:08.525+09:00"
+  ]
 }
 ```
 
@@ -102,24 +102,24 @@ HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 154
 Content-Type: application/json; charset=utf-8
-ETag: W/"07bcf334237088641c4b0862580e72e5"
+ETag: W/"e5b7e4b7f01b1d46b641cfe31188df76"
 Location: /api/v1/boards/1
 Set-Cookie: request_method=PATCH; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 49dfbe2e-16bf-4fa0-b664-b16e4ec756f7
-X-Runtime: 0.004485
+X-Request-Id: 1464a31d-b77e-476a-aa7e-02f22797cbae
+X-Runtime: 0.005937
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
   "subject": "changed subject",
+  "priority": 1004,
+  "created_at": "2015-09-20T13:33:25.442+09:00",
+  "updated_at": "2015-09-20T13:33:25.446+09:00",
   "groups": [
 
-  ],
-  "priority": 1004,
-  "created_at": "2015-09-04T08:55:08.535+09:00",
-  "updated_at": "2015-09-04T08:55:08.539+09:00"
+  ]
 }
 ```
 
@@ -144,8 +144,8 @@ Cache-Control: no-cache
 Set-Cookie: request_method=DELETE; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 0ae7231c-d00d-413d-8cd3-49681a0f8f6e
-X-Runtime: 0.001969
+X-Request-Id: b2e9ea11-7678-4b22-9ed6-5ac764a78cf1
+X-Runtime: 0.002305
 X-XSS-Protection: 1; mode=block
 ```
 
@@ -167,31 +167,25 @@ Host: www.example.com
 ```
 HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 223
+Content-Length: 193
 Content-Type: application/json; charset=utf-8
-ETag: W/"8927d40718c7597229d2a00c52dca49b"
+ETag: W/"6bc024b16250d9d811d7bd368a5cb4fc"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 72157072-16d2-4dd4-82e3-e0a889c39a3f
-X-Runtime: 0.004408
+X-Request-Id: 6e8672f0-34ba-47e0-b7ed-05912769a4b9
+X-Runtime: 0.003178
 X-XSS-Protection: 1; mode=block
 
 [
   {
     "id": 1,
-    "subject": "グループ-7",
-    "groups": [
-
-    ],
+    "subject": "ボード-7",
     "priority": 1008,
     "url": "http://www.example.com/api/v1/boards/1"
   },
   {
     "id": 2,
-    "subject": "グループ-8",
-    "groups": [
-
-    ],
+    "subject": "ボード-8",
     "priority": 1009,
     "url": "http://www.example.com/api/v1/boards/2"
   }
@@ -199,7 +193,7 @@ X-XSS-Protection: 1; mode=block
 ```
 
 ## GET /api/v1/boards/:board_id/groups
-Returns groups with thier board.
+Returns board.
 
 ### Example
 
@@ -216,31 +210,33 @@ Host: www.example.com
 ```
 HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 259
+Content-Length: 292
 Content-Type: application/json; charset=utf-8
-ETag: W/"6be1353833a0010e70846b627b19e810"
+ETag: W/"16c7f9c7240ebb6cfde14b5a8955f024"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 7649feb9-5ff2-4582-b868-99aa5d7c644b
-X-Runtime: 0.006138
+X-Request-Id: 4bd3fd32-9898-48e9-a90a-72f00e8920ba
+X-Runtime: 0.004328
 X-XSS-Protection: 1; mode=block
 
 [
   {
     "id": 1,
     "subject": "グループ-1",
-    "board": {
-      "id": 1,
-      "subject": "グループ-9",
-      "priority": 1010,
-      "created_at": "2015-09-04T08:55:08.568+09:00",
-      "updated_at": "2015-09-04T08:55:08.568+09:00"
-    },
-    "tasks": [
-
-    ],
     "priority": 11,
     "url": "http://www.example.com/api/v1/groups/1"
+  },
+  {
+    "id": 2,
+    "subject": "グループ-2",
+    "priority": 12,
+    "url": "http://www.example.com/api/v1/groups/2"
+  },
+  {
+    "id": 3,
+    "subject": "グループ-3",
+    "priority": 13,
+    "url": "http://www.example.com/api/v1/groups/3"
   }
 ]
 ```
