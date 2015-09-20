@@ -23,8 +23,10 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     end
   end
 
-  describe 'POST /api/v1/groups' do
-    let(:params) { { group: FactoryGirl.attributes_for(:group) } }
+  describe 'POST /api/v1/boards/:board_id/groups' do
+    let(:params) { { group: FactoryGirl.attributes_for(:group, board_id: board_id) } }
+    let(:board) { FactoryGirl.create(:board) }
+    let(:board_id) { board.id }
 
     context 'with valid params' do
       it 'adds a group', autodoc: true do
@@ -104,8 +106,10 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     end
   end
 
-  describe 'GET /api/v1/groups' do
-    let!(:groups) { FactoryGirl.create_list(:group, 2) }
+  describe 'GET /api/v1/boards/:board_id/groups' do
+    let!(:groups) { FactoryGirl.create_list(:group, 2, board_id: board_id) }
+    let(:board) { FactoryGirl.create(:board) }
+    let(:board_id) { board.id }
 
     it 'returns groups', autodoc: true do
       is_expected.to eq 200
@@ -114,29 +118,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
       expect(res.first['id']).to eq groups.first['id']
       expect(res.first['subject']).to eq groups.first['subject']
       expect(res.first['priority']).to eq groups.first['priority']
-      expect(res.second['id']).to eq groups.second['id']
-    end
-  end
-
-  describe 'GET /api/v1/groups/:group_id/tasks' do
-    let(:tasks) { FactoryGirl.create_list(:task, 2) }
-    let(:group_id) { tasks.first.group_id }
-
-    context 'with valid group id' do
-      it 'returns tasks with thier group', autodoc: true do
-        is_expected.to eq 200
-        res = JSON(response.body)
-        expect(res.first['id']).to eq tasks.first['id']
-        expect(res.first['group']['id']).to eq tasks.first.group['id']
-      end
-    end
-
-    context 'with invalid group id' do
-      let(:group_id) { 0 }
-
-      it {
-        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
-      }
+      expect(res.last['id']).to eq groups.second['id']
     end
   end
 end

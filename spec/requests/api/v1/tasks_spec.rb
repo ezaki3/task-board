@@ -34,14 +34,14 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     end
   end
 
-  describe 'POST /api/v1/tasks' do
+  describe 'POST /api/v1/groups/:group_id/tasks' do
     # let(:headers) do
     #   {'Content-Type' => 'application/json'}
     # end
 
-    let(:params) do
-      { task: FactoryGirl.attributes_for(:task) }
-    end
+    let(:params) { { task: FactoryGirl.attributes_for(:task, group_id: group_id) } }
+    let(:group) { FactoryGirl.create(:group) }
+    let(:group_id) { group.id }
 
     context 'with valid params' do
       it 'adds a task', autodoc: true do
@@ -130,18 +130,26 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     end
   end
 
-  describe 'GET /api/v1/tasks' do
-    let!(:tasks) { FactoryGirl.create_list(:task, 2) }
+  describe 'GET /api/v1/groups/:group_id/tasks' do
+    let!(:tasks) { FactoryGirl.create_list(:task, 2, group_id: group_id) }
+    let(:group) { FactoryGirl.create(:group) }
+    let(:group_id) { group.id }
 
-    it 'returns tasks', autodoc: true do
-      is_expected.to eq 200
-      res = JSON(response.body)
-      expect(res.size).to eq tasks.size
-      expect(res.first['id']).to eq tasks.first['id']
-      expect(res.first['subject']).to eq tasks.first['subject']
-      expect(res.first['priority']).to eq tasks.first['priority']
-      expect(res.first['group']['id']).to eq tasks.first.group['id']
-      expect(res.second['id']).to eq tasks.second['id']
+    context 'with valid group id' do
+      it 'returns tasks', autodoc: true do
+        is_expected.to eq 200
+        res = JSON(response.body)
+        expect(res.first['id']).to eq tasks.first['id']
+        expect(res.last['id']).to eq tasks.last['id']
+      end
+    end
+
+    context 'with invalid group id' do
+      let(:group_id) { 0 }
+
+      it {
+        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+      }
     end
   end
 end
