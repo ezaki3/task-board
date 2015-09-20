@@ -22,12 +22,24 @@ RSpec.describe Api::V1::BoardsController, type: :routing do
       expect(post: "/api/v1/boards").to route_to("api/v1/boards#create", format: "json")
     end
 
+    it "routes to #dry_create" do
+      expect(post: "/api/v1/boards/dryrun").to route_to("api/v1/boards#dry_create", format: "json")
+    end
+
     it "routes to #update via PUT" do
       expect(put: "/api/v1/boards/1").to route_to("api/v1/boards#update", id: "1", format: "json")
     end
 
     it "routes to #update via PATCH" do
       expect(patch: "/api/v1/boards/1").to route_to("api/v1/boards#update", id: "1", format: "json")
+    end
+
+    it "routes to #dry_update via PUT" do
+      expect(put: "/api/v1/boards/1/dryrun").to route_to("api/v1/boards#dry_update", id: "1", format: "json")
+    end
+
+    it "routes to #dry_update via PATCH" do
+      expect(patch: "/api/v1/boards/1/dryrun").to route_to("api/v1/boards#dry_update", id: "1", format: "json")
     end
 
     it "routes to #destroy" do

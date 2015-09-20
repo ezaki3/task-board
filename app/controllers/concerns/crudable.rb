@@ -5,7 +5,7 @@ module Crudable
 
   included do
     before_action :set_model
-    before_action :set_resource, only: [:show, :edit, :update, :destroy]
+    before_action :set_resource, only: [:show, :edit, :update, :destroy, :dry_update]
 
     # GET /resources
     # GET /resources.json

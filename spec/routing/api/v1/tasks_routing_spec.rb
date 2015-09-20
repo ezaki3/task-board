@@ -25,12 +25,24 @@ RSpec.describe Api::V1::TasksController, type: :routing do
       expect(post: "/api/v1/groups/1/tasks").to route_to("api/v1/tasks#create", format: "json", group_id: "1")
     end
 
+    it "routes to #dry_create" do
+      expect(post: "/api/v1/groups/1/tasks/dryrun").to route_to("api/v1/tasks#dry_create", format: "json", group_id: "1")
+    end
+
     it "routes to #update via PUT" do
       expect(put: "/api/v1/tasks/1").to route_to("api/v1/tasks#update", id: "1", format: "json")
     end
 
     it "routes to #update via PATCH" do
       expect(patch: "/api/v1/tasks/1").to route_to("api/v1/tasks#update", id: "1", format: "json")
+    end
+
+    it "routes to #dry_update via PUT" do
+      expect(put: "/api/v1/tasks/1/dryrun").to route_to("api/v1/tasks#dry_update", id: "1", format: "json")
+    end
+
+    it "routes to #dry_update via PATCH" do
+      expect(patch: "/api/v1/tasks/1/dryrun").to route_to("api/v1/tasks#dry_update", id: "1", format: "json")
     end
 
     it "routes to #destroy" do
