@@ -4,6 +4,13 @@ require 'rails_helper'
 # を使ったREST APIテストの試みとして
 
 RSpec.describe 'Api::V1::Tasks', type: :request do
+  let(:headers) do
+    {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    }
+  end
+
   # describeで記述されている文字列の内容が解析されて、
   # subject { get '/tasks/#{id}' } というコードと同等の内容が自動的に定義されます
   describe 'GET /api/v1/tasks/:id' do

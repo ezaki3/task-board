@@ -5,10 +5,10 @@ Retruns a group.
 
 #### Request
 ```
-GET /api/v1/groups/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+GET /api/v1/groups/1?{} HTTP/1.1
+Accept: application/json
 Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 Host: www.example.com
 ```
 
@@ -18,25 +18,25 @@ HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 298
 Content-Type: application/json; charset=utf-8
-ETag: W/"f97ac1c71aea1ec8cc86d2926f3805ff"
+ETag: W/"05c1e09c46dd9fa075c5fc89f9dc670d"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 6bd37497-79f6-4fc7-b78c-cb25a5db1f81
-X-Runtime: 0.010506
+X-Request-Id: 7e976664-39dc-4d2b-9c47-a993719112b0
+X-Runtime: 0.009098
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
   "subject": "グループ-1",
   "priority": 11,
-  "created_at": "2015-09-21T00:20:19.494+09:00",
-  "updated_at": "2015-09-21T00:20:19.494+09:00",
+  "created_at": "2015-09-21T02:09:13.181+09:00",
+  "updated_at": "2015-09-21T02:09:13.181+09:00",
   "board": {
     "id": 1,
     "subject": "ボード-12",
     "priority": 1014,
-    "created_at": "2015-09-21T00:20:19.491+09:00",
-    "updated_at": "2015-09-21T00:20:19.491+09:00"
+    "created_at": "2015-09-21T02:09:13.177+09:00",
+    "updated_at": "2015-09-21T02:09:13.177+09:00"
   },
   "tasks": [
 
@@ -52,12 +52,18 @@ Adds a group.
 #### Request
 ```
 POST /api/v1/boards/1/groups HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 90
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 65
+Content-Type: application/json
 Host: www.example.com
 
-group[subject]=%E3%82%B0%E3%83%AB%E3%83%BC%E3%83%97-2&group[priority]=12&group[board_id]=1
+{
+  "group": {
+    "subject": "グループ-2",
+    "priority": 12,
+    "board_id": 1
+  }
+}
 ```
 
 #### Response
@@ -66,27 +72,27 @@ HTTP/1.1 201
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 298
 Content-Type: application/json; charset=utf-8
-ETag: W/"42eb5ae528adfc19b8cace1fc03f57af"
+ETag: W/"e46a65fd2d7828f7424640a31fb0bbf8"
 Location: /api/v1/groups/1
 Set-Cookie: request_method=POST; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: e01706fe-936a-4ba0-b848-f8c528c3fea9
-X-Runtime: 0.005312
+X-Request-Id: af7fed92-66da-4b32-b7c3-4102d811dc7d
+X-Runtime: 0.006429
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
   "subject": "グループ-2",
   "priority": 12,
-  "created_at": "2015-09-21T00:20:19.515+09:00",
-  "updated_at": "2015-09-21T00:20:19.515+09:00",
+  "created_at": "2015-09-21T02:09:13.203+09:00",
+  "updated_at": "2015-09-21T02:09:13.203+09:00",
   "board": {
     "id": 1,
     "subject": "ボード-13",
     "priority": 1015,
-    "created_at": "2015-09-21T00:20:19.512+09:00",
-    "updated_at": "2015-09-21T00:20:19.512+09:00"
+    "created_at": "2015-09-21T02:09:13.197+09:00",
+    "updated_at": "2015-09-21T02:09:13.197+09:00"
   },
   "tasks": [
 
@@ -102,12 +108,16 @@ Returns ng and not creates.
 #### Request
 ```
 POST /api/v1/boards/1/groups/dryrun HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 15
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 24
+Content-Type: application/json
 Host: www.example.com
 
-group[subject]=
+{
+  "group": {
+    "subject": ""
+  }
+}
 ```
 
 #### Response
@@ -119,8 +129,8 @@ Content-Type: application/json; charset=utf-8
 Set-Cookie: request_method=POST; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: de4403b9-0044-4640-a81e-fffda97245d5
-X-Runtime: 0.001949
+X-Request-Id: 4328daa2-1db8-4eec-940a-bbea6992721a
+X-Runtime: 0.002046
 X-XSS-Protection: 1; mode=block
 
 {
@@ -138,12 +148,17 @@ Updates a group.
 #### Request
 ```
 PATCH /api/v1/groups/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 49
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 53
+Content-Type: application/json
 Host: www.example.com
 
-group[subject]=changed+subject&group[priority]=15
+{
+  "group": {
+    "subject": "changed subject",
+    "priority": 15
+  }
+}
 ```
 
 #### Response
@@ -152,27 +167,27 @@ HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 299
 Content-Type: application/json; charset=utf-8
-ETag: W/"afb124e9eadc292dfe162ea46fb750d7"
+ETag: W/"12daac905cfb356ea8d88830c515fb34"
 Location: /api/v1/groups/1
 Set-Cookie: request_method=PATCH; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 7674a6dc-f946-45b3-9379-f53d191bc11d
-X-Runtime: 0.006000
+X-Request-Id: e5f5d59f-a5f9-4467-8f37-23fe415b1acd
+X-Runtime: 0.005584
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
   "subject": "changed subject",
   "priority": 15,
-  "created_at": "2015-09-21T00:20:19.546+09:00",
-  "updated_at": "2015-09-21T00:20:19.551+09:00",
+  "created_at": "2015-09-21T02:09:13.231+09:00",
+  "updated_at": "2015-09-21T02:09:13.235+09:00",
   "board": {
     "id": 1,
     "subject": "ボード-17",
     "priority": 1019,
-    "created_at": "2015-09-21T00:20:19.545+09:00",
-    "updated_at": "2015-09-21T00:20:19.545+09:00"
+    "created_at": "2015-09-21T02:09:13.230+09:00",
+    "updated_at": "2015-09-21T02:09:13.230+09:00"
   },
   "tasks": [
 
@@ -188,12 +203,16 @@ Returns ng and not updates.
 #### Request
 ```
 PATCH /api/v1/groups/1/dryrun HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 15
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 24
+Content-Type: application/json
 Host: www.example.com
 
-group[subject]=
+{
+  "group": {
+    "subject": ""
+  }
+}
 ```
 
 #### Response
@@ -205,8 +224,8 @@ Content-Type: application/json; charset=utf-8
 Set-Cookie: request_method=PATCH; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 7c591f0e-a0bf-47ff-900a-b3478a114dd5
-X-Runtime: 0.003175
+X-Request-Id: 293d33f1-810c-4ea7-a8f3-d5fb54f50797
+X-Runtime: 0.002943
 X-XSS-Protection: 1; mode=block
 
 {
@@ -224,10 +243,13 @@ Deletes a group.
 #### Request
 ```
 DELETE /api/v1/groups/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 2
+Content-Type: application/json
 Host: www.example.com
+
+{
+}
 ```
 
 #### Response
@@ -237,8 +259,8 @@ Cache-Control: no-cache
 Set-Cookie: request_method=DELETE; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 9bbe018b-787f-4459-9bd3-68eaa6e19f5b
-X-Runtime: 0.002071
+X-Request-Id: 40152199-e435-42c4-9b6a-92e7bdb52c38
+X-Runtime: 0.002043
 X-XSS-Protection: 1; mode=block
 ```
 
@@ -249,10 +271,10 @@ Returns groups.
 
 #### Request
 ```
-GET /api/v1/boards/1/groups HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+GET /api/v1/boards/1/groups?{} HTTP/1.1
+Accept: application/json
 Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 Host: www.example.com
 ```
 
@@ -265,8 +287,8 @@ Content-Type: application/json; charset=utf-8
 ETag: W/"7f007a2b90b7c9f23e41185084d33778"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 2ea3d024-6395-4a1a-be92-e328baf71a6c
-X-Runtime: 0.003078
+X-Request-Id: 557f79e6-9102-45d9-8b5b-455a8e991602
+X-Runtime: 0.003143
 X-XSS-Protection: 1; mode=block
 
 [

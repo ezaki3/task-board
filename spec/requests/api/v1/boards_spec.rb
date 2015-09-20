@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Boards', type: :request do
+  let(:headers) do
+    {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    }
+  end
+
   describe 'GET /api/v1/boards/:id' do
     let(:board) { FactoryGirl.create(:board) }
     let(:id) { board.id }

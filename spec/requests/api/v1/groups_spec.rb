@@ -1,6 +1,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Groups', type: :request do
+  let(:headers) do
+    {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    }
+  end
+
   describe 'GET /api/v1/groups/:id' do
     let(:group) { FactoryGirl.create(:group) }
     let(:id) { group.id }
