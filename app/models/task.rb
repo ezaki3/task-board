@@ -1,4 +1,6 @@
-class Task < Card
+class Task < ActiveRecord::Base
+  include CardBehavior
+
   belongs_to :group
 
   private

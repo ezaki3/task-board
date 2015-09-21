@@ -1,4 +1,6 @@
-class Board < Card
+class Board < ActiveRecord::Base
+  include CardBehavior
+
   has_many :groups
 
   private

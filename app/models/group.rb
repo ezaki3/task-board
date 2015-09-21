@@ -1,4 +1,6 @@
-class Group < Card
+class Group < ActiveRecord::Base
+  include CardBehavior
+
   belongs_to :board
   has_many :tasks
 
