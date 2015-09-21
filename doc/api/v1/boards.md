@@ -5,10 +5,10 @@ Returns a board.
 
 #### Request
 ```
-GET /api/v1/boards/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+GET /api/v1/boards/1?{} HTTP/1.1
+Accept: application/json
 Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 Host: www.example.com
 ```
 
@@ -18,19 +18,19 @@ HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 150
 Content-Type: application/json; charset=utf-8
-ETag: W/"d936baeb0b29793fc76c5edb2049ad8b"
+ETag: W/"236b81c8eda3d4078862739ef6ad25a8"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: b141d414-1f87-49f3-9fd7-057b88007e11
-X-Runtime: 0.039809
+X-Request-Id: bf582319-cbdf-4a9d-864c-0588d75a2078
+X-Runtime: 0.039666
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
   "subject": "ボード-1",
   "priority": 1001,
-  "created_at": "2015-09-20T13:33:25.376+09:00",
-  "updated_at": "2015-09-20T13:33:25.376+09:00",
+  "created_at": "2015-09-21T02:09:13.050+09:00",
+  "updated_at": "2015-09-21T02:09:13.050+09:00",
   "groups": [
 
   ]
@@ -45,12 +45,17 @@ Adds a new board.
 #### Request
 ```
 POST /api/v1/boards HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 65
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 51
+Content-Type: application/json
 Host: www.example.com
 
-board[subject]=%E3%83%9C%E3%83%BC%E3%83%89-2&board[priority]=1002
+{
+  "board": {
+    "subject": "ボード-2",
+    "priority": 1002
+  }
+}
 ```
 
 #### Response
@@ -59,23 +64,63 @@ HTTP/1.1 201
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 150
 Content-Type: application/json; charset=utf-8
-ETag: W/"9a35b52be206ffbd8780ebb075f7bcbe"
+ETag: W/"9bd15dd5c344d8d6a8731e29c2d7c960"
 Location: /api/v1/boards/1
 Set-Cookie: request_method=POST; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: b95c9df5-a728-4156-8c9b-2ea40dade849
-X-Runtime: 0.004652
+X-Request-Id: c36032ad-0997-4082-90e4-e08ab193f8b4
+X-Runtime: 0.004092
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
   "subject": "ボード-2",
   "priority": 1002,
-  "created_at": "2015-09-20T13:33:25.432+09:00",
-  "updated_at": "2015-09-20T13:33:25.432+09:00",
+  "created_at": "2015-09-21T02:09:13.105+09:00",
+  "updated_at": "2015-09-21T02:09:13.105+09:00",
   "groups": [
 
+  ]
+}
+```
+
+## POST /api/v1/boards/dryrun
+Returns ng and not creates.
+
+### Example
+
+#### Request
+```
+POST /api/v1/boards/dryrun HTTP/1.1
+Accept: application/json
+Content-Length: 24
+Content-Type: application/json
+Host: www.example.com
+
+{
+  "board": {
+    "subject": ""
+  }
+}
+```
+
+#### Response
+```
+HTTP/1.1 422
+Cache-Control: no-cache
+Content-Length: 30
+Content-Type: application/json; charset=utf-8
+Set-Cookie: request_method=POST; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: bc03c003-8158-49c7-adfb-1cd9879eb850
+X-Runtime: 0.001883
+X-XSS-Protection: 1; mode=block
+
+{
+  "subject": [
+    "can't be blank"
   ]
 }
 ```
@@ -88,12 +133,17 @@ Updates a board.
 #### Request
 ```
 PATCH /api/v1/boards/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 51
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 55
+Content-Type: application/json
 Host: www.example.com
 
-board[subject]=changed+subject&board[priority]=1004
+{
+  "board": {
+    "subject": "changed subject",
+    "priority": 1005
+  }
+}
 ```
 
 #### Response
@@ -102,23 +152,63 @@ HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 154
 Content-Type: application/json; charset=utf-8
-ETag: W/"e5b7e4b7f01b1d46b641cfe31188df76"
+ETag: W/"e3cd04812a763d86030bc8c88ed86f4a"
 Location: /api/v1/boards/1
 Set-Cookie: request_method=PATCH; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1464a31d-b77e-476a-aa7e-02f22797cbae
-X-Runtime: 0.005937
+X-Request-Id: 4619f9e0-83bb-424f-91ce-14e5d02f5a42
+X-Runtime: 0.004742
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
   "subject": "changed subject",
-  "priority": 1004,
-  "created_at": "2015-09-20T13:33:25.442+09:00",
-  "updated_at": "2015-09-20T13:33:25.446+09:00",
+  "priority": 1005,
+  "created_at": "2015-09-21T02:09:13.123+09:00",
+  "updated_at": "2015-09-21T02:09:13.128+09:00",
   "groups": [
 
+  ]
+}
+```
+
+## PATCH /api/v1/boards/:id/dryrun
+Returns ng and not updates.
+
+### Example
+
+#### Request
+```
+PATCH /api/v1/boards/1/dryrun HTTP/1.1
+Accept: application/json
+Content-Length: 24
+Content-Type: application/json
+Host: www.example.com
+
+{
+  "board": {
+    "subject": ""
+  }
+}
+```
+
+#### Response
+```
+HTTP/1.1 422
+Cache-Control: no-cache
+Content-Length: 30
+Content-Type: application/json; charset=utf-8
+Set-Cookie: request_method=PATCH; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 4c0281da-d842-4462-bc1f-5aca8ec3d1ad
+X-Runtime: 0.002302
+X-XSS-Protection: 1; mode=block
+
+{
+  "subject": [
+    "can't be blank"
   ]
 }
 ```
@@ -131,10 +221,13 @@ Deletes a board.
 #### Request
 ```
 DELETE /api/v1/boards/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 2
+Content-Type: application/json
 Host: www.example.com
+
+{
+}
 ```
 
 #### Response
@@ -144,8 +237,8 @@ Cache-Control: no-cache
 Set-Cookie: request_method=DELETE; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: b2e9ea11-7678-4b22-9ed6-5ac764a78cf1
-X-Runtime: 0.002305
+X-Request-Id: 02391566-2a73-4309-8c13-e9801ac75acb
+X-Runtime: 0.002643
 X-XSS-Protection: 1; mode=block
 ```
 
@@ -156,10 +249,10 @@ Returns boards.
 
 #### Request
 ```
-GET /api/v1/boards HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+GET /api/v1/boards?{} HTTP/1.1
+Accept: application/json
 Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 Host: www.example.com
 ```
 
@@ -167,76 +260,27 @@ Host: www.example.com
 ```
 HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 193
+Content-Length: 195
 Content-Type: application/json; charset=utf-8
-ETag: W/"6bc024b16250d9d811d7bd368a5cb4fc"
+ETag: W/"55fb9bfea7952b979fa91bddb8fbbdb0"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 6e8672f0-34ba-47e0-b7ed-05912769a4b9
-X-Runtime: 0.003178
+X-Request-Id: 2221b20f-8cb5-476a-bc5e-fafa97ca8a59
+X-Runtime: 0.003540
 X-XSS-Protection: 1; mode=block
 
 [
   {
     "id": 1,
-    "subject": "ボード-7",
-    "priority": 1008,
+    "subject": "ボード-10",
+    "priority": 1012,
     "url": "http://www.example.com/api/v1/boards/1"
   },
   {
     "id": 2,
-    "subject": "ボード-8",
-    "priority": 1009,
+    "subject": "ボード-11",
+    "priority": 1013,
     "url": "http://www.example.com/api/v1/boards/2"
-  }
-]
-```
-
-## GET /api/v1/boards/:board_id/groups
-Returns board.
-
-### Example
-
-#### Request
-```
-GET /api/v1/boards/1/groups HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
-Host: www.example.com
-```
-
-#### Response
-```
-HTTP/1.1 200
-Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 292
-Content-Type: application/json; charset=utf-8
-ETag: W/"16c7f9c7240ebb6cfde14b5a8955f024"
-X-Content-Type-Options: nosniff
-X-Frame-Options: SAMEORIGIN
-X-Request-Id: 4bd3fd32-9898-48e9-a90a-72f00e8920ba
-X-Runtime: 0.004328
-X-XSS-Protection: 1; mode=block
-
-[
-  {
-    "id": 1,
-    "subject": "グループ-1",
-    "priority": 11,
-    "url": "http://www.example.com/api/v1/groups/1"
-  },
-  {
-    "id": 2,
-    "subject": "グループ-2",
-    "priority": 12,
-    "url": "http://www.example.com/api/v1/groups/2"
-  },
-  {
-    "id": 3,
-    "subject": "グループ-3",
-    "priority": 13,
-    "url": "http://www.example.com/api/v1/groups/3"
   }
 ]
 ```

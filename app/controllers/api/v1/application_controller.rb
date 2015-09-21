@@ -3,6 +3,28 @@ class Api::V1::ApplicationController < ApplicationController
 
   skip_before_action :verify_authenticity_token
 
+  # POST /resources/dryrun
+  def dry_create
+    instance_variable_set(resource, @model.new(resource_params))
+
+    if instance_variable_get(resource).valid?
+      render :show, status: :ok #, location: get_location
+    else
+      render json: instance_variable_get(resource).errors, status: :unprocessable_entity
+    end
+  end
+
+  # PATCH/PUT /resources/1/dryrun
+  def dry_update
+    updated = instance_variable_get(resource)
+    updated.assign_attributes(resource_params)
+    if updated.valid?
+      render :show, status: :ok, location: get_location
+    else
+      render json: instance_variable_get(resource).errors, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def get_location

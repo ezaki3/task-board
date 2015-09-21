@@ -25,12 +25,20 @@ RSpec.describe Api::V1::GroupsController, type: :routing do
       expect(post: "/api/v1/boards/1/groups").to route_to("api/v1/groups#create", format: "json", board_id: "1")
     end
 
+    it "routes to #dry_create" do
+      expect(post: "/api/v1/boards/1/groups/dryrun").to route_to("api/v1/groups#dry_create", format: "json", board_id: "1")
+    end
+
     it "routes to #update via PUT" do
       expect(put: "/api/v1/groups/1").to route_to("api/v1/groups#update", id: "1", format: "json")
     end
 
-    it "routes to #update via PATCH" do
-      expect(patch: "/api/v1/groups/1").to route_to("api/v1/groups#update", id: "1", format: "json")
+    it "routes to #dry_update via PUT" do
+      expect(put: "/api/v1/groups/1/dryrun").to route_to("api/v1/groups#dry_update", id: "1", format: "json")
+    end
+
+    it "routes to #dry_update via PATCH" do
+      expect(patch: "/api/v1/groups/1/dryrun").to route_to("api/v1/groups#dry_update", id: "1", format: "json")
     end
 
     it "routes to #destroy" do

@@ -5,10 +5,10 @@ Returns a task.
 
 #### Request
 ```
-GET /api/v1/tasks/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+GET /api/v1/tasks/1?{} HTTP/1.1
+Accept: application/json
 Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 Host: www.example.com
 ```
 
@@ -18,11 +18,11 @@ HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 301
 Content-Type: application/json; charset=utf-8
-ETag: W/"d55f5bd1fd10a1d750f097adad654565"
+ETag: W/"4e6217729d3a1e56c379bec4033bef83"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: a2dc9a0b-44bb-423f-8a70-d9646a8ce8e5
-X-Runtime: 0.006579
+X-Request-Id: 11196fde-9f5f-4940-9d82-255940f0d273
+X-Runtime: 0.006019
 X-XSS-Protection: 1; mode=block
 
 {
@@ -30,14 +30,14 @@ X-XSS-Protection: 1; mode=block
   "subject": "件名-1",
   "body": "本文-1",
   "priority": 101,
-  "created_at": "2015-09-20T13:33:25.597+09:00",
-  "updated_at": "2015-09-20T13:33:25.597+09:00",
+  "created_at": "2015-09-21T02:09:13.310+09:00",
+  "updated_at": "2015-09-21T02:09:13.310+09:00",
   "group": {
     "id": 1,
-    "subject": "グループ-12",
-    "priority": 23,
-    "created_at": "2015-09-20T13:33:25.595+09:00",
-    "updated_at": "2015-09-20T13:33:25.595+09:00"
+    "subject": "グループ-14",
+    "priority": 26,
+    "created_at": "2015-09-21T02:09:13.308+09:00",
+    "updated_at": "2015-09-21T02:09:13.308+09:00"
   }
 }
 ```
@@ -50,12 +50,19 @@ Adds a task.
 #### Request
 ```
 POST /api/v1/groups/1/tasks HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 102
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 77
+Content-Type: application/json
 Host: www.example.com
 
-task[subject]=%E4%BB%B6%E5%90%8D-2&task[body]=%E6%9C%AC%E6%96%87-2&task[priority]=102&task[group_id]=1
+{
+  "task": {
+    "subject": "件名-2",
+    "body": "本文-2",
+    "priority": 102,
+    "group_id": 1
+  }
+}
 ```
 
 #### Response
@@ -64,13 +71,13 @@ HTTP/1.1 201
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 301
 Content-Type: application/json; charset=utf-8
-ETag: W/"a013a421798f61765329c65ee794e07d"
+ETag: W/"3fca31721cd52eabdcb7417ace143d84"
 Location: /api/v1/tasks/1
 Set-Cookie: request_method=POST; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1890d5d4-0e5e-43e5-97e1-00c6ea790447
-X-Runtime: 0.006349
+X-Request-Id: 491b1740-debc-49b8-878c-0abd4f4feffe
+X-Runtime: 0.004273
 X-XSS-Protection: 1; mode=block
 
 {
@@ -78,15 +85,55 @@ X-XSS-Protection: 1; mode=block
   "subject": "件名-2",
   "body": "本文-2",
   "priority": 102,
-  "created_at": "2015-09-20T13:33:25.613+09:00",
-  "updated_at": "2015-09-20T13:33:25.613+09:00",
+  "created_at": "2015-09-21T02:09:13.325+09:00",
+  "updated_at": "2015-09-21T02:09:13.325+09:00",
   "group": {
     "id": 1,
-    "subject": "グループ-13",
-    "priority": 24,
-    "created_at": "2015-09-20T13:33:25.610+09:00",
-    "updated_at": "2015-09-20T13:33:25.610+09:00"
+    "subject": "グループ-15",
+    "priority": 27,
+    "created_at": "2015-09-21T02:09:13.322+09:00",
+    "updated_at": "2015-09-21T02:09:13.322+09:00"
   }
+}
+```
+
+## POST /api/v1/groups/:group_id/tasks/dryrun
+Returns ng and not creates.
+
+### Example
+
+#### Request
+```
+POST /api/v1/groups/1/tasks/dryrun HTTP/1.1
+Accept: application/json
+Content-Length: 23
+Content-Type: application/json
+Host: www.example.com
+
+{
+  "task": {
+    "subject": ""
+  }
+}
+```
+
+#### Response
+```
+HTTP/1.1 422
+Cache-Control: no-cache
+Content-Length: 30
+Content-Type: application/json; charset=utf-8
+Set-Cookie: request_method=POST; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 269bd9ed-1e34-4d80-a87c-9c61f864e4b1
+X-Runtime: 0.002907
+X-XSS-Protection: 1; mode=block
+
+{
+  "subject": [
+    "can't be blank"
+  ]
 }
 ```
 
@@ -98,12 +145,18 @@ Updates a task.
 #### Request
 ```
 PATCH /api/v1/tasks/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 72
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 75
+Content-Type: application/json
 Host: www.example.com
 
-task[subject]=changed+subject&task[body]=changed+body&task[priority]=104
+{
+  "task": {
+    "subject": "changed subject",
+    "body": "changed body",
+    "priority": 105
+  }
+}
 ```
 
 #### Response
@@ -112,29 +165,69 @@ HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 312
 Content-Type: application/json; charset=utf-8
-ETag: W/"7f506a7f36adb6242975263581da18d9"
+ETag: W/"e9430b4e8abee4e4d30795362c373101"
 Location: /api/v1/tasks/1
 Set-Cookie: request_method=PATCH; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: e444fda8-8f74-4c27-892e-98faf7d1ff4c
-X-Runtime: 0.004890
+X-Request-Id: 48d2ea99-5d62-4c66-a5f7-a4ed76844337
+X-Runtime: 0.005595
 X-XSS-Protection: 1; mode=block
 
 {
   "id": 1,
   "subject": "changed subject",
   "body": "changed body",
-  "priority": 104,
-  "created_at": "2015-09-20T13:33:25.634+09:00",
-  "updated_at": "2015-09-20T13:33:25.638+09:00",
+  "priority": 105,
+  "created_at": "2015-09-21T02:09:13.360+09:00",
+  "updated_at": "2015-09-21T02:09:13.364+09:00",
   "group": {
     "id": 1,
-    "subject": "グループ-15",
-    "priority": 26,
-    "created_at": "2015-09-20T13:33:25.632+09:00",
-    "updated_at": "2015-09-20T13:33:25.632+09:00"
+    "subject": "グループ-19",
+    "priority": 31,
+    "created_at": "2015-09-21T02:09:13.359+09:00",
+    "updated_at": "2015-09-21T02:09:13.359+09:00"
   }
+}
+```
+
+## PATCH /api/v1/tasks/:id/dryrun
+Returns ng and not updates.
+
+### Example
+
+#### Request
+```
+PATCH /api/v1/tasks/1/dryrun HTTP/1.1
+Accept: application/json
+Content-Length: 23
+Content-Type: application/json
+Host: www.example.com
+
+{
+  "task": {
+    "subject": ""
+  }
+}
+```
+
+#### Response
+```
+HTTP/1.1 422
+Cache-Control: no-cache
+Content-Length: 30
+Content-Type: application/json; charset=utf-8
+Set-Cookie: request_method=PATCH; path=/
+X-Content-Type-Options: nosniff
+X-Frame-Options: SAMEORIGIN
+X-Request-Id: 385a0119-723a-4f87-9895-61f161757513
+X-Runtime: 0.002467
+X-XSS-Protection: 1; mode=block
+
+{
+  "subject": [
+    "can't be blank"
+  ]
 }
 ```
 
@@ -146,10 +239,13 @@ Deletes a task.
 #### Request
 ```
 DELETE /api/v1/tasks/1 HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
-Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Accept: application/json
+Content-Length: 2
+Content-Type: application/json
 Host: www.example.com
+
+{
+}
 ```
 
 #### Response
@@ -159,8 +255,8 @@ Cache-Control: no-cache
 Set-Cookie: request_method=DELETE; path=/
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 30bf386a-2fd3-4982-9257-39ad2de53f26
-X-Runtime: 0.002296
+X-Request-Id: 40a7751c-2f70-42fc-99e9-7e0f6c2576e3
+X-Runtime: 0.001969
 X-XSS-Protection: 1; mode=block
 ```
 
@@ -171,10 +267,10 @@ Returns tasks.
 
 #### Request
 ```
-GET /api/v1/groups/1/tasks HTTP/1.1
-Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5
+GET /api/v1/groups/1/tasks?{} HTTP/1.1
+Accept: application/json
 Content-Length: 0
-Content-Type: application/x-www-form-urlencoded
+Content-Type: application/json
 Host: www.example.com
 ```
 
@@ -182,28 +278,28 @@ Host: www.example.com
 ```
 HTTP/1.1 200
 Cache-Control: max-age=0, private, must-revalidate
-Content-Length: 219
+Content-Length: 223
 Content-Type: application/json; charset=utf-8
-ETag: W/"ebbeed44313cb1d96fcb31d713cf9590"
+ETag: W/"ccd615f0a35d2ceb5703083e50663981"
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 4d1337d6-36fb-4d64-90a0-2e9df9a8184c
-X-Runtime: 0.003298
+X-Request-Id: a88afc69-3201-479c-b242-7347f86e12c1
+X-Runtime: 0.003151
 X-XSS-Protection: 1; mode=block
 
 [
   {
     "id": 1,
-    "subject": "件名-7",
-    "body": "本文-7",
-    "priority": 108,
+    "subject": "件名-10",
+    "body": "本文-10",
+    "priority": 112,
     "url": "http://www.example.com/api/v1/tasks/1"
   },
   {
     "id": 2,
-    "subject": "件名-8",
-    "body": "本文-8",
-    "priority": 109,
+    "subject": "件名-11",
+    "body": "本文-11",
+    "priority": 113,
     "url": "http://www.example.com/api/v1/tasks/2"
   }
 ]

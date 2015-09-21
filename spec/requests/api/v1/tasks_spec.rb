@@ -4,6 +4,13 @@ require 'rails_helper'
 # を使ったREST APIテストの試みとして
 
 RSpec.describe 'Api::V1::Tasks', type: :request do
+  let(:headers) do
+    {
+      'Content-Type' => 'application/json',
+      'Accept' => 'application/json'
+    }
+  end
+
   # describeで記述されている文字列の内容が解析されて、
   # subject { get '/tasks/#{id}' } というコードと同等の内容が自動的に定義されます
   describe 'GET /api/v1/tasks/:id' do
@@ -70,6 +77,34 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     end
   end
 
+  describe 'POST /api/v1/groups/:group_id/tasks/dryrun' do
+    let(:params) { { task: FactoryGirl.attributes_for(:task, group_id: group_id) } }
+    let(:group) { FactoryGirl.create(:group) }
+    let(:group_id) { group.id }
+
+    context 'with valid params' do
+      it 'returns OK and not creates' do
+        expect { is_expected.to eq 200 }.not_to change(Task, :count)
+        res = JSON(response.body)
+        expect(res['subject']).to eq params[:task][:subject]
+        expect(res['body']).to eq params[:task][:body]
+        expect(res['priority']).to eq params[:task][:priority]
+        expect(res['updated_at']).to eq res['created_at']
+        expect(response.header['location']).to be_nil
+      end
+    end
+
+    context 'with invalid params' do
+      let(:params) { { task: { subject: '' } } }
+
+      it 'returns NG and not creates', autodoc: true do
+        expect { is_expected.to eq 422 }.not_to change(Task, :count)
+        res = JSON(response.body)
+        expect(res['subject'].first).to eq "can't be blank"
+      end
+    end
+  end
+
   describe 'PATCH /api/v1/tasks/:id' do
     let!(:task) { FactoryGirl.create(:task) }
     let(:id) { task.id }
@@ -105,6 +140,41 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect {
           is_expected.to eq 422
         }.not_to change(Task, :count)
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/tasks/:id/dryrun' do
+    let!(:task) { FactoryGirl.create(:task) }
+    let(:id) { task.id }
+    let(:params) do
+      {
+        task: FactoryGirl.attributes_for(
+          :task, subject: 'changed subject', body: 'changed body'
+        )
+      }
+    end
+
+    context 'with valid params' do
+      it 'returns OK and not updates' do
+        expect { is_expected.to eq 200 }.not_to change(Task, :count)
+        res = JSON(response.body)
+        expect(res['id']).to eq task.id
+        expect(res['subject']).to eq params[:task][:subject]
+        expect(res['body']).to eq params[:task][:body]
+        expect(res['priority']).to eq params[:task][:priority]
+        expect(res['updated_at']).to eq res['created_at']
+        expect(response.header['location']).to eq '/api/v1/tasks/%d' % id
+      end
+    end
+
+    context 'with invalid params' do
+      let(:params) { { task: { subject: '' } } }
+
+      it 'returns NG and not updates', autodoc: true do
+        expect { is_expected.to eq 422 }.not_to change(Task, :count)
+        res = JSON(response.body)
+        expect(res['subject'].first).to eq "can't be blank"
       end
     end
   end
