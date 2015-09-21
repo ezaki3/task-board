@@ -13,11 +13,11 @@
         <h1 data-bind="text: board.subject"></h1>
     </div>
     <div class="alert alert-success" data-bind="visible: baseViewModel.alertSuccessMessage">
-        <button class="close" data-dismiss="alert">&times;</button>
+        <button class="close" data-bind="click: baseViewModel.closeAlertSuccess">&times;</button>
         <!-- ko text: baseViewModel.alertSuccessMessage--><!--/ko-->
     </div>
     <div class="alert alert-danger" data-bind="visible: baseViewModel.alertErrorMessage">
-        <button class="close" data-dismiss="alert">&times;</button>
+        <button class="close" data-bind="baseViewModel.closeAlertError">&times;</button>
         <!-- ko text: baseViewModel.alertErrorMessage--><!--/ko-->
     </div>
     <div class="row" data-bind="sortable: {data: board.groups, connectClass: 'row'}">
