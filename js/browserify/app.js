@@ -58,6 +58,22 @@ BaseModel.prototype.create = function (data, urlType) {
     return d.promise();
 };
 
+BaseModel.prototype.validation = function (data, urlType) {
+    var d = $.Deferred();
+    $.ajax({
+        url: this.apiUrl[urlType || 'member'] + '/dryrun',
+        method: 'POST',
+        contentType: 'application/json',
+        data: data})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
 BaseModel.prototype.find = function (id) {
     var d = $.Deferred();
     $.ajax({url: this.apiUrl.member + '/' + id})
@@ -115,6 +131,12 @@ var Board = function (id, subject, priority) {
         'collection': null,
         'member': '/api/v1/boards'
     };
+
+    this.invalidMessages = {
+        'board': {
+            'subject': []
+        }
+    };
 };
 
 Board.prototype = BaseModel.prototype;
@@ -165,6 +187,8 @@ var BaseViewModel = function () {
     this.alertSuccessMessage = ko.observable();
     this.alertErrorMessage = ko.observable();
 
+    this.invalidMessages = ko.observable();
+
     this.closeAlertSuccess = function () {
         this.alertSuccessMessage(null);
     }.bind(this);
@@ -187,6 +211,19 @@ var ViewModel = function () {
     self.selectedBoard;
 
     self.baseViewModel = new BaseViewModel();
+    self.baseViewModel.invalidMessages(self.board.invalidMessages);
+
+    self.boardValidation = ko.computed(function () {
+        self.board.validation(ko.toJSON({'board': self.board}))
+            .done(function (response) {
+                console.log(response);
+                self.baseViewModel.invalidMessages(self.board.invalidMessages);
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.invalidMessages({'board': response.responseJSON});
+            });
+    });
 
     self.listBoard = function () {
         self.board.search()

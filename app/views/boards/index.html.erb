@@ -41,9 +41,12 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
+                    <div class="form-group" data-bind="css: {'has-error': baseViewModel.invalidMessages().board.subject.length > 0, 'has-success': baseViewModel.invalidMessages().board.subject.length == 0}">
                         <label for="subject" class="control-label">ボード名:</label>
-                        <input type="text" class="form-control" id="subject" data-bind="value: board.subject">
+                        <input type="text" class="form-control" id="subject" data-bind="value: board.subject, valueUpdate: 'keyup'">
+                        <!-- ko foreach: baseViewModel.invalidMessages().board.subject -->
+                        <p class="help-block" data-bind="text: $data"></p>
+                        <!-- /ko -->
                     </div>
                 </form>
             </div>

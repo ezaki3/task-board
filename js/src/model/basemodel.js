@@ -33,6 +33,22 @@ BaseModel.prototype.create = function (data, urlType) {
     return d.promise();
 };
 
+BaseModel.prototype.validation = function (data, urlType) {
+    var d = $.Deferred();
+    $.ajax({
+        url: this.apiUrl[urlType || 'member'] + '/dryrun',
+        method: 'POST',
+        contentType: 'application/json',
+        data: data})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
 BaseModel.prototype.find = function (id) {
     var d = $.Deferred();
     $.ajax({url: this.apiUrl.member + '/' + id})
