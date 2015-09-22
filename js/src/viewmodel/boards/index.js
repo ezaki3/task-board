@@ -8,13 +8,13 @@ var ViewModel = function () {
     self.selectedBoard;
 
     self.baseViewModel = new BaseViewModel();
-    self.baseViewModel.invalidMessages(self.board.invalidMessages);
+    self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
 
     self.boardValidation = ko.computed(function () {
         self.board.validation(ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages(self.board.invalidMessages);
+                self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
             })
             .fail(function (response) {
                 console.log(response);

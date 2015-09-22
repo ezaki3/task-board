@@ -133,9 +133,7 @@ var Board = function (id, subject, priority) {
     };
 
     this.invalidMessages = {
-        'board': {
-            'subject': []
-        }
+        'subject': []
     };
 };
 
@@ -157,6 +155,10 @@ var Group = function (id, board_id, subject, priority) {
         'collection': '/api/v1/boards/' + board_id + '/groups',
         'member': '/api/v1/groups'
     };
+
+    this.invalidMessages = {
+        'subject': []
+    };
 };
 
 Group.prototype = BaseModel.prototype;
@@ -175,6 +177,11 @@ var Task = function (id, group_id, subject, body, priority) {
     this.apiUrl = {
         'collection': '/api/v1/groups/' + group_id + '/tasks',
         'member': '/api/v1/tasks'
+    };
+
+    this.invalidMessages = {
+        'subject': [],
+        'body': []
     };
 };
 
@@ -211,13 +218,13 @@ var ViewModel = function () {
     self.selectedBoard;
 
     self.baseViewModel = new BaseViewModel();
-    self.baseViewModel.invalidMessages(self.board.invalidMessages);
+    self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
 
     self.boardValidation = ko.computed(function () {
         self.board.validation(ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages(self.board.invalidMessages);
+                self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
             })
             .fail(function (response) {
                 console.log(response);
@@ -313,6 +320,56 @@ var ViewModel = function () {
     self.board = new Board(null, null, null);
 
     self.baseViewModel = new BaseViewModel();
+    self.baseViewModel.invalidMessages({
+        'group': self.group.invalidMessages,
+        'task': self.task.invalidMessages
+    });
+
+    self.groupValidation = ko.computed(function () {
+        if (self.group.board_id() == null) {
+            return false;
+        }
+
+        var group = new Group(null, self.group.board_id(), self.group.subject(), self.group.priority());
+        group.validation(ko.toJSON({'group': group}), 'collection')
+            .done(function (response) {
+                console.log(response);
+                self.baseViewModel.invalidMessages({
+                    'group': self.group.invalidMessages,
+                    'task': self.task.invalidMessages
+                });
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.invalidMessages({
+                    'group': response.responseJSON,
+                    'task': self.task.invalidMessages
+                });
+            });
+    });
+
+    self.taskValidation = ko.computed(function () {
+        if (self.task.group_id() == null) {
+            return false;
+        }
+
+        var task = new Task(null, self.task.group_id(), self.task.subject(), self.task.body(), self.task.priority());
+        task.validation(ko.toJSON({'task': task}), 'collection')
+            .done(function (response) {
+                console.log(response);
+                self.baseViewModel.invalidMessages({
+                    'group': self.group.invalidMessages,
+                    'task': self.task.invalidMessages
+                });
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.invalidMessages({
+                    'group': self.group.invalidMessages,
+                    'task': response.responseJSON
+                });
+            });
+    });
 
     self.listGroup = function (id) {
         self.board.find(id)

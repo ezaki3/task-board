@@ -12,9 +12,7 @@ var Board = function (id, subject, priority) {
     };
 
     this.invalidMessages = {
-        'board': {
-            'subject': []
-        }
+        'subject': []
     };
 };
 

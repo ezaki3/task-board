@@ -45,13 +45,19 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
+                    <div class="form-group" data-bind="css: {'has-error': baseViewModel.invalidMessages().task.subject.length > 0, 'has-success': baseViewModel.invalidMessages().task.subject.length == 0}">
                         <label for="subject" class="control-label">タスク名:</label>
-                        <input type="text" class="form-control" id="subject" data-bind="value: task.subject">
+                        <input type="text" class="form-control" id="subject" data-bind="value: task.subject, valueUpdate: 'keyup'">
+                        <!-- ko foreach: baseViewModel.invalidMessages().task.subject -->
+                        <p class="help-block" data-bind="text: $data"></p>
+                        <!-- /ko -->
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" data-bind="css: {'has-error': baseViewModel.invalidMessages().task.body.length > 0, 'has-success': baseViewModel.invalidMessages().task.body.length == 0}">
                         <label for="body" class="control-label">内容:</label>
-                        <textarea class="form-control" id="body" data-bind="value: task.body"></textarea>
+                        <textarea class="form-control" id="body" data-bind="value: task.body, valueUpdate: 'keyup'"></textarea>
+                        <!-- ko foreach: baseViewModel.invalidMessages().task.body -->
+                        <p class="help-block" data-bind="text: $data"></p>
+                        <!-- /ko -->
                     </div>
                 </form>
             </div>
@@ -74,9 +80,12 @@
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="form-group">
+                    <div class="form-group" data-bind="css: {'has-error': baseViewModel.invalidMessages().group.subject.length > 0, 'has-success': baseViewModel.invalidMessages().group.subject.length == 0}">
                         <label for="subject" class="control-label">グループ名:</label>
-                        <input type="text" class="form-control" id="subject" data-bind="value: group.subject">
+                        <input type="text" class="form-control" id="subject" data-bind="value: group.subject, valueUpdate: 'keyup'">
+                        <!-- ko foreach: baseViewModel.invalidMessages().group.subject -->
+                        <p class="help-block" data-bind="text: $data"></p>
+                        <!-- /ko -->
                     </div>
                 </form>
             </div>
