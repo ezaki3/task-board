@@ -41,6 +41,37 @@ describe('board', function () {
         expect(viewModel.board.id()).toBe(board.id());
     });
 
+    it('validationSuccess', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
+                'id': null,
+                'subject': 'Happy board',
+                'priority': null,
+                'groups': []
+            });
+            return d.promise();
+        });
+
+        viewModel.board.subject('Happy board');
+        expect(viewModel.baseViewModel.invalidMessages().board.subject.length).toBe(0);
+    });
+
+    it('validationError', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.reject({
+                'responseJSON': {
+                    'subject': ["can't be blank"]
+                }
+            });
+            return d.promise();
+        });
+
+        viewModel.board.subject('');
+        expect(viewModel.baseViewModel.invalidMessages().board.subject.length).toBe(1);
+    });
+
     it('createBoard', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();

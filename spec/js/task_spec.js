@@ -20,6 +20,44 @@ describe('task', function () {
         expect(viewModel.task.id()).toBe(task.id());
     });
 
+    it('validationSuccess', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
+                'id': null,
+                'subject': 'Happy task',
+                'body': 'Create something new',
+                'priority': null,
+                'group': {
+                    'id': 1,
+                    'subject': 'Happy group',
+                    'priority': 1
+                }
+            });
+            return d.promise();
+        });
+
+        viewModel.task.group_id(1);
+        viewModel.task.subject('Happy task');
+        expect(viewModel.baseViewModel.invalidMessages().task.subject.length).toBe(0);
+    });
+
+    it('validationError', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.reject({
+                'responseJSON': {
+                    'subject': ["can't be blank"]
+                }
+            });
+            return d.promise();
+        });
+
+        viewModel.task.group_id(1);
+        viewModel.task.subject('');
+        expect(viewModel.baseViewModel.invalidMessages().task.subject.length).toBe(1);
+    });
+
     it('createTask', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();

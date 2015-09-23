@@ -10,6 +10,11 @@ var Task = function (id, group_id, subject, body, priority) {
         'collection': '/api/v1/groups/' + group_id + '/tasks',
         'member': '/api/v1/tasks'
     };
+
+    this.invalidMessages = {
+        'subject': [],
+        'body': []
+    };
 };
 
 Task.prototype = BaseModel.prototype;

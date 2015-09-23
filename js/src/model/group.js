@@ -11,6 +11,10 @@ var Group = function (id, board_id, subject, priority) {
         'collection': '/api/v1/boards/' + board_id + '/groups',
         'member': '/api/v1/groups'
     };
+
+    this.invalidMessages = {
+        'subject': []
+    };
 };
 
 Group.prototype = BaseModel.prototype;

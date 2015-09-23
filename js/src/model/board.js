@@ -10,6 +10,10 @@ var Board = function (id, subject, priority) {
         'collection': null,
         'member': '/api/v1/boards'
     };
+
+    this.invalidMessages = {
+        'subject': []
+    };
 };
 
 Board.prototype = BaseModel.prototype;
