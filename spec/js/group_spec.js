@@ -64,6 +64,43 @@ describe('group', function () {
         expect(viewModel.group.id()).toBe(group.id());
     });
 
+    it('validationSuccess', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
+                'id': null,
+                'subject': 'Happy group',
+                'priority': null,
+                'board': {
+                    'id': 1,
+                    'subject': 'Happy board',
+                    'priority': 1
+                }
+            });
+            return d.promise();
+        });
+
+        viewModel.group.board_id(1);
+        viewModel.group.subject('Happy group');
+        expect(viewModel.baseViewModel.invalidMessages().group.subject.length).toBe(0);
+    });
+
+    it('validationError', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.reject({
+                'responseJSON': {
+                    'subject': ["can't be blank"]
+                }
+            });
+            return d.promise();
+        });
+
+        viewModel.group.board_id(1);
+        viewModel.group.subject('');
+        expect(viewModel.baseViewModel.invalidMessages().group.subject.length).toBe(1);
+    });
+
     it('createGroup', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
