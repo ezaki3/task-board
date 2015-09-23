@@ -1,7 +1,7 @@
 class Board < ActiveRecord::Base
   include CardBehavior
 
-  has_many :groups
+  has_many :groups, -> { order(:priority) }
 
   private
 

@@ -2,7 +2,7 @@ class Group < ActiveRecord::Base
   include CardBehavior
 
   belongs_to :board
-  has_many :tasks
+  has_many :tasks, -> { order(:priority) }
 
   private
 
