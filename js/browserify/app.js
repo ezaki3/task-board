@@ -213,7 +213,7 @@ var Board = require('../../model/board.js');
 var ViewModel = function () {
     var self = this;
 
-    self.board = new Board(null, null, null, null);
+    self.board = new Board(null, null, null);
     self.boards = ko.observableArray();
     self.selectedBoard;
 
@@ -255,6 +255,7 @@ var ViewModel = function () {
         self.selectedBoard = board;
         self.board.id(board.id());
         self.board.subject(board.subject());
+        self.board.priority(board.priority());
         $('#boardModal').modal('show');
     }.bind(self);
 
