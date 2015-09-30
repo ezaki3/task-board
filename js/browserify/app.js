@@ -283,7 +283,7 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                self.baseViewModel.alertErrorMessage('error');
             });
     }.bind(self);
 
@@ -298,6 +298,22 @@ var ViewModel = function () {
             .fail(function (response) {
                 console.log(response);
                 self.baseViewModel.alertErrorMessage('error');
+            });
+    }.bind(self);
+
+    self.moveBoard = function (sort) {
+        self.selectedBoard = sort.item;
+        self.board.id(sort.item.id());
+        self.board.subject(sort.item.subject());
+        self.board.priority(sort.targetIndex + 1);
+
+        self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
+            .done(function (response) {
+                console.log(response);
+                self.selectedBoard.priority(response.priority);
+            })
+            .fail(function (response) {
+                console.log(response);
             });
     }.bind(self);
 };

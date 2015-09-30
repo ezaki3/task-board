@@ -20,7 +20,7 @@
         <button class="close" data-bind="baseViewModel.closeAlertError">&times;</button>
         <!-- ko text: baseViewModel.alertErrorMessage--><!--/ko-->
     </div>
-    <div class="row" data-bind="sortable: {data: boards}">
+    <div class="row" data-bind="sortable: {data: boards, afterMove: moveBoard}">
         <div class="col-md-4">
             <div class="thumbnail">
                 <div class="caption">
