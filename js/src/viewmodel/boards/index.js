@@ -43,10 +43,18 @@ var ViewModel = function () {
 
     self.findBoard = function (board) {
         self.selectedBoard = board;
-        self.board.id(board.id());
-        self.board.subject(board.subject());
-        self.board.priority(board.priority());
-        $('#boardModal').modal('show');
+        self.board.find(board.id())
+            .done(function (response) {
+                console.log(response);
+                self.board.id(board.id());
+                self.board.subject(response.subject);
+                self.board.priority(response.priority);
+                $('#boardModal').modal('show');
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error');
+            });
     }.bind(self);
 
     self.createBoard = function () {
@@ -68,6 +76,7 @@ var ViewModel = function () {
             .done(function (response) {
                 console.log(response);
                 self.selectedBoard.subject(response.subject);
+                self.selectedBoard.priority(response.priority);
                 $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
