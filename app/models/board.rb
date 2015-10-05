@@ -5,17 +5,11 @@ class Board < ActiveRecord::Base
 
   private
 
-  def default_priority
-    self.priority ||= (self.class.maximum(:priority) || 0).next
-  end
-
-  def shift_other_priorities
-    return default_priority if self.priority.blank?
+  def adjust_priority
+    self.priority = (Board.maximum(:priority) || 0).next if self.priority.blank?
     return if Board.find_by(priority: self.priority).blank?
-    Board.where(
-      'priority >= ?', self.priority
-    ).update_all(
-      'priority = priority + 1'
-    )
+    Board.where('priority >= ?', self.priority)
+      .where.not(id: self.id)
+      .update_all('priority = priority + 1')
   end
 end
