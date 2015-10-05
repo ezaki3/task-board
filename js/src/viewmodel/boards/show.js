@@ -208,6 +208,11 @@ var ViewModel = function () {
                 self.baseViewModel.alertErrorMessage('error');
             });
     }.bind(self);
+
+    self.moveTask = function (sort) {
+        // self.selectedTask = sort.item;
+        console.log(sort);
+    }.bind(self);
 };
 
 module.exports = ViewModel;

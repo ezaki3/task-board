@@ -27,7 +27,7 @@
                     <a href="#" data-bind="click: $parent.findGroup"><span class="glyphicon glyphicon-cog close" aria-hidden="true"></span></a>
                     <!-- ko text: subject--><!--/ko-->
                 </div>
-                <div class="list-group" data-bind="sortable: {data: tasks, connectClass: 'list-group'}">
+                <div class="list-group" data-bind="sortable: {data: tasks, connectClass: 'list-group', afterMove: $parent.moveTask}">
                     <a href="#" class="list-group-item" data-bind="text: subject, click: $parents[1].findTask.bind($data, $parent)"></a>
                 </div>
                 <div class="panel-footer"><a href="#" data-bind="click: $parent.openTaskModal">Add a task...</a></div>
