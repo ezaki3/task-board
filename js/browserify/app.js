@@ -392,7 +392,7 @@ var ViewModel = function () {
                 console.log(response);
                 self.baseViewModel.invalidMessages({
                     'group': self.group.invalidMessages,
-                    'task': response.responseJSON
+                    'task': $.extend(self.task.invalidMessages, response.responseJSON)
                 });
             });
     });
@@ -408,6 +408,7 @@ var ViewModel = function () {
                     g.tasks(group.tasks.map(function (task) {
                         return new Task(task.id, group.id, task.subject, task.body, task.priority);
                     }));
+                    g.tasks.group_id = group.id;
                     return g;
                 }));
             })
@@ -542,8 +543,22 @@ var ViewModel = function () {
     }.bind(self);
 
     self.moveTask = function (sort) {
-        // self.selectedTask = sort.item;
-        console.log(sort);
+        self.selectedTask = sort.item;
+        self.task.id(sort.item.id());
+        self.task.group_id(sort.targetParent.group_id);
+        self.task.subject(sort.item.subject());
+        self.task.body(sort.item.body());
+        self.task.priority(sort.targetIndex + 1);
+
+        self.task.edit(self.task.id(), ko.toJSON({'task': self.task}))
+            .done(function (response) {
+                console.log(response);
+                self.selectedTask.group_id(response.group.id);
+                self.selectedTask.priority(response.priority);
+            })
+            .fail(function (response) {
+                console.log(response);
+            });
     }.bind(self);
 };
 
