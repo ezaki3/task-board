@@ -106,12 +106,20 @@ var ViewModel = function () {
     self.findTask = function (group, task) {
         self.selectedTask = task;
         self.selectedGroup = group;
-        self.task.id(task.id());
-        self.task.subject(task.subject());
-        self.task.body(task.body());
-        self.task.group_id(task.group_id());
-        self.task.priority(task.priority());
-        $('#taskModal').modal('show');
+        self.task.find(task.id())
+            .done(function (response) {
+                console.log(response);
+                self.task.id(response.id);
+                self.task.subject(response.subject);
+                self.task.body(response.body);
+                self.task.group_id(response.group.id);
+                self.task.priority(response.priority);
+                $('#taskModal').modal('show');
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error');
+            });
     }.bind(self);
 
     self.findGroup = function (group) {
