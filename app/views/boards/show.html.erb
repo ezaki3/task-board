@@ -20,7 +20,7 @@
         <button class="close" data-bind="baseViewModel.closeAlertError">&times;</button>
         <!-- ko text: baseViewModel.alertErrorMessage--><!--/ko-->
     </div>
-    <div class="row" data-bind="sortable: {data: board.groups, connectClass: 'row'}">
+    <div class="row" data-bind="sortable: {data: board.groups, connectClass: 'row', afterMove: moveGroup}">
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">

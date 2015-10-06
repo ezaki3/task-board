@@ -76,7 +76,7 @@ var ViewModel = function () {
                     g.tasks(group.tasks.map(function (task) {
                         return new Task(task.id, group.id, task.subject, task.body, task.priority);
                     }));
-                    g.tasks.group_id = group.id;
+                    g.tasks.group_id = group.id; // use to moveTask
                     return g;
                 }));
             })
@@ -234,6 +234,24 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
+            });
+    }.bind(self);
+
+    self.moveGroup = function (sort) {
+        self.selectedGroup = sort.item;
+        self.group.id(sort.item.id());
+        self.group.board_id(sort.item.board_id());
+        self.group.subject(sort.item.subject());
+        self.group.priority(sort.targetIndex + 1);
+
+        self.group.edit(self.group.id(), ko.toJSON({'group': self.group}))
+            .done(function (response) {
+                console.log(response);
+                self.selectedGroup.priority(response.priority);
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error')
             });
     }.bind(self);
 };
