@@ -35,6 +35,17 @@ describe('board', function () {
     });
 
     it('findBoard', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
+                'id': 1,
+                'subject': 'Happy board',
+                'priority': 1,
+                'groups': []
+            });
+            return d.promise();
+        });
+
         expect(viewModel.board.id()).toBe(null);
         var board = new Board(1, 'Happy board', 1);
         viewModel.findBoard(board);
@@ -124,5 +135,27 @@ describe('board', function () {
         viewModel.selectedBoard = viewModel.boards()[1];
         viewModel.deleteBoard();
         expect(viewModel.boards().length).toBe(1);
+    });
+
+    it('moveBoard', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
+                'id': 1,
+                'subject': 'Happy board',
+                'priority': 1,
+                'groups': []
+            });
+            return d.promise();
+        });
+
+        var board = new Board(1, 'Happy board', 2);
+        expect(board.priority()).toBe(2);
+
+        viewModel.moveBoard({
+            item: board,
+            targetIndex: 0
+        });
+        expect(viewModel.selectedBoard.priority()).toBe(1);
     });
 });

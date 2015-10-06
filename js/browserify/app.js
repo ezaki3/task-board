@@ -213,7 +213,7 @@ var Board = require('../../model/board.js');
 var ViewModel = function () {
     var self = this;
 
-    self.board = new Board(null, null, null, null);
+    self.board = new Board(null, null, null);
     self.boards = ko.observableArray();
     self.selectedBoard;
 
@@ -253,9 +253,18 @@ var ViewModel = function () {
 
     self.findBoard = function (board) {
         self.selectedBoard = board;
-        self.board.id(board.id());
-        self.board.subject(board.subject());
-        $('#boardModal').modal('show');
+        self.board.find(board.id())
+            .done(function (response) {
+                console.log(response);
+                self.board.id(board.id());
+                self.board.subject(response.subject);
+                self.board.priority(response.priority);
+                $('#boardModal').modal('show');
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error');
+            });
     }.bind(self);
 
     self.createBoard = function () {
@@ -277,12 +286,13 @@ var ViewModel = function () {
             .done(function (response) {
                 console.log(response);
                 self.selectedBoard.subject(response.subject);
+                self.selectedBoard.priority(response.priority);
                 $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                self.baseViewModel.alertErrorMessage('error');
             });
     }.bind(self);
 
@@ -297,6 +307,22 @@ var ViewModel = function () {
             .fail(function (response) {
                 console.log(response);
                 self.baseViewModel.alertErrorMessage('error');
+            });
+    }.bind(self);
+
+    self.moveBoard = function (sort) {
+        self.selectedBoard = sort.item;
+        self.board.id(sort.item.id());
+        self.board.subject(sort.item.subject());
+        self.board.priority(sort.targetIndex + 1);
+
+        self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
+            .done(function (response) {
+                console.log(response);
+                self.selectedBoard.priority(response.priority);
+            })
+            .fail(function (response) {
+                console.log(response);
             });
     }.bind(self);
 };
@@ -366,7 +392,7 @@ var ViewModel = function () {
                 console.log(response);
                 self.baseViewModel.invalidMessages({
                     'group': self.group.invalidMessages,
-                    'task': response.responseJSON
+                    'task': $.extend(self.task.invalidMessages, response.responseJSON)
                 });
             });
     });
@@ -382,6 +408,7 @@ var ViewModel = function () {
                     g.tasks(group.tasks.map(function (task) {
                         return new Task(task.id, group.id, task.subject, task.body, task.priority);
                     }));
+                    g.tasks.group_id = group.id; // use to moveTask
                     return g;
                 }));
             })
@@ -411,21 +438,37 @@ var ViewModel = function () {
     self.findTask = function (group, task) {
         self.selectedTask = task;
         self.selectedGroup = group;
-        self.task.id(task.id());
-        self.task.subject(task.subject());
-        self.task.body(task.body());
-        self.task.group_id(task.group_id());
-        self.task.priority(task.priority());
-        $('#taskModal').modal('show');
+        self.task.find(task.id())
+            .done(function (response) {
+                console.log(response);
+                self.task.id(response.id);
+                self.task.subject(response.subject);
+                self.task.body(response.body);
+                self.task.group_id(response.group.id);
+                self.task.priority(response.priority);
+                $('#taskModal').modal('show');
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error');
+            });
     }.bind(self);
 
     self.findGroup = function (group) {
         self.selectedGroup = group;
-        self.group.id(group.id());
-        self.group.board_id(group.board_id());
-        self.group.subject(group.subject());
-        self.group.priority(group.priority());
-        $('#groupModal').modal('show');
+        self.group.find(group.id())
+            .done(function (response) {
+                console.log(response);
+                self.group.id(response.id);
+                self.group.board_id(response.board.id);
+                self.group.subject(response.subject);
+                self.group.priority(response.priority);
+                $('#groupModal').modal('show');
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error');
+            });
     }.bind(self);
 
     self.createTask = function () {
@@ -512,6 +555,43 @@ var ViewModel = function () {
             .fail(function (response) {
                 console.log(response);
                 self.baseViewModel.alertErrorMessage('error');
+            });
+    }.bind(self);
+
+    self.moveTask = function (sort) {
+        self.selectedTask = sort.item;
+        self.task.id(sort.item.id());
+        self.task.group_id(sort.targetParent.group_id);
+        self.task.subject(sort.item.subject());
+        self.task.body(sort.item.body());
+        self.task.priority(sort.targetIndex + 1);
+
+        self.task.edit(self.task.id(), ko.toJSON({'task': self.task}))
+            .done(function (response) {
+                console.log(response);
+                self.selectedTask.group_id(response.group.id);
+                self.selectedTask.priority(response.priority);
+            })
+            .fail(function (response) {
+                console.log(response);
+            });
+    }.bind(self);
+
+    self.moveGroup = function (sort) {
+        self.selectedGroup = sort.item;
+        self.group.id(sort.item.id());
+        self.group.board_id(sort.item.board_id());
+        self.group.subject(sort.item.subject());
+        self.group.priority(sort.targetIndex + 1);
+
+        self.group.edit(self.group.id(), ko.toJSON({'group': self.group}))
+            .done(function (response) {
+                console.log(response);
+                self.selectedGroup.priority(response.priority);
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error')
             });
     }.bind(self);
 };

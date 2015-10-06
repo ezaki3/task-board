@@ -14,6 +14,22 @@ describe('task', function () {
     });
 
     it('findTask', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
+                'id': 1,
+                'subject': 'Edit task',
+                'body': 'Create something new',
+                'priority': 1,
+                'group': {
+                    'id': 1,
+                    'subject': 'Happy group',
+                    'priority': 1
+                }
+            });
+            return d.promise();
+        });
+
         expect(viewModel.task.id()).toBe(null);
         var task = new Task(1, 1, 'Happy task', 'Create something new', 1);
         viewModel.findTask({}, task);
@@ -126,5 +142,34 @@ describe('task', function () {
         viewModel.selectedTask = group.tasks()[1];
         viewModel.deleteTask();
         expect(group.tasks().length).toBe(1);
+    });
+
+    it('moveTask', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve({
+                'id': 1,
+                'subject': 'Happy task',
+                'body': 'Create something new',
+                'priority': 1,
+                'group': {
+                    'id': 1,
+                    'subject': 'Happy group',
+                    'priority': 1
+                }
+            });
+            return d.promise();
+        });
+
+        var task = new Task(1, 1, 'Happy task', 'Create something new', 2);
+        expect(task.priority()).toBe(2);
+        viewModel.moveTask({
+            item: task,
+            targetIndex: 0,
+            targetParent: {
+                group_id: 1
+            }
+        });
+        expect(viewModel.selectedTask.priority()).toBe(1);
     });
 });

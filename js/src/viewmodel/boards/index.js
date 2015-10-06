@@ -3,7 +3,7 @@ var Board = require('../../model/board.js');
 var ViewModel = function () {
     var self = this;
 
-    self.board = new Board(null, null, null, null);
+    self.board = new Board(null, null, null);
     self.boards = ko.observableArray();
     self.selectedBoard;
 
@@ -43,9 +43,18 @@ var ViewModel = function () {
 
     self.findBoard = function (board) {
         self.selectedBoard = board;
-        self.board.id(board.id());
-        self.board.subject(board.subject());
-        $('#boardModal').modal('show');
+        self.board.find(board.id())
+            .done(function (response) {
+                console.log(response);
+                self.board.id(board.id());
+                self.board.subject(response.subject);
+                self.board.priority(response.priority);
+                $('#boardModal').modal('show');
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error');
+            });
     }.bind(self);
 
     self.createBoard = function () {
@@ -67,12 +76,13 @@ var ViewModel = function () {
             .done(function (response) {
                 console.log(response);
                 self.selectedBoard.subject(response.subject);
+                self.selectedBoard.priority(response.priority);
                 $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                self.baseViewModel.alertErrorMessage('error');
             });
     }.bind(self);
 
@@ -87,6 +97,22 @@ var ViewModel = function () {
             .fail(function (response) {
                 console.log(response);
                 self.baseViewModel.alertErrorMessage('error');
+            });
+    }.bind(self);
+
+    self.moveBoard = function (sort) {
+        self.selectedBoard = sort.item;
+        self.board.id(sort.item.id());
+        self.board.subject(sort.item.subject());
+        self.board.priority(sort.targetIndex + 1);
+
+        self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
+            .done(function (response) {
+                console.log(response);
+                self.selectedBoard.priority(response.priority);
+            })
+            .fail(function (response) {
+                console.log(response);
             });
     }.bind(self);
 };
