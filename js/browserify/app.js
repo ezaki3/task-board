@@ -456,11 +456,19 @@ var ViewModel = function () {
 
     self.findGroup = function (group) {
         self.selectedGroup = group;
-        self.group.id(group.id());
-        self.group.board_id(group.board_id());
-        self.group.subject(group.subject());
-        self.group.priority(group.priority());
-        $('#groupModal').modal('show');
+        self.group.find(group.id())
+            .done(function (response) {
+                console.log(response);
+                self.group.id(response.id);
+                self.group.board_id(response.board.id);
+                self.group.subject(response.subject);
+                self.group.priority(response.priority);
+                $('#groupModal').modal('show');
+            })
+            .fail(function (response) {
+                console.log(response);
+                self.baseViewModel.alertErrorMessage('error');
+            });
     }.bind(self);
 
     self.createTask = function () {
