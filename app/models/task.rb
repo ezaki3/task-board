@@ -3,17 +3,5 @@ class Task < ActiveRecord::Base
 
   belongs_to :group
 
-  private
-
-  def adjust_priority
-    if self.priority.blank?
-      self.priority = (Task.where(group_id: self.group_id).maximum(:priority) || 0).next
-      return
-    end
-    return if Task.find_by(group_id: self.group_id, priority: self.priority).blank?
-    Task.where(group_id: self.group_id)
-      .where('priority >= ?', self.priority)
-      .where.not(id: self.id)
-      .update_all('priority = priority + 1')
-  end
+  alias_attribute :parent_id, :group_id
 end
