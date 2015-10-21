@@ -68,7 +68,7 @@ RSpec.describe Task, type: :model do
         end
       end
 
-      context 'on another board' do
+      context 'on another group' do
         let(:group_id) { task.group_id + 1 }
 
         it 'sets 1' do
@@ -76,40 +76,40 @@ RSpec.describe Task, type: :model do
           expect(Task.find_by(subject: 'a').priority).to eq 1
         end
       end
+    end
 
-      context 'if priority is present' do
-        context 'when same priority is not exist' do
-          let(:priority) { 999 }
+    context 'if priority is present' do
+      context 'when same priority is not exist' do
+        let(:priority) { 999 }
+        let(:group_id) { task.group_id }
+
+        it 'sets given value' do
+          Task.create(creates)
+          expect(Task.find_by(subject: 'a').priority).to eq priority
+          expect(Task.find(task.id).priority).to eq task.priority
+        end
+      end
+
+      context 'when same priority is exist' do
+        let(:priority) { task.priority }
+
+        context 'on same group' do
           let(:group_id) { task.group_id }
 
-          it 'sets given value' do
+          it 'sets given value and increment existent value' do
+            Task.create(creates)
+            expect(Task.find_by(subject: 'a').priority).to eq priority
+            expect(Task.find(task.id).priority).to eq task.priority + 1
+          end
+        end
+
+        context 'on another group' do
+          let(:group_id) { task.group_id + 1 }
+
+          it 'sets given value and NOT increment existent value' do
             Task.create(creates)
             expect(Task.find_by(subject: 'a').priority).to eq priority
             expect(Task.find(task.id).priority).to eq task.priority
-          end
-
-          context 'when same priority is exist' do
-            let(:priority) { task.priority }
-
-            context 'on same group' do
-              let(:group_id) { task.group_id }
-
-              it 'sets given value and increment existent value' do
-                Task.create(creates)
-                expect(Task.find_by(subject: 'a').priority).to eq priority
-                expect(Task.find(task.id).priority).to eq task.priority + 1
-              end
-            end
-
-            context 'on another group' do
-              let(:group_id) { task.group_id + 1 }
-
-              it 'sets given value and NOT increment existent value' do
-                Task.create(creates)
-                expect(Task.find_by(subject: 'a').priority).to eq priority
-                expect(Task.find(task.id).priority).to eq task.priority
-              end
-            end
           end
         end
       end
@@ -150,29 +150,28 @@ RSpec.describe Task, type: :model do
           expect(Task.find(@tasks.first.id).priority).to eq 999
           expect(Task.find(@tasks.second.id).priority).to eq @tasks.second.priority
         end
+      end
 
-        context 'when same priority is exist' do
-          context 'on same group' do
-            it 'sets given value and increment existent value' do
-              @tasks.first.subject = 'lucky task'
-              @tasks.first.save
-              expect(Task.find(@tasks.first.id).priority).to eq @tasks.first.priority
-              expect(Task.find(@tasks.second.id).priority).to eq @tasks.first.priority + 1
-            end
+      context 'when same priority is exist' do
+        context 'on same group' do
+          it 'sets given value and increment existent value' do
+            @tasks.first.subject = 'lucky task'
+            @tasks.first.save
+            expect(Task.find(@tasks.first.id).priority).to eq @tasks.first.priority
+            expect(Task.find(@tasks.second.id).priority).to eq @tasks.first.priority + 1
           end
+        end
 
-          context 'when another group' do
-            it 'sets given value and NOT increment existent valud' do
-              @tasks.first.group_id = 2
-              @tasks.first.subject = 'lucky task'
-              @tasks.first.save
-              expect(Task.find(@tasks.first.id).priority).to eq @tasks.first.priority
-              expect(Task.find(@tasks.second.id).priority).to eq @tasks.first.priority
-            end
+        context 'when another group' do
+          it 'sets given value and NOT increment existent valud' do
+            @tasks.first.group_id = 2
+            @tasks.first.subject = 'lucky task'
+            @tasks.first.save
+            expect(Task.find(@tasks.first.id).priority).to eq @tasks.first.priority
+            expect(Task.find(@tasks.second.id).priority).to eq @tasks.first.priority
           end
         end
       end
     end
-
   end
 end

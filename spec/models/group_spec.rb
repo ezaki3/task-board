@@ -87,28 +87,28 @@ RSpec.describe Group, type: :model do
           expect(Group.find_by(subject: 'a').priority).to eq priority
           expect(Group.find(group.id).priority).to eq group.priority
         end
+      end
 
-        context 'when same priority is exist' do
-          let(:priority) { group.priority }
+      context 'when same priority is exist' do
+        let(:priority) { group.priority }
 
-          context 'on same board' do
-            let(:board_id) { group.board_id }
+        context 'on same board' do
+          let(:board_id) { group.board_id }
 
-            it 'sets given value and increment existent value' do
-              Group.create(creates)
-              expect(Group.find_by(subject: 'a').priority).to eq priority
-              expect(Group.find(group.id).priority).to eq group.priority + 1
-            end
+          it 'sets given value and increment existent value' do
+            Group.create(creates)
+            expect(Group.find_by(subject: 'a').priority).to eq priority
+            expect(Group.find(group.id).priority).to eq group.priority + 1
           end
+        end
 
-          context 'on another board' do
-            let(:board_id) { group.board_id + 1 }
+        context 'on another board' do
+          let(:board_id) { group.board_id + 1 }
 
-            it 'sets given value and NOT increment existent value' do
-              Group.create(creates)
-              expect(Group.find_by(subject: 'a').priority).to eq priority
-              expect(Group.find(group.id).priority).to eq group.priority
-            end
+          it 'sets given value and NOT increment existent value' do
+            Group.create(creates)
+            expect(Group.find_by(subject: 'a').priority).to eq priority
+            expect(Group.find(group.id).priority).to eq group.priority
           end
         end
       end
@@ -149,25 +149,25 @@ RSpec.describe Group, type: :model do
           expect(Group.find(@groups.first.id).priority).to eq 999
           expect(Group.find(@groups.second.id).priority).to eq @groups.second.priority
         end
+      end
 
-        context 'when same priority is exist' do
-          context 'on same board' do
-            it 'sets given value and increment existent vale' do
-              @groups.first.subject = 'lucky group'
-              @groups.first.save
-              expect(Group.find(@groups.first.id).priority).to eq @groups.first.priority
-              expect(Group.find(@groups.second.id).priority).to eq @groups.first.priority + 1
-            end
+      context 'when same priority is exist' do
+        context 'on same board' do
+          it 'sets given value and increment existent vale' do
+            @groups.first.subject = 'lucky group'
+            @groups.first.save
+            expect(Group.find(@groups.first.id).priority).to eq @groups.first.priority
+            expect(Group.find(@groups.second.id).priority).to eq @groups.first.priority + 1
           end
+        end
 
-          context 'on another group' do
-            it 'sets given value and NOT increment existent value' do
-              @groups.first.board_id = 2
-              @groups.first.subject = 'lucky group'
-              @groups.first.save
-              expect(Group.find(@groups.first.id).priority).to eq @groups.first.priority
-              expect(Group.find(@groups.second.id).priority).to eq @groups.second.priority
-            end
+        context 'on another group' do
+          it 'sets given value and NOT increment existent value' do
+            @groups.first.board_id = 2
+            @groups.first.subject = 'lucky group'
+            @groups.first.save
+            expect(Group.find(@groups.first.id).priority).to eq @groups.first.priority
+            expect(Group.find(@groups.second.id).priority).to eq @groups.second.priority
           end
         end
       end
