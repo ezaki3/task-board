@@ -3,6 +3,8 @@ class Board < ActiveRecord::Base
 
   has_many :groups, -> { order(:priority) }
 
+  attr_accessor :parent_id
+
   def parent_id
     nil
   end

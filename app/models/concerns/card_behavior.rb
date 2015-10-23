@@ -2,6 +2,8 @@ module CardBehavior
   extend ActiveSupport::Concern
 
   included do
+    alias_attribute :name, :subject # For RSpec !?
+
     validates :subject, presence: true
     validates :priority, numericality: {only_integer: true}, allow_blank: true
 
