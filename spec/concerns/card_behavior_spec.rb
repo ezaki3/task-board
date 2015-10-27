@@ -149,10 +149,11 @@ RSpec.shared_examples 'card behavior' do
 
   describe '#adjust_priority updates' do
     before do
-      resource1 = create(obj_name, parent_id: 1, priority: 11)
-      resource2 = create(obj_name, parent_id: 1, priority: 12)
-      resource3 = create(obj_name, parent_id: 1, priority: 13)
-      @resources = [resource1, resource2, resource3]
+      @resources = [
+        create(obj_name, parent_id: 1, priority: 11),
+        create(obj_name, parent_id: 1, priority: 12),
+        create(obj_name, parent_id: 1, priority: 13)
+      ]
     end
 
     context 'priority is not present' do
@@ -187,7 +188,7 @@ RSpec.shared_examples 'card behavior' do
       context 'when same priority is exist' do
         context 'on same parent' do
           context 'move downward' do
-            it 'sets given value and adjust other resources' do
+            it 'sets given value and adjusts other resources' do
               @resources.first.priority = @resources.second.priority
               @resources.first.save
               expect(model.find(@resources.first.id).priority).to eq @resources.second.priority
@@ -197,7 +198,7 @@ RSpec.shared_examples 'card behavior' do
           end
 
           context 'move upward' do
-            it 'sets given value and adjust other resources' do
+            it 'sets given value and adjusts other resources' do
               @resources.third.priority = @resources.second.priority
               @resources.third.save
               expect(model.find(@resources.third.id).priority).to eq @resources.second.priority
@@ -218,6 +219,29 @@ RSpec.shared_examples 'card behavior' do
           end
         end
       end
+    end
+
+    context 'move into another parent' do
+      let(:resources2) { create_list(obj_name, 3, parent_id: 2) }
+      it "adjusts new parent's resources and slides old ones", skip: described_class == Board do
+        resources2.second.parent_id = @resources.second.parent_id
+        resources2.second.priority = @resources.second.priority
+        resources2.second.save
+        expect(model.find(resources2.second.id).parent_id).to eq @resources.second.parent_id
+        expect(model.find(resources2.second.id).priority).to eq @resources.second.priority
+        expect(model.find(@resources.second.id).priority).to eq @resources.second.priority + 1
+        expect(model.find(resources2.third.id).priority).to eq resources2.third.priority - 1
+      end
+    end
+  end
+
+  describe '#slide_priority destroys' do
+    let(:resources) { create_list(obj_name, 3, parent_id: 1) }
+
+    it 'slide below resources' do
+      resources.second.destroy
+      expect(model.find(resources.first.id).priority).to eq resources.first.priority
+      expect(model.find(resources.third.id).priority).to eq resources.second.priority
     end
   end
 end

@@ -8,4 +8,10 @@ class Board < ActiveRecord::Base
   def parent_id
     nil
   end
+
+  private
+
+  def parent_changed
+    nil
+  end
 end
