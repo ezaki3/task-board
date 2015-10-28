@@ -8,6 +8,7 @@ module CardBehavior
     validates :priority, numericality: {only_integer: true}, allow_blank: true
 
     before_save :adjust_priority
+    after_destroy :slide_priority
 
     scope :prior, -> { order(:priority, updated_at: :desc) }
     scope :peers, ->(parent_id) { where(parent_id: parent_id) if parent_id.present? }
@@ -21,16 +22,29 @@ module CardBehavior
       return
     end
     return if self.class.peers(self.parent_id).where(priority: self.priority).blank?
-    unless self.changes[:priority]
+    unless changes[:priority]
       from = to = self.priority
     else
-      from = self.changes[:priority].first || (self.class.peers(self.parent_id).maximum(:priority) || 0)
-      to = self.changes[:priority].last
+      from = changes[:priority].first || (self.class.peers(self.parent_id).maximum(:priority) || 0)
+      to = changes[:priority].last
     end
     operation = from < to ? '-' : '+'
     self.class.peers(self.parent_id)
       .where(priority: [from, to].min..[from, to].max)
       .where.not(id: self.id)
       .update_all('priority = priority %s 1' % operation)
+
+    if parent_changed
+      parent_id = parent_changed.first
+      priority = changes[:priority] ? changes[:priority].first : self.priority
+      slide_priority(parent_id: parent_id, priority: priority)
+    end
+  end
+
+  def slide_priority(parent_id: self.parent_id, priority: self.priority)
+    self.class.peers(parent_id)
+      .where('priority > ?', priority)
+      .where.not(id: self.id)
+      .update_all('priority = priority - 1')
   end
 end

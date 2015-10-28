@@ -1,11 +1,17 @@
 class Board < ActiveRecord::Base
   include CardBehavior
 
-  has_many :groups, -> { order(:priority) }
+  has_many :groups, -> { order(:priority) }, dependent: :destroy
 
   attr_accessor :parent_id
 
   def parent_id
+    nil
+  end
+
+  private
+
+  def parent_changed
     nil
   end
 end
