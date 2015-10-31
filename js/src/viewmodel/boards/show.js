@@ -60,7 +60,7 @@ var ViewModel = function () {
                 console.log(response);
                 self.baseViewModel.invalidMessages({
                     'group': self.group.invalidMessages,
-                    'task': $.extend(self.task.invalidMessages, response.responseJSON)
+                    'task': $.extend({}, self.task.invalidMessages, response.responseJSON)
                 });
             });
     });
