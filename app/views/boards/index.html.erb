@@ -40,7 +40,7 @@
                 <h4 class="modal-title" id="groupModalLabel">Board</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form data-bind="submit: (!board.id()) ? createBoard : editBoard;">
                     <div class="form-group" data-bind="css: {'has-error': baseViewModel.invalidMessages().board.subject.length > 0, 'has-success': baseViewModel.invalidMessages().board.subject.length == 0}">
                         <label for="subject" class="control-label">ボード名:</label>
                         <input type="text" class="form-control" id="subject" data-bind="value: board.subject, valueUpdate: 'keyup'">

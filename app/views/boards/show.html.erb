@@ -44,7 +44,7 @@
                 <h4 class="modal-title" id="taskModalLabel">Task</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form data-bind="submit: (!task.id()) ? createTask : editTask;">
                     <div class="form-group" data-bind="css: {'has-error': baseViewModel.invalidMessages().task.subject.length > 0, 'has-success': baseViewModel.invalidMessages().task.subject.length == 0}">
                         <label for="subject" class="control-label">タスク名:</label>
                         <input type="text" class="form-control" id="subject" data-bind="value: task.subject, valueUpdate: 'keyup'">
@@ -79,7 +79,7 @@
                 <h4 class="modal-title" id="groupModalLabel">Group</h4>
             </div>
             <div class="modal-body">
-                <form>
+                <form data-bind="submit: (!group.id()) ? createGroup : editGroup;">
                     <div class="form-group" data-bind="css: {'has-error': baseViewModel.invalidMessages().group.subject.length > 0, 'has-success': baseViewModel.invalidMessages().group.subject.length == 0}">
                         <label for="subject" class="control-label">グループ名:</label>
                         <input type="text" class="form-control" id="subject" data-bind="value: group.subject, valueUpdate: 'keyup'">

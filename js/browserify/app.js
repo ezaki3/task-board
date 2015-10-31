@@ -387,12 +387,13 @@ var ViewModel = function () {
                     'group': self.group.invalidMessages,
                     'task': self.task.invalidMessages
                 });
+                console.log(self.baseViewModel.invalidMessages());
             })
             .fail(function (response) {
                 console.log(response);
                 self.baseViewModel.invalidMessages({
                     'group': self.group.invalidMessages,
-                    'task': $.extend(self.task.invalidMessages, response.responseJSON)
+                    'task': $.extend({}, self.task.invalidMessages, response.responseJSON)
                 });
             });
     });
