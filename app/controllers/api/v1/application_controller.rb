@@ -2,6 +2,7 @@ class Api::V1::ApplicationController < ApplicationController
   include Crudable
 
   skip_before_action :verify_authenticity_token
+  before_action :authenticate
 
   # POST /resources/dryrun
   def dry_create
@@ -26,6 +27,14 @@ class Api::V1::ApplicationController < ApplicationController
   end
 
   private
+
+  def authenticate
+    begin
+      User.find(session[:user_id])
+    rescue => e
+      render json: {msg: 'unauthorized'}, status: :unauthorized # TODO: Implement!
+    end
+  end
 
   def get_location
     '/%s/%d' % [

@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root 'boards#index'
 
+  get 'auth/:provider/callback' => 'sessions#create'
+  get 'logout' => 'sessions#destroy'
+
   resources :boards, only: [:index, :show], constraints: {id: /[0-9]+/}
 
   namespace :api, {format: 'json'} do
@@ -13,6 +16,8 @@ Rails.application.routes.draw do
           match :dryrun, action: :dry_update, via: [:patch, :put]
         end
       end
+
+      get 'users/current' => 'users#current'
 
       resources :boards, except: [:new, :edit],
                 constraints: {id: /[0-9]+/}, concerns: :dryrun, shallow: true do

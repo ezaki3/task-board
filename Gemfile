@@ -31,6 +31,9 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+# Gems for MyApp
+gem 'omniauth-github'
+
 group :development, :test do
   gem 'sqlite3'
 
