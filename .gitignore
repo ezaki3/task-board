@@ -9,7 +9,8 @@
 /vendor
 
 # Ignore credentials
-config/secrets.yml
+/.env
+/.secret
 
 # Ignore node modules
 /node_modules

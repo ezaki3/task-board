@@ -32,6 +32,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 # Gems for MyApp
+gem 'dotenv-rails'
 gem 'omniauth-github'
 
 group :development, :test do
