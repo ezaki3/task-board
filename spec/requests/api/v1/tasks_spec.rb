@@ -4,6 +4,10 @@ require 'rails_helper'
 # を使ったREST APIテストの試みとして
 
 RSpec.describe 'Api::V1::Tasks', type: :request do
+  before :all do
+    login
+  end
+
   let(:headers) do
     {
       'Content-Type' => 'application/json',

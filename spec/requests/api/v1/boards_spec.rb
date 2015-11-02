@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Boards', type: :request do
+  before :all do
+    login
+  end
+
   let(:headers) do
     {
       'Content-Type' => 'application/json',

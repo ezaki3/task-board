@@ -4,5 +4,6 @@ FactoryGirl.define do
     sequence(:subject) { |n| "件名-#{n}" }
     sequence(:body) { |n| "本文-#{n}" }
     sequence(:priority) { |n| n + 100 }
+    user
   end
 end

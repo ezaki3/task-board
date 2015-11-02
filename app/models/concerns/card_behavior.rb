@@ -2,6 +2,8 @@ module CardBehavior
   extend ActiveSupport::Concern
 
   included do
+    belongs_to :user
+
     alias_attribute :name, :subject # For RSpec !?
 
     validates :subject, presence: true
