@@ -8,6 +8,10 @@
 /.bundle
 /vendor
 
+# Ignore credentials
+/.env
+/.secret
+
 # Ignore node modules
 /node_modules
 
@@ -29,5 +33,4 @@ spec/examples.txt
 .project
 .DS_Store
 .idea
-.secret
 TAGS

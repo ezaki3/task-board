@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150901110730) do
+ActiveRecord::Schema.define(version: 20151101064008) do
 
   create_table "boards", force: :cascade do |t|
     t.string   "subject",    null: false
@@ -40,5 +40,18 @@ ActiveRecord::Schema.define(version: 20150901110730) do
   end
 
   add_index "tasks", ["group_id"], name: "index_tasks_on_group_id"
+
+  create_table "users", force: :cascade do |t|
+    t.string   "provider",    null: false
+    t.string   "uid",         null: false
+    t.string   "nickname",    null: false
+    t.string   "email"
+    t.string   "name"
+    t.string   "url"
+    t.string   "avatar_url"
+    t.string   "gravatar_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
 
 end
