@@ -1,4 +1,6 @@
 class Api::V1::GroupsController < Api::V1::ApplicationController
+  include Ownable
+
   def index
     super
     if params[:board_id]

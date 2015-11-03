@@ -1,4 +1,6 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
+  include Ownable
+
   def index
     super
     if params[:group_id]

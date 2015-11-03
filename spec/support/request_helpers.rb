@@ -5,4 +5,10 @@ module RequestHelpers
     OmniAuth.config.mock_auth[:github] = { provider: @user.provider, uid: @user.uid }
     get '/auth/github/callback'
   end
+
+  def truncate_users # for only sqlite
+    User.connection.execute("DELETE FROM users")
+    User.connection.execute("DELETE FROM sqlite_sequence where name='users'")
+    User.connection.execute("VACUUM")
+  end
 end
