@@ -9,7 +9,7 @@ GET /api/v1/boards/1/groups?{} HTTP/1.1
 Accept: application/json
 Content-Length: 0
 Content-Type: application/json
-Cookie: _task-board_session=QzAzY2N3TkhZZXhEMU5kMjlNVHM2VjlpYnU0Z2FTRHZ1RDJFbXJvc2FiRFdVV2libTE4TC9DampFbXRDaHFoTUxZTTZsb08reEd0T1BjMlAydmxEZVE9PS0tSTZTbGxJOCtFN0FZMmorMklWdFdodz09--937e5de25512a5c3edc9edea5ef84ac496d1f2ff;request_method=DELETE
+Cookie: _task-board_session=WHpPNEVieVF5WWNYbzQ1Q3Q4N29DdEEvNTVqRWJmUUZoVmorTE13M1Nid1NNQ1dPemw0MUY3ZXhqQzFiZWlrT3ZnSEpBSSs0UXNOd25xRUZzUDhoWHc9PS0tUCtwQ2p4YzRNYTN3VmQ0TnVDK0pTUT09--f717cebba61e44302ff182fecfe76273d9681c0d;request_method=DELETE
 Host: www.example.com
 ```
 
@@ -20,12 +20,12 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 199
 Content-Type: application/json; charset=utf-8
 ETag: W/"6e06100cad7732ea72497686382d6874"
-Set-Cookie: _task-board_session=endpOTk1VVBWZ2RpcDFKWnpTZXZJYzMwdWt3cTVPSGxQd0llaUJnbGwvaDdkNytkQlV2dVo4S1BCd0VzckgzVTlMRWtxQVZ1emJ6OFBhMEFOaXBMZFE9PS0tSjFyeElMQ210Y1pVMUVqZ3haa0tMZz09--e7a7b18e9c00731ef159509aaa0265683dd4d9a8; path=/; HttpOnly
+Set-Cookie: _task-board_session=VEV3OFZyYk5TejhidFF3MGRDSDRZSEoySE9RUlNFUm5WSmpmaWlGWmdBWFZLZ3hUaHdoai9tc1NSdlduNkZUSkxZcHBuY1o4TER5VG1seC9jQWlqbWc9PS0tcGxlaFd1Q1NhR2sxaEx2eC83MlpDZz09--9947d0da888d69cdbb3a57848293200878ac22e5; path=/; HttpOnly
 request_method=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1f5d6a7c-fa52-45dd-aa93-887cfddfb22e
-X-Runtime: 0.003839
+X-Request-Id: c7da06ba-d4f3-42fd-996a-b243aaa8a5a4
+X-Runtime: 0.003881
 X-XSS-Protection: 1; mode=block
 
 [
@@ -55,7 +55,7 @@ GET /api/v1/boards/1/groups?{} HTTP/1.1
 Accept: application/json
 Content-Length: 0
 Content-Type: application/json
-Cookie: _task-board_session=QzAzY2N3TkhZZXhEMU5kMjlNVHM2VjlpYnU0Z2FTRHZ1RDJFbXJvc2FiRFdVV2libTE4TC9DampFbXRDaHFoTUxZTTZsb08reEd0T1BjMlAydmxEZVE9PS0tSTZTbGxJOCtFN0FZMmorMklWdFdodz09--937e5de25512a5c3edc9edea5ef84ac496d1f2ff;request_method=DELETE
+Cookie: _task-board_session=WHpPNEVieVF5WWNYbzQ1Q3Q4N29DdEEvNTVqRWJmUUZoVmorTE13M1Nid1NNQ1dPemw0MUY3ZXhqQzFiZWlrT3ZnSEpBSSs0UXNOd25xRUZzUDhoWHc9PS0tUCtwQ2p4YzRNYTN3VmQ0TnVDK0pTUT09--f717cebba61e44302ff182fecfe76273d9681c0d;request_method=DELETE
 Host: www.example.com
 ```
 
@@ -66,12 +66,12 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 199
 Content-Type: application/json; charset=utf-8
 ETag: W/"6e06100cad7732ea72497686382d6874"
-Set-Cookie: _task-board_session=endpOTk1VVBWZ2RpcDFKWnpTZXZJYzMwdWt3cTVPSGxQd0llaUJnbGwvaDdkNytkQlV2dVo4S1BCd0VzckgzVTlMRWtxQVZ1emJ6OFBhMEFOaXBMZFE9PS0tSjFyeElMQ210Y1pVMUVqZ3haa0tMZz09--e7a7b18e9c00731ef159509aaa0265683dd4d9a8; path=/; HttpOnly
+Set-Cookie: _task-board_session=VEV3OFZyYk5TejhidFF3MGRDSDRZSEoySE9RUlNFUm5WSmpmaWlGWmdBWFZLZ3hUaHdoai9tc1NSdlduNkZUSkxZcHBuY1o4TER5VG1seC9jQWlqbWc9PS0tcGxlaFd1Q1NhR2sxaEx2eC83MlpDZz09--9947d0da888d69cdbb3a57848293200878ac22e5; path=/; HttpOnly
 request_method=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1f5d6a7c-fa52-45dd-aa93-887cfddfb22e
-X-Runtime: 0.003839
+X-Request-Id: c7da06ba-d4f3-42fd-996a-b243aaa8a5a4
+X-Runtime: 0.003881
 X-XSS-Protection: 1; mode=block
 
 [
@@ -101,7 +101,7 @@ GET /api/v1/boards/1/groups?{} HTTP/1.1
 Accept: application/json
 Content-Length: 0
 Content-Type: application/json
-Cookie: _task-board_session=QzAzY2N3TkhZZXhEMU5kMjlNVHM2VjlpYnU0Z2FTRHZ1RDJFbXJvc2FiRFdVV2libTE4TC9DampFbXRDaHFoTUxZTTZsb08reEd0T1BjMlAydmxEZVE9PS0tSTZTbGxJOCtFN0FZMmorMklWdFdodz09--937e5de25512a5c3edc9edea5ef84ac496d1f2ff;request_method=DELETE
+Cookie: _task-board_session=WHpPNEVieVF5WWNYbzQ1Q3Q4N29DdEEvNTVqRWJmUUZoVmorTE13M1Nid1NNQ1dPemw0MUY3ZXhqQzFiZWlrT3ZnSEpBSSs0UXNOd25xRUZzUDhoWHc9PS0tUCtwQ2p4YzRNYTN3VmQ0TnVDK0pTUT09--f717cebba61e44302ff182fecfe76273d9681c0d;request_method=DELETE
 Host: www.example.com
 ```
 
@@ -112,12 +112,12 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 199
 Content-Type: application/json; charset=utf-8
 ETag: W/"6e06100cad7732ea72497686382d6874"
-Set-Cookie: _task-board_session=endpOTk1VVBWZ2RpcDFKWnpTZXZJYzMwdWt3cTVPSGxQd0llaUJnbGwvaDdkNytkQlV2dVo4S1BCd0VzckgzVTlMRWtxQVZ1emJ6OFBhMEFOaXBMZFE9PS0tSjFyeElMQ210Y1pVMUVqZ3haa0tMZz09--e7a7b18e9c00731ef159509aaa0265683dd4d9a8; path=/; HttpOnly
+Set-Cookie: _task-board_session=VEV3OFZyYk5TejhidFF3MGRDSDRZSEoySE9RUlNFUm5WSmpmaWlGWmdBWFZLZ3hUaHdoai9tc1NSdlduNkZUSkxZcHBuY1o4TER5VG1seC9jQWlqbWc9PS0tcGxlaFd1Q1NhR2sxaEx2eC83MlpDZz09--9947d0da888d69cdbb3a57848293200878ac22e5; path=/; HttpOnly
 request_method=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1f5d6a7c-fa52-45dd-aa93-887cfddfb22e
-X-Runtime: 0.003839
+X-Request-Id: c7da06ba-d4f3-42fd-996a-b243aaa8a5a4
+X-Runtime: 0.003881
 X-XSS-Protection: 1; mode=block
 
 [
@@ -137,7 +137,7 @@ X-XSS-Protection: 1; mode=block
 ```
 
 ## GET /api/v1/groups/:id
-Updates a group.
+Updates a group (but not user_id).
 
 ### Example
 
@@ -147,7 +147,7 @@ GET /api/v1/boards/1/groups?{} HTTP/1.1
 Accept: application/json
 Content-Length: 0
 Content-Type: application/json
-Cookie: _task-board_session=QzAzY2N3TkhZZXhEMU5kMjlNVHM2VjlpYnU0Z2FTRHZ1RDJFbXJvc2FiRFdVV2libTE4TC9DampFbXRDaHFoTUxZTTZsb08reEd0T1BjMlAydmxEZVE9PS0tSTZTbGxJOCtFN0FZMmorMklWdFdodz09--937e5de25512a5c3edc9edea5ef84ac496d1f2ff;request_method=DELETE
+Cookie: _task-board_session=WHpPNEVieVF5WWNYbzQ1Q3Q4N29DdEEvNTVqRWJmUUZoVmorTE13M1Nid1NNQ1dPemw0MUY3ZXhqQzFiZWlrT3ZnSEpBSSs0UXNOd25xRUZzUDhoWHc9PS0tUCtwQ2p4YzRNYTN3VmQ0TnVDK0pTUT09--f717cebba61e44302ff182fecfe76273d9681c0d;request_method=DELETE
 Host: www.example.com
 ```
 
@@ -158,12 +158,12 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 199
 Content-Type: application/json; charset=utf-8
 ETag: W/"6e06100cad7732ea72497686382d6874"
-Set-Cookie: _task-board_session=endpOTk1VVBWZ2RpcDFKWnpTZXZJYzMwdWt3cTVPSGxQd0llaUJnbGwvaDdkNytkQlV2dVo4S1BCd0VzckgzVTlMRWtxQVZ1emJ6OFBhMEFOaXBMZFE9PS0tSjFyeElMQ210Y1pVMUVqZ3haa0tMZz09--e7a7b18e9c00731ef159509aaa0265683dd4d9a8; path=/; HttpOnly
+Set-Cookie: _task-board_session=VEV3OFZyYk5TejhidFF3MGRDSDRZSEoySE9RUlNFUm5WSmpmaWlGWmdBWFZLZ3hUaHdoai9tc1NSdlduNkZUSkxZcHBuY1o4TER5VG1seC9jQWlqbWc9PS0tcGxlaFd1Q1NhR2sxaEx2eC83MlpDZz09--9947d0da888d69cdbb3a57848293200878ac22e5; path=/; HttpOnly
 request_method=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1f5d6a7c-fa52-45dd-aa93-887cfddfb22e
-X-Runtime: 0.003839
+X-Request-Id: c7da06ba-d4f3-42fd-996a-b243aaa8a5a4
+X-Runtime: 0.003881
 X-XSS-Protection: 1; mode=block
 
 [
@@ -193,7 +193,7 @@ GET /api/v1/boards/1/groups?{} HTTP/1.1
 Accept: application/json
 Content-Length: 0
 Content-Type: application/json
-Cookie: _task-board_session=QzAzY2N3TkhZZXhEMU5kMjlNVHM2VjlpYnU0Z2FTRHZ1RDJFbXJvc2FiRFdVV2libTE4TC9DampFbXRDaHFoTUxZTTZsb08reEd0T1BjMlAydmxEZVE9PS0tSTZTbGxJOCtFN0FZMmorMklWdFdodz09--937e5de25512a5c3edc9edea5ef84ac496d1f2ff;request_method=DELETE
+Cookie: _task-board_session=WHpPNEVieVF5WWNYbzQ1Q3Q4N29DdEEvNTVqRWJmUUZoVmorTE13M1Nid1NNQ1dPemw0MUY3ZXhqQzFiZWlrT3ZnSEpBSSs0UXNOd25xRUZzUDhoWHc9PS0tUCtwQ2p4YzRNYTN3VmQ0TnVDK0pTUT09--f717cebba61e44302ff182fecfe76273d9681c0d;request_method=DELETE
 Host: www.example.com
 ```
 
@@ -204,12 +204,12 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 199
 Content-Type: application/json; charset=utf-8
 ETag: W/"6e06100cad7732ea72497686382d6874"
-Set-Cookie: _task-board_session=endpOTk1VVBWZ2RpcDFKWnpTZXZJYzMwdWt3cTVPSGxQd0llaUJnbGwvaDdkNytkQlV2dVo4S1BCd0VzckgzVTlMRWtxQVZ1emJ6OFBhMEFOaXBMZFE9PS0tSjFyeElMQ210Y1pVMUVqZ3haa0tMZz09--e7a7b18e9c00731ef159509aaa0265683dd4d9a8; path=/; HttpOnly
+Set-Cookie: _task-board_session=VEV3OFZyYk5TejhidFF3MGRDSDRZSEoySE9RUlNFUm5WSmpmaWlGWmdBWFZLZ3hUaHdoai9tc1NSdlduNkZUSkxZcHBuY1o4TER5VG1seC9jQWlqbWc9PS0tcGxlaFd1Q1NhR2sxaEx2eC83MlpDZz09--9947d0da888d69cdbb3a57848293200878ac22e5; path=/; HttpOnly
 request_method=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1f5d6a7c-fa52-45dd-aa93-887cfddfb22e
-X-Runtime: 0.003839
+X-Request-Id: c7da06ba-d4f3-42fd-996a-b243aaa8a5a4
+X-Runtime: 0.003881
 X-XSS-Protection: 1; mode=block
 
 [
@@ -239,7 +239,7 @@ GET /api/v1/boards/1/groups?{} HTTP/1.1
 Accept: application/json
 Content-Length: 0
 Content-Type: application/json
-Cookie: _task-board_session=QzAzY2N3TkhZZXhEMU5kMjlNVHM2VjlpYnU0Z2FTRHZ1RDJFbXJvc2FiRFdVV2libTE4TC9DampFbXRDaHFoTUxZTTZsb08reEd0T1BjMlAydmxEZVE9PS0tSTZTbGxJOCtFN0FZMmorMklWdFdodz09--937e5de25512a5c3edc9edea5ef84ac496d1f2ff;request_method=DELETE
+Cookie: _task-board_session=WHpPNEVieVF5WWNYbzQ1Q3Q4N29DdEEvNTVqRWJmUUZoVmorTE13M1Nid1NNQ1dPemw0MUY3ZXhqQzFiZWlrT3ZnSEpBSSs0UXNOd25xRUZzUDhoWHc9PS0tUCtwQ2p4YzRNYTN3VmQ0TnVDK0pTUT09--f717cebba61e44302ff182fecfe76273d9681c0d;request_method=DELETE
 Host: www.example.com
 ```
 
@@ -250,12 +250,12 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 199
 Content-Type: application/json; charset=utf-8
 ETag: W/"6e06100cad7732ea72497686382d6874"
-Set-Cookie: _task-board_session=endpOTk1VVBWZ2RpcDFKWnpTZXZJYzMwdWt3cTVPSGxQd0llaUJnbGwvaDdkNytkQlV2dVo4S1BCd0VzckgzVTlMRWtxQVZ1emJ6OFBhMEFOaXBMZFE9PS0tSjFyeElMQ210Y1pVMUVqZ3haa0tMZz09--e7a7b18e9c00731ef159509aaa0265683dd4d9a8; path=/; HttpOnly
+Set-Cookie: _task-board_session=VEV3OFZyYk5TejhidFF3MGRDSDRZSEoySE9RUlNFUm5WSmpmaWlGWmdBWFZLZ3hUaHdoai9tc1NSdlduNkZUSkxZcHBuY1o4TER5VG1seC9jQWlqbWc9PS0tcGxlaFd1Q1NhR2sxaEx2eC83MlpDZz09--9947d0da888d69cdbb3a57848293200878ac22e5; path=/; HttpOnly
 request_method=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1f5d6a7c-fa52-45dd-aa93-887cfddfb22e
-X-Runtime: 0.003839
+X-Request-Id: c7da06ba-d4f3-42fd-996a-b243aaa8a5a4
+X-Runtime: 0.003881
 X-XSS-Protection: 1; mode=block
 
 [
@@ -285,7 +285,7 @@ GET /api/v1/boards/1/groups?{} HTTP/1.1
 Accept: application/json
 Content-Length: 0
 Content-Type: application/json
-Cookie: _task-board_session=QzAzY2N3TkhZZXhEMU5kMjlNVHM2VjlpYnU0Z2FTRHZ1RDJFbXJvc2FiRFdVV2libTE4TC9DampFbXRDaHFoTUxZTTZsb08reEd0T1BjMlAydmxEZVE9PS0tSTZTbGxJOCtFN0FZMmorMklWdFdodz09--937e5de25512a5c3edc9edea5ef84ac496d1f2ff;request_method=DELETE
+Cookie: _task-board_session=WHpPNEVieVF5WWNYbzQ1Q3Q4N29DdEEvNTVqRWJmUUZoVmorTE13M1Nid1NNQ1dPemw0MUY3ZXhqQzFiZWlrT3ZnSEpBSSs0UXNOd25xRUZzUDhoWHc9PS0tUCtwQ2p4YzRNYTN3VmQ0TnVDK0pTUT09--f717cebba61e44302ff182fecfe76273d9681c0d;request_method=DELETE
 Host: www.example.com
 ```
 
@@ -296,12 +296,12 @@ Cache-Control: max-age=0, private, must-revalidate
 Content-Length: 199
 Content-Type: application/json; charset=utf-8
 ETag: W/"6e06100cad7732ea72497686382d6874"
-Set-Cookie: _task-board_session=endpOTk1VVBWZ2RpcDFKWnpTZXZJYzMwdWt3cTVPSGxQd0llaUJnbGwvaDdkNytkQlV2dVo4S1BCd0VzckgzVTlMRWtxQVZ1emJ6OFBhMEFOaXBMZFE9PS0tSjFyeElMQ210Y1pVMUVqZ3haa0tMZz09--e7a7b18e9c00731ef159509aaa0265683dd4d9a8; path=/; HttpOnly
+Set-Cookie: _task-board_session=VEV3OFZyYk5TejhidFF3MGRDSDRZSEoySE9RUlNFUm5WSmpmaWlGWmdBWFZLZ3hUaHdoai9tc1NSdlduNkZUSkxZcHBuY1o4TER5VG1seC9jQWlqbWc9PS0tcGxlaFd1Q1NhR2sxaEx2eC83MlpDZz09--9947d0da888d69cdbb3a57848293200878ac22e5; path=/; HttpOnly
 request_method=; path=/; max-age=0; expires=Thu, 01 Jan 1970 00:00:00 -0000
 X-Content-Type-Options: nosniff
 X-Frame-Options: SAMEORIGIN
-X-Request-Id: 1f5d6a7c-fa52-45dd-aa93-887cfddfb22e
-X-Runtime: 0.003839
+X-Request-Id: c7da06ba-d4f3-42fd-996a-b243aaa8a5a4
+X-Runtime: 0.003881
 X-XSS-Protection: 1; mode=block
 
 [
