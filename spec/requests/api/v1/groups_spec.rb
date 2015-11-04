@@ -1,6 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe 'Api::V1::Groups', type: :request do
+  before :all do
+    login
+  end
+
+  after :all do
+    truncate_users
+  end
+
   let(:headers) do
     {
       'Content-Type' => 'application/json',
@@ -19,6 +27,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         expect(res['id']).to eq id
         expect(res['subject']).to eq group['subject']
         expect(res['priority']).to eq group['priority']
+        expect(res['user']['id']).to eq group['user_id']
       end
     end
 
@@ -42,6 +51,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         expect(res['subject']).to eq params[:group][:subject]
         expect(res['priority']).to eq params[:group][:priority]
         expect(res['updated_at']).to eq res['created_at']
+        expect(res['user']['id']).to eq @user.id
         expect(response.header['location']).to eq '/api/v1/groups/%d' % res['id']
       end
     end
@@ -85,7 +95,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'PATCH /api/v1/groups/:id' do
-    let!(:group) { FactoryGirl.create(:group) }
+    let!(:group) { FactoryGirl.create(:group, user_id: @user.id + 1) }
     let(:id) { group.id }
     let(:params) do
       {
@@ -96,7 +106,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     end
 
     context 'with valid params' do
-      it 'updates a group', autodoc: true do
+      it 'updates a group (but not user_id)', autodoc: true do
         expect {
           is_expected.to eq 200
         }.not_to change(Group, :count)
@@ -105,6 +115,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         expect(res['subject']).to eq params[:group][:subject]
         expect(res['priority']).to eq params[:group][:priority]
         expect(res['updated_at']).not_to eq res['created_at']
+        expect(res['user']['id']).to eq group.user_id
         expect(response.header['location']).to eq '/api/v1/groups/%d' % id
       end
     end

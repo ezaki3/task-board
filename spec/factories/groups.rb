@@ -3,6 +3,7 @@ FactoryGirl.define do
     board
     sequence(:subject) { |n| "グループ-#{n}" }
     sequence(:priority) { |n| n + 10 }
+    user
 
     factory :group_with_tasks do
       transient do
@@ -10,7 +11,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |group, evaluator|
-        create_list(:task, evaluator.tasks_count, group: group)
+        create_list(:task, evaluator.tasks_count, group: group, user:user)
       end
     end
   end

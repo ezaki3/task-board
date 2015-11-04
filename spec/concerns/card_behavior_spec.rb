@@ -14,6 +14,7 @@ RSpec.shared_examples 'card behavior' do
     context 'valid' do
       it { is_expected.to respond_to(:name) }
       it { is_expected.to respond_to(:parent_id) }
+      it { is_expected.to respond_to(:user_id) }
 
       it { is_expected.to be_valid }
     end

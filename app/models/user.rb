@@ -1,4 +1,8 @@
 class User < ActiveRecord::Base
+  has_many :boards
+  has_many :groups
+  has_many :tasks
+
   def self.create_with_omniauth(auth)
     create!(
       provider: auth.provider,

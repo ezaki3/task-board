@@ -32,7 +32,7 @@ class Api::V1::ApplicationController < ApplicationController
     begin
       User.find(session[:user_id])
     rescue => e
-      render json: {msg: 'unauthorized'}, status: :unauthorized # TODO: Implement!
+      render json: {error: 'unauthorized'}, status: :unauthorized
     end
   end
 
