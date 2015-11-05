@@ -1,7 +1,19 @@
 var BaseViewModel = require('../baseviewmodel.js');
 var Board = require('../../model/board.js');
+var User = require('../../model/user.js');
 var ViewModel = function () {
     var self = this;
+
+    self.user = new User(null, null, null);
+    self.user.login()
+        .done(function (response) {
+            self.user.id(response.id);
+            self.user.nickname(response.nickname);
+            self.user.avatar_url(response.avatar_url);
+        })
+        .fail(function (response) {
+            console.log(response);
+        });
 
     self.board = new Board(null, null, null);
     self.boards = ko.observableArray();
@@ -18,7 +30,9 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({'board': response.responseJSON});
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({'board': response.responseJSON});
+                }
             });
     });
 
@@ -53,7 +67,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -67,7 +85,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -82,7 +105,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -96,7 +124,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -113,6 +146,9 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                }
             });
     }.bind(self);
 };

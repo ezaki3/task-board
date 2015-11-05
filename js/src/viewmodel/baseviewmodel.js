@@ -4,6 +4,8 @@ var BaseViewModel = function () {
 
     this.invalidMessages = ko.observable();
 
+    this.backUrl = location.pathname;
+
     this.closeAlertSuccess = function () {
         this.alertSuccessMessage(null);
     }.bind(this);
