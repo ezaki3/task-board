@@ -213,31 +213,16 @@ User.prototype.login = function () {
 module.exports = User;
 
 },{}],7:[function(require,module,exports){
+var User = require('../model/user.js');
 var BaseViewModel = function () {
-    this.alertSuccessMessage = ko.observable();
-    this.alertErrorMessage = ko.observable();
-
-    this.invalidMessages = ko.observable();
-
-    this.backUrl = location.pathname;
-
-    this.closeAlertSuccess = function () {
-        this.alertSuccessMessage(null);
-    }.bind(this);
-
-    this.closeErrorSuccess = function () {
-        this.alertErrorMessage(null);
-    }.bind(this);
-};
-
-module.exports = BaseViewModel;
-
-},{}],8:[function(require,module,exports){
-var BaseViewModel = require('../baseviewmodel.js');
-var Board = require('../../model/board.js');
-var User = require('../../model/user.js');
-var ViewModel = function () {
     var self = this;
+
+    self.alertSuccessMessage = ko.observable();
+    self.alertErrorMessage = ko.observable();
+
+    self.invalidMessages = ko.observable();
+
+    self.backUrl = location.pathname;
 
     self.user = new User(null, null, null);
     self.user.login()
@@ -249,6 +234,23 @@ var ViewModel = function () {
         .fail(function (response) {
             console.log(response);
         });
+
+    this.closeAlertSuccess = function () {
+        self.alertSuccessMessage(null);
+    }.bind(self);
+
+    this.closeErrorSuccess = function () {
+        self.alertErrorMessage(null);
+    }.bind(self);
+};
+
+module.exports = BaseViewModel;
+
+},{"../model/user.js":6}],8:[function(require,module,exports){
+var BaseViewModel = require('../baseviewmodel.js');
+var Board = require('../../model/board.js');
+var ViewModel = function () {
+    var self = this;
 
     self.board = new Board(null, null, null);
     self.boards = ko.observableArray();
@@ -390,7 +392,7 @@ var ViewModel = function () {
 
 module.exports = ViewModel;
 
-},{"../../model/board.js":3,"../../model/user.js":6,"../baseviewmodel.js":7}],9:[function(require,module,exports){
+},{"../../model/board.js":3,"../baseviewmodel.js":7}],9:[function(require,module,exports){
 var BaseViewModel = require('../baseviewmodel.js');
 var Task = require('../../model/task.js');
 var Group = require('../../model/group.js');
@@ -428,10 +430,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({
-                    'group': response.responseJSON,
-                    'task': self.task.invalidMessages
-                });
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({
+                        'group': response.responseJSON,
+                        'task': self.task.invalidMessages
+                    });
+                }
             });
     });
 
@@ -451,10 +455,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({
-                    'group': self.group.invalidMessages,
-                    'task': $.extend({}, self.task.invalidMessages, response.responseJSON)
-                });
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({
+                        'group': self.group.invalidMessages,
+                        'task': $.extend({}, self.task.invalidMessages, response.responseJSON)
+                    });
+                }
             });
     });
 
@@ -511,7 +517,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -528,7 +538,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -543,7 +557,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -558,7 +576,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -573,7 +595,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -587,7 +613,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -601,7 +631,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -615,7 +649,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -635,6 +673,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -652,7 +695,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 };

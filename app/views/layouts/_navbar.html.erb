@@ -1,0 +1,28 @@
+<nav class="navbar navbar-default" data-bind="visible: baseViewModel.user.id() == null">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">task-board</a>
+        </div>
+        <div class="navbar-right">
+            <button type="button" data-toggle="modal" data-target="#loginModal" class="btn btn-default navbar-btn">Log in</button>
+        </div>
+    </div>
+</nav>
+<nav class="navbar navbar-default" data-bind="visible: baseViewModel.user.id() != null">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">task-board</a>
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li><button type="button" data-toggle="modal" data-target="#boardModal" class="btn btn-default navbar-btn">Add a board</button></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><!-- ko text: baseViewModel.user.nickname--><!--/ko--> <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/logout">Log out</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

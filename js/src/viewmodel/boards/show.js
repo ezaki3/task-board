@@ -35,10 +35,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({
-                    'group': response.responseJSON,
-                    'task': self.task.invalidMessages
-                });
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({
+                        'group': response.responseJSON,
+                        'task': self.task.invalidMessages
+                    });
+                }
             });
     });
 
@@ -58,10 +60,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({
-                    'group': self.group.invalidMessages,
-                    'task': $.extend({}, self.task.invalidMessages, response.responseJSON)
-                });
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({
+                        'group': self.group.invalidMessages,
+                        'task': $.extend({}, self.task.invalidMessages, response.responseJSON)
+                    });
+                }
             });
     });
 
@@ -118,7 +122,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -135,7 +143,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -150,7 +162,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -165,7 +181,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -180,7 +200,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -194,7 +218,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -208,7 +236,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -222,7 +254,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -242,6 +278,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -259,7 +300,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 };

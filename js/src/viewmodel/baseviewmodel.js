@@ -1,18 +1,32 @@
+var User = require('../model/user.js');
 var BaseViewModel = function () {
-    this.alertSuccessMessage = ko.observable();
-    this.alertErrorMessage = ko.observable();
+    var self = this;
 
-    this.invalidMessages = ko.observable();
+    self.alertSuccessMessage = ko.observable();
+    self.alertErrorMessage = ko.observable();
 
-    this.backUrl = location.pathname;
+    self.invalidMessages = ko.observable();
+
+    self.backUrl = location.pathname;
+
+    self.user = new User(null, null, null);
+    self.user.login()
+        .done(function (response) {
+            self.user.id(response.id);
+            self.user.nickname(response.nickname);
+            self.user.avatar_url(response.avatar_url);
+        })
+        .fail(function (response) {
+            console.log(response);
+        });
 
     this.closeAlertSuccess = function () {
-        this.alertSuccessMessage(null);
-    }.bind(this);
+        self.alertSuccessMessage(null);
+    }.bind(self);
 
     this.closeErrorSuccess = function () {
-        this.alertErrorMessage(null);
-    }.bind(this);
+        self.alertErrorMessage(null);
+    }.bind(self);
 };
 
 module.exports = BaseViewModel;

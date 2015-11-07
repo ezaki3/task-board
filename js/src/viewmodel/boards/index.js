@@ -1,19 +1,7 @@
 var BaseViewModel = require('../baseviewmodel.js');
 var Board = require('../../model/board.js');
-var User = require('../../model/user.js');
 var ViewModel = function () {
     var self = this;
-
-    self.user = new User(null, null, null);
-    self.user.login()
-        .done(function (response) {
-            self.user.id(response.id);
-            self.user.nickname(response.nickname);
-            self.user.avatar_url(response.avatar_url);
-        })
-        .fail(function (response) {
-            console.log(response);
-        });
 
     self.board = new Board(null, null, null);
     self.boards = ko.observableArray();
