@@ -18,7 +18,9 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({'board': response.responseJSON});
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({'board': response.responseJSON});
+                }
             });
     });
 
@@ -53,7 +55,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -67,7 +73,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -82,7 +93,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -96,7 +112,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -113,6 +134,9 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                }
             });
     }.bind(self);
 };

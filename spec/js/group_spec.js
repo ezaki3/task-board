@@ -104,6 +104,7 @@ describe('group', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
             d.reject({
+                'status': 422,
                 'responseJSON': {
                     'subject': ["can't be blank"]
                 }

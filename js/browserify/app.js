@@ -22,7 +22,7 @@ crossroads.bypassed.add(function(request){
 
 crossroads.parse(window.location.pathname + window.location.search + window.location.hash);
 
-},{"./viewmodel/boards/index.js":7,"./viewmodel/boards/show.js":8,"crossroads":9}],2:[function(require,module,exports){
+},{"./viewmodel/boards/index.js":8,"./viewmodel/boards/show.js":9,"crossroads":10}],2:[function(require,module,exports){
 var BaseModel = function () {
     this.apiUrl = {
         'collection': null,
@@ -190,24 +190,63 @@ Task.prototype = BaseModel.prototype;
 module.exports = Task;
 
 },{"./basemodel.js":2}],6:[function(require,module,exports){
-var BaseViewModel = function () {
-    this.alertSuccessMessage = ko.observable();
-    this.alertErrorMessage = ko.observable();
+var User = function (id, nickname, avatar_url) {
+    this.id = ko.observable(id);
+    this.nickname = ko.observable(nickname);
+    this.avatar_url = ko.observable(avatar_url);
 
-    this.invalidMessages = ko.observable();
+    this.apiUrl = '/api/v1/users/current';
+};
+
+User.prototype.login = function () {
+    var d = $.Deferred();
+    $.ajax({url: this.apiUrl})
+        .done(function (response) {
+            d.resolve(response);
+        })
+        .fail(function (response) {
+            d.reject(response);
+        });
+    return d.promise();
+};
+
+module.exports = User;
+
+},{}],7:[function(require,module,exports){
+var User = require('../model/user.js');
+var BaseViewModel = function () {
+    var self = this;
+
+    self.alertSuccessMessage = ko.observable();
+    self.alertErrorMessage = ko.observable();
+
+    self.invalidMessages = ko.observable();
+
+    self.backUrl = location.pathname;
+
+    self.user = new User(null, null, null);
+    self.user.login()
+        .done(function (response) {
+            self.user.id(response.id);
+            self.user.nickname(response.nickname);
+            self.user.avatar_url(response.avatar_url);
+        })
+        .fail(function (response) {
+            console.log(response);
+        });
 
     this.closeAlertSuccess = function () {
-        this.alertSuccessMessage(null);
-    }.bind(this);
+        self.alertSuccessMessage(null);
+    }.bind(self);
 
     this.closeErrorSuccess = function () {
-        this.alertErrorMessage(null);
-    }.bind(this);
+        self.alertErrorMessage(null);
+    }.bind(self);
 };
 
 module.exports = BaseViewModel;
 
-},{}],7:[function(require,module,exports){
+},{"../model/user.js":6}],8:[function(require,module,exports){
 var BaseViewModel = require('../baseviewmodel.js');
 var Board = require('../../model/board.js');
 var ViewModel = function () {
@@ -228,7 +267,9 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({'board': response.responseJSON});
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({'board': response.responseJSON});
+                }
             });
     });
 
@@ -263,7 +304,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -277,7 +322,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -292,7 +342,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -306,7 +361,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                $('#boardModal').modal('hide');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -323,13 +383,16 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                }
             });
     }.bind(self);
 };
 
 module.exports = ViewModel;
 
-},{"../../model/board.js":3,"../baseviewmodel.js":6}],8:[function(require,module,exports){
+},{"../../model/board.js":3,"../baseviewmodel.js":7}],9:[function(require,module,exports){
 var BaseViewModel = require('../baseviewmodel.js');
 var Task = require('../../model/task.js');
 var Group = require('../../model/group.js');
@@ -367,10 +430,12 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({
-                    'group': response.responseJSON,
-                    'task': self.task.invalidMessages
-                });
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({
+                        'group': response.responseJSON,
+                        'task': self.task.invalidMessages
+                    });
+                }
             });
     });
 
@@ -387,14 +452,15 @@ var ViewModel = function () {
                     'group': self.group.invalidMessages,
                     'task': self.task.invalidMessages
                 });
-                console.log(self.baseViewModel.invalidMessages());
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.invalidMessages({
-                    'group': self.group.invalidMessages,
-                    'task': $.extend({}, self.task.invalidMessages, response.responseJSON)
-                });
+                if (response.status == 422) {
+                    self.baseViewModel.invalidMessages({
+                        'group': self.group.invalidMessages,
+                        'task': $.extend({}, self.task.invalidMessages, response.responseJSON)
+                    });
+                }
             });
     });
 
@@ -451,7 +517,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -468,7 +538,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -483,7 +557,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -498,7 +576,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -513,7 +595,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -527,7 +613,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -541,7 +631,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -555,7 +649,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error');
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -575,6 +673,11 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 
@@ -592,14 +695,18 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 console.log(response);
-                self.baseViewModel.alertErrorMessage('error')
+                if (response.status == 401) {
+                    $('#loginModal').modal('show');
+                } else {
+                    self.baseViewModel.alertErrorMessage('error');
+                }
             });
     }.bind(self);
 };
 
 module.exports = ViewModel;
 
-},{"../../model/board.js":3,"../../model/group.js":4,"../../model/task.js":5,"../baseviewmodel.js":6}],9:[function(require,module,exports){
+},{"../../model/board.js":3,"../../model/group.js":4,"../../model/task.js":5,"../baseviewmodel.js":7}],10:[function(require,module,exports){
 /** @license
  * crossroads <http://millermedeiros.github.com/crossroads.js/>
  * Author: Miller Medeiros | MIT License
@@ -1326,7 +1433,7 @@ if (typeof define === 'function' && define.amd) {
 }());
 
 
-},{"signals":10}],10:[function(require,module,exports){
+},{"signals":11}],11:[function(require,module,exports){
 /*jslint onevar:true, undef:true, newcap:true, regexp:true, bitwise:true, maxerr:50, indent:4, white:false, nomen:false, plusplus:false */
 /*global define:false, require:false, exports:false, module:false, signals:false */
 

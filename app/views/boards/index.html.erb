@@ -1,14 +1,7 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="#">task-board</a>
-        </div>
-        <div class="navbar-right">
-            <button type="button" class="btn btn-default navbar-btn" data-bind="click: openBoardModal">Add a board</button>
-        </div>
-    </div>
-</nav>
-<div class="container">
+<%= render 'layouts/navbar' %>
+<%= render 'layouts/nologin' %>
+
+<div class="container" data-bind="visible: baseViewModel.user.id() != null">
     <div class="page-header">
         <h1>Task-Board</h1>
     </div>
@@ -32,12 +25,12 @@
     </div>
 </div>
 
-<div class="modal fade" id="boardModal" tabindex="-1" role="dialog" aria-labelledby="groupModalLabel">
+<div class="modal fade" id="boardModal" tabindex="-1" role="dialog" aria-labelledby="boardModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="groupModalLabel">Board</h4>
+                <h4 class="modal-title" id="boardModalLabel">Board</h4>
             </div>
             <div class="modal-body">
                 <form data-bind="submit: (!board.id()) ? createBoard : editBoard;">
@@ -59,6 +52,9 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+
+<%= render 'layouts/login' %>
+
 <%= javascript_include_tag 'jquery-1.11.3.min', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'jquery-ui.min', 'data-turbolinks-track' => true %>
 <%= javascript_include_tag 'bootstrap.min.js', 'data-turbolinks-track' => true %>
