@@ -1,0 +1,7 @@
+machine:
+  timezone:
+    Asia/Tokyo
+
+test:
+  override:
+    - bundle exec rspec --color --require spec_helper spec --format progress
