@@ -1,0 +1,17 @@
+machine:
+  timezone:
+    Asia/Tokyo
+
+test:
+  override:
+    - bundle exec rspec --color --require spec_helper spec --format progress
+
+deployment:
+  staging:
+    branch: master
+    commands:
+      - git push dokku@dqn.ch:task-board-pro $CIRCLE_SHA1:master
+  production:
+    branch: master
+    commands:
+      - git push dokku@dqn.ch:task-board $CIRCLE_SHA1:master
