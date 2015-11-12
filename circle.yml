@@ -1,0 +1,19 @@
+machine:
+  timezone:
+    Asia/Tokyo
+
+test:
+  override:
+    - bundle exec rspec --color --require spec_helper spec --format progress
+
+deployment:
+  dogfooding:
+    branch: develop
+    commands:
+      - git push dokku@dqn.ch:task-board-pro $CIRCLE_SHA1:master
+      - ssh -t dokku@dqn.ch run task-board-pro rake db:migrate
+  production:
+    branch: master
+    commands:
+      - git push dokku@dqn.ch:task-board $CIRCLE_SHA1:master
+      - ssh -t dokku@dqn.ch run task-board rake db:migrate
