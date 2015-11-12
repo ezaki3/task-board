@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'card behavior' do
+RSpec.shared_examples 'item behavior' do
   let(:model) { described_class }
   let(:obj_name) { model.to_s.underscore.to_sym }
 
