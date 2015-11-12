@@ -1,13 +1,5 @@
-class Task < ActiveRecord::Base
-  include CardBehavior
+class Task < Item
+  belongs_to :group, foreign_key: :parent_id
 
-  belongs_to :group
-
-  alias_attribute :parent_id, :group_id
-
-  private
-
-  def parent_changed
-    changes[:group_id]
-  end
+  alias_attribute :group_id, :parent_id
 end

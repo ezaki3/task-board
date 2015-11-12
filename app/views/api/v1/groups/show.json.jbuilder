@@ -2,14 +2,18 @@ json.partial! @group
 json.board do
   json.partial! @group.board
 end
-json.user do
-  json.partial! @group.user if @group.user
+json.members do
+  json.array! @group.users do |user|
+    json.partial! user if user
+  end
 end
 json.tasks do
   json.array! @group.tasks do |task|
     json.partial! task
-    json.user do
-      json.partial! task.user if task.user
+    json.members do
+      json.array! task.users do |user|
+        json.partial! user if user
+      end
     end
   end
 end

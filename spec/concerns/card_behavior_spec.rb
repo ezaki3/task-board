@@ -14,7 +14,7 @@ RSpec.shared_examples 'card behavior' do
     context 'valid' do
       it { is_expected.to respond_to(:name) }
       it { is_expected.to respond_to(:parent_id) }
-      it { is_expected.to respond_to(:user_id) }
+      it { is_expected.to respond_to(:body) }
 
       it { is_expected.to be_valid }
     end
@@ -69,6 +69,19 @@ RSpec.shared_examples 'card behavior' do
         resources.first.save
         actual = model.peers(resources.second.parent_id)
         expect(actual.size).to eq 2
+      end
+    end
+  end
+
+  describe '#save_member' do
+    let(:resource) { create(obj_name) }
+
+    context 'on created' do
+      it 'creates member' do
+        expect(resource.members.size).to eq 1
+        expect(resource.members.first.item_id).to eq resource.id
+        expect(resource.members.first.user_id).to eq resource.created_by
+        expect(resource.members.first.is_owner).to be true
       end
     end
   end
