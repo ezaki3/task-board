@@ -71,43 +71,11 @@
 <div class='generated-at'>
 Generated at:
 <br>
-2015-11-14 07:06:26 +0900</div>
+2015-11-14 07:34:18 +0900</div>
 </div>
 
 <div class='page-wrapper'>
-  <div id="doc/api/v1/boards.md" class="api-resource"><div class="api-action"><h2>GET /api/v1/boards</h2>
-
-<p>Adds a new board.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/boards?{} HTTP/1.1
-
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-[
-  {
-    &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;ボード-116&quot;,
-    &quot;priority&quot;: 1085,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/1&quot;
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;ボード-117&quot;,
-    &quot;priority&quot;: 1086,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/2&quot;
-  }
-]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards/:id</h2>
+  <div id="doc/api/v1/boards.md" class="api-resource"><div class="api-action"><h2>PATCH /api/v1/boards/:id</h2>
 
 <p>Returns a board.</p>
 
@@ -115,127 +83,63 @@ Generated at:
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/boards?{} HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/boards/1
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;board&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;ボード本文\n13&quot;,
+    &quot;priority&quot;: 1013,
+    &quot;created_by&quot;: 2013
+  }
+}
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
-
-[
-  {
-    &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;ボード-116&quot;,
-    &quot;priority&quot;: 1085,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/1&quot;
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;ボード-117&quot;,
-    &quot;priority&quot;: 1086,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/2&quot;
-  }
-]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards/:id/dryrun</h2>
-
-<p>Returns ng and not updates.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/boards?{} HTTP/1.1
-
+<pre><code>HTTP/1.1 200
 </code></pre>
 
-<h4>Response</h4>
+<h5>Body</h5>
 
-<pre><code class="json">HTTP/1.1 200
+<pre><code class="json">
 
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 1013,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.408+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.416+09:00&quot;,
+  &quot;groups&quot;: [
 
-[
-  {
-    &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;ボード-116&quot;,
-    &quot;priority&quot;: 1085,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/1&quot;
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;ボード-117&quot;,
-    &quot;priority&quot;: 1086,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/2&quot;
-  }
-]
+  ],
+  &quot;members&quot;: [
+    {
+      &quot;id&quot;: 2,
+      &quot;provider&quot;: &quot;githuu&quot;,
+      &quot;uid&quot;: &quot;11130&quot;,
+      &quot;nickname&quot;: &quot;nice-gvl&quot;,
+      &quot;email&quot;: &quot;nice-guy@example.cpf&quot;,
+      &quot;name&quot;: &quot;Nice Gvr&quot;,
+      &quot;url&quot;: &quot;http://nice-guy.example.cpf&quot;,
+      &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnz&quot;,
+      &quot;gravatar_id&quot;: &quot;21&quot;,
+      &quot;created_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;
+    }
+  ]
+}
 </code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards/:id</h2>
-
-<p>Deletes a board.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/boards?{} HTTP/1.1
-
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-[
-  {
-    &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;ボード-116&quot;,
-    &quot;priority&quot;: 1085,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/1&quot;
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;ボード-117&quot;,
-    &quot;priority&quot;: 1086,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/2&quot;
-  }
-]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards/:id</h2>
-
-<p>Updates a board.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/boards?{} HTTP/1.1
-
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-[
-  {
-    &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;ボード-116&quot;,
-    &quot;priority&quot;: 1085,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/1&quot;
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;ボード-117&quot;,
-    &quot;priority&quot;: 1086,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/2&quot;
-  }
-]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards/dryrun</h2>
+</div><div class="api-action"><h2>PATCH /api/v1/boards/dryrun</h2>
 
 <p>Returns ng and not creates.</p>
 
@@ -243,31 +147,191 @@ Generated at:
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/boards?{} HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/boards/1
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;board&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;ボード本文\n13&quot;,
+    &quot;priority&quot;: 1013,
+    &quot;created_by&quot;: 2013
+  }
+}
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
-
-[
-  {
-    &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;ボード-116&quot;,
-    &quot;priority&quot;: 1085,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/1&quot;
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;ボード-117&quot;,
-    &quot;priority&quot;: 1086,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/2&quot;
-  }
-]
+<pre><code>HTTP/1.1 200
 </code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards</h2>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 1013,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.408+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.416+09:00&quot;,
+  &quot;groups&quot;: [
+
+  ],
+  &quot;members&quot;: [
+    {
+      &quot;id&quot;: 2,
+      &quot;provider&quot;: &quot;githuu&quot;,
+      &quot;uid&quot;: &quot;11130&quot;,
+      &quot;nickname&quot;: &quot;nice-gvl&quot;,
+      &quot;email&quot;: &quot;nice-guy@example.cpf&quot;,
+      &quot;name&quot;: &quot;Nice Gvr&quot;,
+      &quot;url&quot;: &quot;http://nice-guy.example.cpf&quot;,
+      &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnz&quot;,
+      &quot;gravatar_id&quot;: &quot;21&quot;,
+      &quot;created_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;
+    }
+  ]
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/boards</h2>
+
+<p>Adds a new board.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>PATCH /api/v1/boards/1
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;board&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;ボード本文\n13&quot;,
+    &quot;priority&quot;: 1013,
+    &quot;created_by&quot;: 2013
+  }
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 1013,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.408+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.416+09:00&quot;,
+  &quot;groups&quot;: [
+
+  ],
+  &quot;members&quot;: [
+    {
+      &quot;id&quot;: 2,
+      &quot;provider&quot;: &quot;githuu&quot;,
+      &quot;uid&quot;: &quot;11130&quot;,
+      &quot;nickname&quot;: &quot;nice-gvl&quot;,
+      &quot;email&quot;: &quot;nice-guy@example.cpf&quot;,
+      &quot;name&quot;: &quot;Nice Gvr&quot;,
+      &quot;url&quot;: &quot;http://nice-guy.example.cpf&quot;,
+      &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnz&quot;,
+      &quot;gravatar_id&quot;: &quot;21&quot;,
+      &quot;created_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;
+    }
+  ]
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/boards/:id/dryrun</h2>
+
+<p>Returns ng and not updates.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>PATCH /api/v1/boards/1
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;board&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;ボード本文\n13&quot;,
+    &quot;priority&quot;: 1013,
+    &quot;created_by&quot;: 2013
+  }
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 1013,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.408+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.416+09:00&quot;,
+  &quot;groups&quot;: [
+
+  ],
+  &quot;members&quot;: [
+    {
+      &quot;id&quot;: 2,
+      &quot;provider&quot;: &quot;githuu&quot;,
+      &quot;uid&quot;: &quot;11130&quot;,
+      &quot;nickname&quot;: &quot;nice-gvl&quot;,
+      &quot;email&quot;: &quot;nice-guy@example.cpf&quot;,
+      &quot;name&quot;: &quot;Nice Gvr&quot;,
+      &quot;url&quot;: &quot;http://nice-guy.example.cpf&quot;,
+      &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnz&quot;,
+      &quot;gravatar_id&quot;: &quot;21&quot;,
+      &quot;created_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;
+    }
+  ]
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/boards</h2>
 
 <p>Returns boards.</p>
 
@@ -275,127 +339,191 @@ Generated at:
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/boards?{} HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/boards/1
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;board&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;ボード本文\n13&quot;,
+    &quot;priority&quot;: 1013,
+    &quot;created_by&quot;: 2013
+  }
+}
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
-
-[
-  {
-    &quot;id&quot;: 1,
-    &quot;subject&quot;: &quot;ボード-116&quot;,
-    &quot;priority&quot;: 1085,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/1&quot;
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;ボード-117&quot;,
-    &quot;priority&quot;: 1086,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/boards/2&quot;
-  }
-]
+<pre><code>HTTP/1.1 200
 </code></pre>
-</div></div><div id="doc/api/v1/groups.md" class="api-resource"><div class="api-action"><h2>GET /api/v1/groups/:id</h2>
 
-<p>Deletes a group.</p>
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 1013,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.408+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.416+09:00&quot;,
+  &quot;groups&quot;: [
+
+  ],
+  &quot;members&quot;: [
+    {
+      &quot;id&quot;: 2,
+      &quot;provider&quot;: &quot;githuu&quot;,
+      &quot;uid&quot;: &quot;11130&quot;,
+      &quot;nickname&quot;: &quot;nice-gvl&quot;,
+      &quot;email&quot;: &quot;nice-guy@example.cpf&quot;,
+      &quot;name&quot;: &quot;Nice Gvr&quot;,
+      &quot;url&quot;: &quot;http://nice-guy.example.cpf&quot;,
+      &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnz&quot;,
+      &quot;gravatar_id&quot;: &quot;21&quot;,
+      &quot;created_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;
+    }
+  ]
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/boards/:id</h2>
+
+<p>Deletes a board.</p>
 
 <h3>Example</h3>
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/boards/1/groups?{} HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/boards/1
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;board&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;ボード本文\n13&quot;,
+    &quot;priority&quot;: 1013,
+    &quot;created_by&quot;: 2013
+  }
+}
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
-
-[
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-10&quot;,
-    &quot;priority&quot;: 22,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
-  },
-  {
-    &quot;id&quot;: 3,
-    &quot;subject&quot;: &quot;グループ-11&quot;,
-    &quot;priority&quot;: 23,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/3&quot;
-  }
-]
+<pre><code>HTTP/1.1 200
 </code></pre>
-</div><div class="api-action"><h2>GET /api/v1/groups/:id</h2>
 
-<p>Updates a group.</p>
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 1013,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.408+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.416+09:00&quot;,
+  &quot;groups&quot;: [
+
+  ],
+  &quot;members&quot;: [
+    {
+      &quot;id&quot;: 2,
+      &quot;provider&quot;: &quot;githuu&quot;,
+      &quot;uid&quot;: &quot;11130&quot;,
+      &quot;nickname&quot;: &quot;nice-gvl&quot;,
+      &quot;email&quot;: &quot;nice-guy@example.cpf&quot;,
+      &quot;name&quot;: &quot;Nice Gvr&quot;,
+      &quot;url&quot;: &quot;http://nice-guy.example.cpf&quot;,
+      &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnz&quot;,
+      &quot;gravatar_id&quot;: &quot;21&quot;,
+      &quot;created_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;
+    }
+  ]
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/boards/:id</h2>
+
+<p>Updates a board.</p>
 
 <h3>Example</h3>
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/boards/1/groups?{} HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/boards/1
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;board&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;ボード本文\n13&quot;,
+    &quot;priority&quot;: 1013,
+    &quot;created_by&quot;: 2013
+  }
+}
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
-
-[
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-10&quot;,
-    &quot;priority&quot;: 22,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
-  },
-  {
-    &quot;id&quot;: 3,
-    &quot;subject&quot;: &quot;グループ-11&quot;,
-    &quot;priority&quot;: 23,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/3&quot;
-  }
-]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards/:board_id/groups/dryrun</h2>
-
-<p>Returns ng and not creates.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/boards/1/groups?{} HTTP/1.1
-
+<pre><code>HTTP/1.1 200
 </code></pre>
 
-<h4>Response</h4>
+<h5>Body</h5>
 
-<pre><code class="json">HTTP/1.1 200
+<pre><code class="json">
 
+{
+  &quot;id&quot;: 1,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 1013,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.408+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.416+09:00&quot;,
+  &quot;groups&quot;: [
 
-[
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-10&quot;,
-    &quot;priority&quot;: 22,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
-  },
-  {
-    &quot;id&quot;: 3,
-    &quot;subject&quot;: &quot;グループ-11&quot;,
-    &quot;priority&quot;: 23,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/3&quot;
-  }
-]
+  ],
+  &quot;members&quot;: [
+    {
+      &quot;id&quot;: 2,
+      &quot;provider&quot;: &quot;githuu&quot;,
+      &quot;uid&quot;: &quot;11130&quot;,
+      &quot;nickname&quot;: &quot;nice-gvl&quot;,
+      &quot;email&quot;: &quot;nice-guy@example.cpf&quot;,
+      &quot;name&quot;: &quot;Nice Gvr&quot;,
+      &quot;url&quot;: &quot;http://nice-guy.example.cpf&quot;,
+      &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnz&quot;,
+      &quot;gravatar_id&quot;: &quot;21&quot;,
+      &quot;created_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;,
+      &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.406+09:00&quot;
+    }
+  ]
+}
 </code></pre>
-</div><div class="api-action"><h2>GET /api/v1/groups/:id</h2>
+</div></div><div id="doc/api/v1/groups.md" class="api-resource"><div class="api-action"><h2>PATCH /api/v1/groups/:id</h2>
 
 <p>Retruns a group.</p>
 
@@ -403,63 +531,58 @@ Generated at:
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/boards/1/groups?{} HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/groups/2
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;group&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;グループ本文\n15&quot;,
+    &quot;priority&quot;: 25,
+    &quot;created_by&quot;: 35
+  }
+}
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
+<pre><code>HTTP/1.1 200
+</code></pre>
 
-[
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-10&quot;,
-    &quot;priority&quot;: 22,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 2,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 25,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.720+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.728+09:00&quot;,
+  &quot;board&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;ボード-23&quot;,
+    &quot;priority&quot;: 1025,
+    &quot;created_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;
   },
-  {
-    &quot;id&quot;: 3,
-    &quot;subject&quot;: &quot;グループ-11&quot;,
-    &quot;priority&quot;: 23,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/3&quot;
-  }
-]
+  &quot;members&quot;: [
+
+  ],
+  &quot;tasks&quot;: [
+
+  ]
+}
 </code></pre>
-</div><div class="api-action"><h2>GET /api/v1/groups/:id/dryrun</h2>
-
-<p>Returns ng and not updates.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/boards/1/groups?{} HTTP/1.1
-
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-[
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-10&quot;,
-    &quot;priority&quot;: 22,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
-  },
-  {
-    &quot;id&quot;: 3,
-    &quot;subject&quot;: &quot;グループ-11&quot;,
-    &quot;priority&quot;: 23,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/3&quot;
-  }
-]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards/:board_id/groups</h2>
+</div><div class="api-action"><h2>PATCH /api/v1/boards/:board_id/groups</h2>
 
 <p>Adds a group.</p>
 
@@ -467,333 +590,58 @@ Generated at:
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/boards/1/groups?{} HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/groups/2
 </code></pre>
 
-<h4>Response</h4>
+<h5>Body</h5>
 
-<pre><code class="json">HTTP/1.1 200
-
-
-[
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-10&quot;,
-    &quot;priority&quot;: 22,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
-  },
-  {
-    &quot;id&quot;: 3,
-    &quot;subject&quot;: &quot;グループ-11&quot;,
-    &quot;priority&quot;: 23,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/3&quot;
-  }
-]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/boards/:board_id/groups</h2>
-
-<p>Returns groups.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/boards/1/groups?{} HTTP/1.1
-
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-[
-  {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-10&quot;,
-    &quot;priority&quot;: 22,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/2&quot;
-  },
-  {
-    &quot;id&quot;: 3,
-    &quot;subject&quot;: &quot;グループ-11&quot;,
-    &quot;priority&quot;: 23,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/groups/3&quot;
-  }
-]
-</code></pre>
-</div></div><div id="doc/api/v1/tasks.md" class="api-resource"><div class="api-action"><h2>PATCH /api/v1/groups/:group_id/tasks</h2>
-
-<p>Returns tasks.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">PATCH /api/v1/tasks/3/dryrun HTTP/1.1
-
+<pre><code class="json">
 
 {
-  &quot;task&quot;: {
+  &quot;group&quot;: {
     &quot;subject&quot;: &quot;changed subject&quot;,
-    &quot;body&quot;: &quot;changed body&quot;,
-    &quot;priority&quot;: 117,
-    &quot;created_by&quot;: 217
+    &quot;body&quot;: &quot;グループ本文\n15&quot;,
+    &quot;priority&quot;: 25,
+    &quot;created_by&quot;: 35
   }
 }
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
 
 {
-  &quot;id&quot;: 3,
+  &quot;id&quot;: 2,
   &quot;subject&quot;: &quot;changed subject&quot;,
-  &quot;body&quot;: &quot;changed body&quot;,
-  &quot;priority&quot;: 117,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;group&quot;: {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-86&quot;,
-    &quot;priority&quot;: 50,
-    &quot;created_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;
+  &quot;priority&quot;: 25,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.720+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.728+09:00&quot;,
+  &quot;board&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;ボード-23&quot;,
+    &quot;priority&quot;: 1025,
+    &quot;created_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;
   },
   &quot;members&quot;: [
+
+  ],
+  &quot;tasks&quot;: [
 
   ]
 }
 </code></pre>
-</div><div class="api-action"><h2>PATCH /api/v1/tasks/:id</h2>
-
-<p>Updates a task.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">PATCH /api/v1/tasks/3/dryrun HTTP/1.1
-
-
-{
-  &quot;task&quot;: {
-    &quot;subject&quot;: &quot;changed subject&quot;,
-    &quot;body&quot;: &quot;changed body&quot;,
-    &quot;priority&quot;: 117,
-    &quot;created_by&quot;: 217
-  }
-}
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-{
-  &quot;id&quot;: 3,
-  &quot;subject&quot;: &quot;changed subject&quot;,
-  &quot;body&quot;: &quot;changed body&quot;,
-  &quot;priority&quot;: 117,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;group&quot;: {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-86&quot;,
-    &quot;priority&quot;: 50,
-    &quot;created_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;
-  },
-  &quot;members&quot;: [
-
-  ]
-}
-</code></pre>
-</div><div class="api-action"><h2>PATCH /api/v1/tasks/:id</h2>
-
-<p>Deletes a task.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">PATCH /api/v1/tasks/3/dryrun HTTP/1.1
-
-
-{
-  &quot;task&quot;: {
-    &quot;subject&quot;: &quot;changed subject&quot;,
-    &quot;body&quot;: &quot;changed body&quot;,
-    &quot;priority&quot;: 117,
-    &quot;created_by&quot;: 217
-  }
-}
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-{
-  &quot;id&quot;: 3,
-  &quot;subject&quot;: &quot;changed subject&quot;,
-  &quot;body&quot;: &quot;changed body&quot;,
-  &quot;priority&quot;: 117,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;group&quot;: {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-86&quot;,
-    &quot;priority&quot;: 50,
-    &quot;created_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;
-  },
-  &quot;members&quot;: [
-
-  ]
-}
-</code></pre>
-</div><div class="api-action"><h2>PATCH /api/v1/groups/:group_id/tasks/dryrun</h2>
-
-<p>Returns ng and not creates.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">PATCH /api/v1/tasks/3/dryrun HTTP/1.1
-
-
-{
-  &quot;task&quot;: {
-    &quot;subject&quot;: &quot;changed subject&quot;,
-    &quot;body&quot;: &quot;changed body&quot;,
-    &quot;priority&quot;: 117,
-    &quot;created_by&quot;: 217
-  }
-}
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-{
-  &quot;id&quot;: 3,
-  &quot;subject&quot;: &quot;changed subject&quot;,
-  &quot;body&quot;: &quot;changed body&quot;,
-  &quot;priority&quot;: 117,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;group&quot;: {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-86&quot;,
-    &quot;priority&quot;: 50,
-    &quot;created_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;
-  },
-  &quot;members&quot;: [
-
-  ]
-}
-</code></pre>
-</div><div class="api-action"><h2>PATCH /api/v1/groups/:group_id/tasks</h2>
-
-<p>Adds a task.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">PATCH /api/v1/tasks/3/dryrun HTTP/1.1
-
-
-{
-  &quot;task&quot;: {
-    &quot;subject&quot;: &quot;changed subject&quot;,
-    &quot;body&quot;: &quot;changed body&quot;,
-    &quot;priority&quot;: 117,
-    &quot;created_by&quot;: 217
-  }
-}
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-{
-  &quot;id&quot;: 3,
-  &quot;subject&quot;: &quot;changed subject&quot;,
-  &quot;body&quot;: &quot;changed body&quot;,
-  &quot;priority&quot;: 117,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;group&quot;: {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-86&quot;,
-    &quot;priority&quot;: 50,
-    &quot;created_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;
-  },
-  &quot;members&quot;: [
-
-  ]
-}
-</code></pre>
-</div><div class="api-action"><h2>PATCH /api/v1/tasks/:id</h2>
-
-<p>Returns a task.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">PATCH /api/v1/tasks/3/dryrun HTTP/1.1
-
-
-{
-  &quot;task&quot;: {
-    &quot;subject&quot;: &quot;changed subject&quot;,
-    &quot;body&quot;: &quot;changed body&quot;,
-    &quot;priority&quot;: 117,
-    &quot;created_by&quot;: 217
-  }
-}
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-{
-  &quot;id&quot;: 3,
-  &quot;subject&quot;: &quot;changed subject&quot;,
-  &quot;body&quot;: &quot;changed body&quot;,
-  &quot;priority&quot;: 117,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;group&quot;: {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-86&quot;,
-    &quot;priority&quot;: 50,
-    &quot;created_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;
-  },
-  &quot;members&quot;: [
-
-  ]
-}
-</code></pre>
-</div><div class="api-action"><h2>PATCH /api/v1/tasks/:id/dryrun</h2>
+</div><div class="api-action"><h2>PATCH /api/v1/groups/:id/dryrun</h2>
 
 <p>Returns ng and not updates.</p>
 
@@ -801,88 +649,588 @@ Generated at:
 
 <h4>Request</h4>
 
-<pre><code class="json">PATCH /api/v1/tasks/3/dryrun HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/groups/2
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
 
 {
-  &quot;task&quot;: {
+  &quot;group&quot;: {
     &quot;subject&quot;: &quot;changed subject&quot;,
-    &quot;body&quot;: &quot;changed body&quot;,
-    &quot;priority&quot;: 117,
-    &quot;created_by&quot;: 217
+    &quot;body&quot;: &quot;グループ本文\n15&quot;,
+    &quot;priority&quot;: 25,
+    &quot;created_by&quot;: 35
   }
 }
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
 
 {
-  &quot;id&quot;: 3,
+  &quot;id&quot;: 2,
   &quot;subject&quot;: &quot;changed subject&quot;,
-  &quot;body&quot;: &quot;changed body&quot;,
-  &quot;priority&quot;: 117,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.399+09:00&quot;,
-  &quot;group&quot;: {
-    &quot;id&quot;: 2,
-    &quot;subject&quot;: &quot;グループ-86&quot;,
-    &quot;priority&quot;: 50,
-    &quot;created_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;,
-    &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.396+09:00&quot;
+  &quot;priority&quot;: 25,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.720+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.728+09:00&quot;,
+  &quot;board&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;ボード-23&quot;,
+    &quot;priority&quot;: 1025,
+    &quot;created_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;
   },
   &quot;members&quot;: [
+
+  ],
+  &quot;tasks&quot;: [
 
   ]
 }
 </code></pre>
-</div></div><div id="doc/api/v1/users.md" class="api-resource"><div class="api-action"><h2>GET /api/v1/users</h2>
+</div><div class="api-action"><h2>PATCH /api/v1/boards/:board_id/groups/dryrun</h2>
 
-<p>Returns all users.</p>
+<p>Returns ng and not creates.</p>
 
 <h3>Example</h3>
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/users HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>PATCH /api/v1/groups/2
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;group&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;グループ本文\n15&quot;,
+    &quot;priority&quot;: 25,
+    &quot;created_by&quot;: 35
+  }
+}
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 2,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 25,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.720+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.728+09:00&quot;,
+  &quot;board&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;ボード-23&quot;,
+    &quot;priority&quot;: 1025,
+    &quot;created_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;
+  },
+  &quot;members&quot;: [
+
+  ],
+  &quot;tasks&quot;: [
+
+  ]
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/groups/:id</h2>
+
+<p>Deletes a group.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>PATCH /api/v1/groups/2
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;group&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;グループ本文\n15&quot;,
+    &quot;priority&quot;: 25,
+    &quot;created_by&quot;: 35
+  }
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 2,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 25,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.720+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.728+09:00&quot;,
+  &quot;board&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;ボード-23&quot;,
+    &quot;priority&quot;: 1025,
+    &quot;created_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;
+  },
+  &quot;members&quot;: [
+
+  ],
+  &quot;tasks&quot;: [
+
+  ]
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/boards/:board_id/groups</h2>
+
+<p>Returns groups.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>PATCH /api/v1/groups/2
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;group&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;グループ本文\n15&quot;,
+    &quot;priority&quot;: 25,
+    &quot;created_by&quot;: 35
+  }
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 2,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 25,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.720+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.728+09:00&quot;,
+  &quot;board&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;ボード-23&quot;,
+    &quot;priority&quot;: 1025,
+    &quot;created_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;
+  },
+  &quot;members&quot;: [
+
+  ],
+  &quot;tasks&quot;: [
+
+  ]
+}
+</code></pre>
+</div><div class="api-action"><h2>PATCH /api/v1/groups/:id</h2>
+
+<p>Updates a group.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>PATCH /api/v1/groups/2
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;group&quot;: {
+    &quot;subject&quot;: &quot;changed subject&quot;,
+    &quot;body&quot;: &quot;グループ本文\n15&quot;,
+    &quot;priority&quot;: 25,
+    &quot;created_by&quot;: 35
+  }
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 2,
+  &quot;subject&quot;: &quot;changed subject&quot;,
+  &quot;priority&quot;: 25,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.720+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.728+09:00&quot;,
+  &quot;board&quot;: {
+    &quot;id&quot;: 1,
+    &quot;subject&quot;: &quot;ボード-23&quot;,
+    &quot;priority&quot;: 1025,
+    &quot;created_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;,
+    &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.717+09:00&quot;
+  },
+  &quot;members&quot;: [
+
+  ],
+  &quot;tasks&quot;: [
+
+  ]
+}
+</code></pre>
+</div></div><div id="doc/api/v1/tasks.md" class="api-resource"><div class="api-action"><h2>DELETE /api/v1/groups/:group_id/tasks</h2>
+
+<p>Adds a task.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>DELETE /api/v1/tasks/3
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 204
+</code></pre>
+</div><div class="api-action"><h2>DELETE /api/v1/groups/:group_id/tasks/dryrun</h2>
+
+<p>Returns ng and not creates.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>DELETE /api/v1/tasks/3
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 204
+</code></pre>
+</div><div class="api-action"><h2>DELETE /api/v1/tasks/:id</h2>
+
+<p>Updates a task.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>DELETE /api/v1/tasks/3
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 204
+</code></pre>
+</div><div class="api-action"><h2>DELETE /api/v1/tasks/:id</h2>
+
+<p>Returns a task.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>DELETE /api/v1/tasks/3
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 204
+</code></pre>
+</div><div class="api-action"><h2>DELETE /api/v1/groups/:group_id/tasks</h2>
+
+<p>Returns tasks.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>DELETE /api/v1/tasks/3
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 204
+</code></pre>
+</div><div class="api-action"><h2>DELETE /api/v1/tasks/:id/dryrun</h2>
+
+<p>Returns ng and not updates.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>DELETE /api/v1/tasks/3
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 204
+</code></pre>
+</div><div class="api-action"><h2>DELETE /api/v1/tasks/:id</h2>
+
+<p>Deletes a task.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>DELETE /api/v1/tasks/3
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+}
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 204
+</code></pre>
+</div></div><div id="doc/api/v1/users.md" class="api-resource"><div class="api-action"><h2>GET /api/v1/users/:id</h2>
+
+<p>Returns a user.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>GET /api/v1/users/2
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 2,
+  &quot;provider&quot;: &quot;githud&quot;,
+  &quot;uid&quot;: &quot;11113&quot;,
+  &quot;nickname&quot;: &quot;nice-gva&quot;,
+  &quot;email&quot;: &quot;nice-guy@example.coo&quot;,
+  &quot;name&quot;: &quot;Nice Gva&quot;,
+  &quot;url&quot;: &quot;http://nice-guy.example.coo&quot;,
+  &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pni&quot;,
+  &quot;gravatar_id&quot;: &quot;4&quot;,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.129+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.129+09:00&quot;
+}
+</code></pre>
+</div><div class="api-action"><h2>GET /api/v1/users/current</h2>
+
+<p>Returns user info who logged in.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>GET /api/v1/users/current
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
+
+{
+  &quot;id&quot;: 1,
+  &quot;provider&quot;: &quot;githue&quot;,
+  &quot;uid&quot;: &quot;11114&quot;,
+  &quot;nickname&quot;: &quot;nice-gvb&quot;,
+  &quot;email&quot;: &quot;nice-guy@example.cop&quot;,
+  &quot;name&quot;: &quot;Nice Gvb&quot;,
+  &quot;url&quot;: &quot;http://nice-guy.example.cop&quot;,
+  &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnj&quot;,
+  &quot;gravatar_id&quot;: &quot;5&quot;,
+  &quot;created_at&quot;: &quot;2015-11-14T07:34:16.143+09:00&quot;,
+  &quot;updated_at&quot;: &quot;2015-11-14T07:34:16.143+09:00&quot;
+}
+</code></pre>
+</div><div class="api-action"><h2>GET /api/v1/users</h2>
+
+<p>Returns matching users.</p>
+
+<h3>Example</h3>
+
+<h4>Request</h4>
+
+<h5>Header</h5>
+
+<pre><code>GET /api/v1/users?nickname=ppy
+</code></pre>
+
+<h4>Response</h4>
+
+<h5>Header</h5>
+
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
 
 [
-  {
-    &quot;id&quot;: 1,
-    &quot;provider&quot;: &quot;githug&quot;,
-    &quot;uid&quot;: &quot;11116&quot;,
-    &quot;nickname&quot;: &quot;nice-gvd&quot;,
-    &quot;email&quot;: &quot;nice-guy@example.cor&quot;,
-    &quot;name&quot;: &quot;Nice Gvd&quot;,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/users/1&quot;,
-    &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnl&quot;,
-    &quot;gravatar_id&quot;: &quot;7&quot;
-  },
-  {
-    &quot;id&quot;: 2,
-    &quot;provider&quot;: &quot;githuh&quot;,
-    &quot;uid&quot;: &quot;11117&quot;,
-    &quot;nickname&quot;: &quot;nice-gve&quot;,
-    &quot;email&quot;: &quot;nice-guy@example.cos&quot;,
-    &quot;name&quot;: &quot;Nice Gve&quot;,
-    &quot;url&quot;: &quot;http://www.example.com/api/v1/users/2&quot;,
-    &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnm&quot;,
-    &quot;gravatar_id&quot;: &quot;8&quot;
-  },
   {
     &quot;id&quot;: 3,
     &quot;provider&quot;: &quot;githui&quot;,
     &quot;uid&quot;: &quot;11118&quot;,
-    &quot;nickname&quot;: &quot;nice-gvf&quot;,
+    &quot;nickname&quot;: &quot;happy-cat&quot;,
     &quot;email&quot;: &quot;nice-guy@example.cot&quot;,
     &quot;name&quot;: &quot;Nice Gvf&quot;,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/users/3&quot;,
@@ -893,27 +1241,34 @@ Generated at:
 </code></pre>
 </div><div class="api-action"><h2>GET /api/v1/users</h2>
 
-<p>Returns orderd users desc.</p>
+<p>Returns all users.</p>
 
 <h3>Example</h3>
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/users?order_by=nickname&amp;direction=desc HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>GET /api/v1/users
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
 
 [
   {
     &quot;id&quot;: 1,
     &quot;provider&quot;: &quot;githuj&quot;,
     &quot;uid&quot;: &quot;11119&quot;,
-    &quot;nickname&quot;: &quot;nice-gvg&quot;,
+    &quot;nickname&quot;: &quot;nice-gve&quot;,
     &quot;email&quot;: &quot;nice-guy@example.cou&quot;,
     &quot;name&quot;: &quot;Nice Gvg&quot;,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/users/1&quot;,
@@ -924,7 +1279,7 @@ Generated at:
     &quot;id&quot;: 2,
     &quot;provider&quot;: &quot;githuk&quot;,
     &quot;uid&quot;: &quot;11120&quot;,
-    &quot;nickname&quot;: &quot;bbb&quot;,
+    &quot;nickname&quot;: &quot;nice-gvf&quot;,
     &quot;email&quot;: &quot;nice-guy@example.cov&quot;,
     &quot;name&quot;: &quot;Nice Gvh&quot;,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/users/2&quot;,
@@ -935,7 +1290,7 @@ Generated at:
     &quot;id&quot;: 3,
     &quot;provider&quot;: &quot;githul&quot;,
     &quot;uid&quot;: &quot;11121&quot;,
-    &quot;nickname&quot;: &quot;aaa&quot;,
+    &quot;nickname&quot;: &quot;nice-gvg&quot;,
     &quot;email&quot;: &quot;nice-guy@example.cow&quot;,
     &quot;name&quot;: &quot;Nice Gvi&quot;,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/users/3&quot;,
@@ -952,14 +1307,21 @@ Generated at:
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/users?order_by=nickname HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>GET /api/v1/users?order_by=nickname
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
 
 [
   {
@@ -999,27 +1361,56 @@ Generated at:
 </code></pre>
 </div><div class="api-action"><h2>GET /api/v1/users</h2>
 
-<p>Returns matching users.</p>
+<p>Returns orderd users desc.</p>
 
 <h3>Example</h3>
 
 <h4>Request</h4>
 
-<pre><code class="json">GET /api/v1/users?nickname=ppy HTTP/1.1
+<h5>Header</h5>
 
+<pre><code>GET /api/v1/users?order_by=nickname&amp;direction=desc
 </code></pre>
 
 <h4>Response</h4>
 
-<pre><code class="json">HTTP/1.1 200
+<h5>Header</h5>
 
+<pre><code>HTTP/1.1 200
+</code></pre>
+
+<h5>Body</h5>
+
+<pre><code class="json">
 
 [
+  {
+    &quot;id&quot;: 1,
+    &quot;provider&quot;: &quot;githup&quot;,
+    &quot;uid&quot;: &quot;11125&quot;,
+    &quot;nickname&quot;: &quot;nice-gvi&quot;,
+    &quot;email&quot;: &quot;nice-guy@example.cpa&quot;,
+    &quot;name&quot;: &quot;Nice Gvm&quot;,
+    &quot;url&quot;: &quot;http://www.example.com/api/v1/users/1&quot;,
+    &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnu&quot;,
+    &quot;gravatar_id&quot;: &quot;16&quot;
+  },
+  {
+    &quot;id&quot;: 2,
+    &quot;provider&quot;: &quot;githuq&quot;,
+    &quot;uid&quot;: &quot;11126&quot;,
+    &quot;nickname&quot;: &quot;bbb&quot;,
+    &quot;email&quot;: &quot;nice-guy@example.cpb&quot;,
+    &quot;name&quot;: &quot;Nice Gvn&quot;,
+    &quot;url&quot;: &quot;http://www.example.com/api/v1/users/2&quot;,
+    &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pnv&quot;,
+    &quot;gravatar_id&quot;: &quot;17&quot;
+  },
   {
     &quot;id&quot;: 3,
     &quot;provider&quot;: &quot;githur&quot;,
     &quot;uid&quot;: &quot;11127&quot;,
-    &quot;nickname&quot;: &quot;happy-cat&quot;,
+    &quot;nickname&quot;: &quot;aaa&quot;,
     &quot;email&quot;: &quot;nice-guy@example.cpc&quot;,
     &quot;name&quot;: &quot;Nice Gvo&quot;,
     &quot;url&quot;: &quot;http://www.example.com/api/v1/users/3&quot;,
@@ -1027,68 +1418,6 @@ Generated at:
     &quot;gravatar_id&quot;: &quot;18&quot;
   }
 ]
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/users/current</h2>
-
-<p>Returns user info who logged in.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/users/current HTTP/1.1
-
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-{
-  &quot;id&quot;: 1,
-  &quot;provider&quot;: &quot;githut&quot;,
-  &quot;uid&quot;: &quot;11129&quot;,
-  &quot;nickname&quot;: &quot;nice-gvk&quot;,
-  &quot;email&quot;: &quot;nice-guy@example.cpe&quot;,
-  &quot;name&quot;: &quot;Nice Gvq&quot;,
-  &quot;url&quot;: &quot;http://nice-guy.example.cpe&quot;,
-  &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.pny&quot;,
-  &quot;gravatar_id&quot;: &quot;20&quot;,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.561+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.561+09:00&quot;
-}
-</code></pre>
-</div><div class="api-action"><h2>GET /api/v1/users/:id</h2>
-
-<p>Returns a user.</p>
-
-<h3>Example</h3>
-
-<h4>Request</h4>
-
-<pre><code class="json">GET /api/v1/users/2 HTTP/1.1
-
-</code></pre>
-
-<h4>Response</h4>
-
-<pre><code class="json">HTTP/1.1 200
-
-
-{
-  &quot;id&quot;: 2,
-  &quot;provider&quot;: &quot;githuv&quot;,
-  &quot;uid&quot;: &quot;11131&quot;,
-  &quot;nickname&quot;: &quot;nice-gvm&quot;,
-  &quot;email&quot;: &quot;nice-guy@example.cpg&quot;,
-  &quot;name&quot;: &quot;Nice Gvs&quot;,
-  &quot;url&quot;: &quot;http://nice-guy.example.cpg&quot;,
-  &quot;avatar_url&quot;: &quot;https://nice-guy.example.com/nice-guy.poa&quot;,
-  &quot;gravatar_id&quot;: &quot;22&quot;,
-  &quot;created_at&quot;: &quot;2015-11-14T07:06:25.577+09:00&quot;,
-  &quot;updated_at&quot;: &quot;2015-11-14T07:06:25.577+09:00&quot;
-}
 </code></pre>
 </div></div></div>
 </html>

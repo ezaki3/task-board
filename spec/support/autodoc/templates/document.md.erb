@@ -5,13 +5,29 @@
 ### Example
 
 #### Request
-```json
-<%= method %> <%= request.path %><%= request_query %> <%= request_http_version %>
-<%= request_body_section %>
+
+##### Header
+```
+<%= method %> <%= request.path %><%= request_query %>
 ```
 
-#### Response
+<% if  request_body_section %>
+##### Body
 ```json
+<%= request_body_section %>
+```
+<% end %>
+
+#### Response
+
+##### Header
+```
 <%= response_http_version %> <%= response.status %>
+```
+
+<% if  response_body_section %>
+##### Body
+```json
 <%= response_body_section %>
 ```
+<% end %>
