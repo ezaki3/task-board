@@ -1,5 +1,6 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
   include Membership
+  include Draggable
 
   def index
     super

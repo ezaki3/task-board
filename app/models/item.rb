@@ -13,7 +13,7 @@ class Item < ActiveRecord::Base
   after_destroy :slide_priority
 
   scope :prior, -> { order(:priority, updated_at: :desc) }
-  scope :peers, ->(parent_id) { where(parent_id: parent_id) } # if parent_id.present? }
+  scope :peers, ->(parent_id) { where(parent_id: parent_id) }
 
   private
 

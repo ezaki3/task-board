@@ -12,7 +12,7 @@ module Crudable
   # GET /resources
   # GET /resources.json
   def index
-    instance_variable_set(resource(:tableize), @model.prior)
+    instance_variable_set(resource(:tableize), @model.all)
   end
 
   # GET /resources/1

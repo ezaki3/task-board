@@ -17,6 +17,7 @@ Rails.application.routes.draw do
         end
       end
 
+      resources :users, only: [:index, :show], constraints: {id: /[0-9]+/}
       get 'users/current' => 'users#current'
 
       resources :boards, except: [:new, :edit],
