@@ -1,5 +1,5 @@
 class Api::V1::GroupsController < Api::V1::ApplicationController
-  include Ownable
+  include Membership
 
   def index
     super
@@ -15,5 +15,11 @@ class Api::V1::GroupsController < Api::V1::ApplicationController
     else
       super
     end
+  end
+
+  def resource_params
+    params.require(model_name.underscore.intern).permit(
+      *@model.column_names.map(&:intern) + [:user_id, :board_id]
+    )
   end
 end

@@ -27,7 +27,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
         expect(res['id']).to eq id
         expect(res['subject']).to eq board['subject']
         expect(res['priority']).to eq board['priority']
-        expect(res['user']['id']).to eq board['user_id']
+        expect(res['members']).to be_truthy
       end
     end
 
@@ -49,7 +49,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
         expect(res['subject']).to eq params[:board][:subject]
         expect(res['priority']).to eq params[:board][:priority]
         expect(res['updated_at']).to eq res['created_at']
-        expect(res['user']['id']).to eq @user.id
+        expect(res['members'][0]['id']).to eq @user.id
         expect(response.header['location']).to eq '/api/v1/boards/%d' % res['id']
       end
     end
@@ -103,7 +103,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
     end
 
     context 'with valid params' do
-      it 'updates a board (but not user_id)', autodoc: true do
+      it 'updates a board', autodoc: true do
         expect {
           is_expected.to eq 200
         }.not_to change(Board, :count)
@@ -112,7 +112,6 @@ RSpec.describe 'Api::V1::Boards', type: :request do
         expect(res['subject']).to eq params[:board][:subject]
         expect(res['priority']).to eq params[:board][:priority]
         expect(res['updated_at']).not_to eq res['created_at']
-        expect(res['user']['id']).to eq board.user_id
         expect(response.header['location']).to eq '/api/v1/boards/%d' %id
       end
     end

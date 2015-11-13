@@ -1,4 +1,4 @@
-module Ownable
+module Membership
   extend ActiveSupport::Concern
   include Inflector
 
@@ -10,6 +10,7 @@ module Ownable
 
   def set_user
     @model ||= set_model
+    # params[resource_name][:member][:user_id] = session[:user_id]
     params[resource_name][:user_id] = session[:user_id]
   end
 end

@@ -45,7 +45,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['subject']).to eq task['subject']
         expect(res['group']['id']).to eq task.group['id']
         expect(res['priority']).to eq task['priority']
-        expect(res['user']['id']).to eq task['user_id']
+        expect(res['members']).to be_truthy
       end
     end
   end
@@ -69,7 +69,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['body']).to eq params[:task][:body]
         expect(res['priority']).to eq params[:task][:priority]
         expect(res['updated_at']).to eq res['created_at']
-        expect(res['user']['id']).to eq @user.id
+        expect(res['members'][0]['id']).to eq @user.id
         expect(response.header['location']).to eq '/api/v1/tasks/%d' % res['id']
       end
     end
@@ -127,7 +127,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     end
 
     context 'with valid params' do
-      it 'updates a task (but not user_id)', autodoc: true do
+      it 'updates a task', autodoc: true do
         expect {
           is_expected.to eq 200
         }.not_to change(Task, :count)
@@ -137,7 +137,6 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['body']).to eq params[:task][:body]
         expect(res['priority']).to eq params[:task][:priority]
         expect(res['updated_at']).not_to eq res['created_at']
-        expect(res['user']['id']).to eq task.user_id
         expect(response.header['location']).to eq '/api/v1/tasks/%d' % id
       end
     end
