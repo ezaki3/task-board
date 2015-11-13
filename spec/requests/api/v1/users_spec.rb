@@ -38,6 +38,40 @@ RSpec.describe 'Api::V1::Users', type: :request do
         expect(res.first['nickname']).to eq 'happy-cat'
       end
     end
+
+    context 'has order' do
+      let!(:user1) { create(:user, nickname: 'bbb') }
+      let!(:user2) { create(:user, nickname: 'aaa') }
+
+      context 'asc' do
+        before do
+          params['order_by'] = 'nickname'
+        end
+
+        it 'returns orderd users asc', autodoc: true do
+          is_expected.to eq 200
+          res = JSON(response.body)
+          expect(res.size).to eq 3
+          expect(res.first['nickname']).to eq 'aaa'
+          expect(res.second['nickname']).to eq 'bbb'
+        end
+      end
+
+      context 'desc' do
+        before do
+          params['order_by'] = 'nickname'
+          params['direction'] = 'desc'
+        end
+
+        it 'returns orderd users desc', autodoc: true do
+          is_expected.to eq 200
+          res = JSON(response.body)
+          expect(res.size).to eq 3
+          expect(res.third['nickname']).to eq 'aaa'
+          expect(res.second['nickname']).to eq 'bbb'
+        end
+      end
+    end
   end
 
   describe 'GET /api/v1/users/:id' do
