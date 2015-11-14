@@ -1,4 +1,6 @@
 class Api::V1::UsersController < Api::V1::ApplicationController
+  include Searchable
+
   def current
     @user = User.find(session[:user_id])
     if @user

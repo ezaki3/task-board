@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  include KeywordSearch
+
   has_many :members
   has_many :items, through: :members
 

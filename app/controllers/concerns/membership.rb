@@ -3,14 +3,13 @@ module Membership
   include Inflector
 
   included do
-    before_action :set_user, only: :create
+    before_action :set_creator, only: :create
   end
 
   private
 
-  def set_user
+  def set_creator
     @model ||= set_model
-    # params[resource_name][:member][:user_id] = session[:user_id]
-    params[resource_name][:user_id] = session[:user_id]
+    params[resource_name][:created_by] = session[:user_id]
   end
 end
