@@ -120,7 +120,8 @@ RSpec.describe 'Api::V1::Boards', type: :request do
     let(:params) do
       {
         board: attributes_for(
-          :board, subject: 'changed subject'
+          :board, subject: 'changed subject',
+          members_attributes: [attributes_for(:member, item_id: nil, user_id: @user.id)]
         )
       }
     end
@@ -131,10 +132,15 @@ RSpec.describe 'Api::V1::Boards', type: :request do
           is_expected.to eq 200
         }.not_to change(Board, :count)
         res = JSON(response.body)
+        p res
+        Member.all.each do |m|
+          p m.inspect
+        end
         expect(res['id']).to eq board.id
         expect(res['subject']).to eq params[:board][:subject]
         expect(res['priority']).to eq params[:board][:priority]
         expect(res['updated_at']).not_to eq res['created_at']
+        expect(res['members'].size).to eq 2
         expect(response.header['location']).to eq '/api/v1/boards/%d' %id
       end
     end
