@@ -2,6 +2,8 @@ class Item < ActiveRecord::Base
   has_many :members
   has_many :users, through: :members
 
+  accepts_nested_attributes_for :members, allow_destroy: true
+
   alias_attribute :name, :subject # for RSpec ?
   alias_attribute :user_id, :created_by
 

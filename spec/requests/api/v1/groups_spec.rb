@@ -9,15 +9,8 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     truncate_users
   end
 
-  let(:headers) do
-    {
-      'Content-Type' => 'application/json',
-      'Accept' => 'application/json'
-    }
-  end
-
   describe 'GET /api/v1/groups/:id' do
-    let(:group) { FactoryGirl.create(:group) }
+    let(:group) { create(:group) }
     let(:id) { group.id }
 
     context 'with valid id' do
@@ -40,8 +33,24 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'POST /api/v1/boards/:board_id/groups' do
-    let(:params) { { group: FactoryGirl.attributes_for(:group, board_id: board_id) } }
-    let(:board) { FactoryGirl.create(:board) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let!(:user) { create(:user) }
+    let(:params) {
+      {
+        group: attributes_for(
+          :group,
+          board_id: board_id,
+          members_attributes: [attributes_for(:member, item_id: nil, user_id: user.id)]
+        )
+      }
+    }
+    let(:board) { create(:board) }
     let(:board_id) { board.id }
 
     context 'with valid params' do
@@ -51,7 +60,8 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         expect(res['subject']).to eq params[:group][:subject]
         expect(res['priority']).to eq params[:group][:priority]
         expect(res['updated_at']).to eq res['created_at']
-        expect(res['members'][0]['id']).to eq @user.id
+        # expect(res['members'][0]['id']).to eq @user.id
+        expect(res['members'].size).to eq 2
         expect(response.header['location']).to eq '/api/v1/groups/%d' % res['id']
       end
     end
@@ -68,8 +78,15 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'POST /api/v1/boards/:board_id/groups/dryrun' do
-    let(:params) { { group: FactoryGirl.attributes_for(:group, board_id: board_id) } }
-    let(:board) { FactoryGirl.create(:board) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let(:params) { { group: attributes_for(:group, board_id: board_id) } }
+    let(:board) { create(:board) }
     let(:board_id) { board.id }
 
     context 'with valid params' do
@@ -95,11 +112,18 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'PATCH /api/v1/groups/:id' do
-    let!(:group) { FactoryGirl.create(:group, user_id: @user.id + 1) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let!(:group) { create(:group, user_id: @user.id + 1) }
     let(:id) { group.id }
     let(:params) do
       {
-        group: FactoryGirl.attributes_for(
+        group: attributes_for(
           :group, subject: 'changed subject'
         )
       }
@@ -131,11 +155,18 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'PATCH /api/v1/groups/:id/dryrun' do
-    let!(:group) { FactoryGirl.create(:group) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let!(:group) { create(:group) }
     let(:id) { group.id }
     let(:params) do
       {
-        group: FactoryGirl.attributes_for(
+        group: attributes_for(
           :group, subject: 'changed subject'
         )
       }
@@ -165,7 +196,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'DELETE /api/v1/groups/:id' do
-    let!(:group) { FactoryGirl.create(:group) }
+    let!(:group) { create(:group) }
     let(:id) { group.id }
 
     context 'with valid id' do
@@ -185,8 +216,8 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'GET /api/v1/boards/:board_id/groups' do
-    let!(:groups) { FactoryGirl.create_list(:group, 2, board_id: board_id) }
-    let(:board) { FactoryGirl.create(:board) }
+    let!(:groups) { create_list(:group, 2, board_id: board_id) }
+    let(:board) { create(:board) }
     let(:board_id) { board.id }
 
     context 'with valid board id' do
