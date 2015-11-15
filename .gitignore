@@ -24,6 +24,10 @@
 !/log/.keep
 /tmp
 
+# Ignore autodoc
+/doc/*
+!/doc/.keep
+
 spec/examples.txt
 
 # Ignore other unneeded files.

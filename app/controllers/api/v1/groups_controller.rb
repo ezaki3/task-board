@@ -20,7 +20,8 @@ class Api::V1::GroupsController < Api::V1::ApplicationController
 
   def resource_params
     params.require(model_name.underscore.intern).permit(
-      *@model.column_names.map(&:intern) + [:user_id, :board_id]
+      *@model.column_names.map(&:intern), :user_id, :board_id,
+      members_attributes: [:item_id, :user_id, :is_owner]
     )
   end
 end

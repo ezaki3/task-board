@@ -12,17 +12,10 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     truncate_users
   end
 
-  let(:headers) do
-    {
-      'Content-Type' => 'application/json',
-      'Accept' => 'application/json'
-    }
-  end
-
   # describeで記述されている文字列の内容が解析されて、
   # subject { get '/tasks/#{id}' } というコードと同等の内容が自動的に定義されます
   describe 'GET /api/v1/tasks/:id' do
-    let(:task) { FactoryGirl.create(:task) }
+    let(:task) { create(:task) }
     let(:id) { task.id }
 
     context 'with invalid id' do
@@ -51,12 +44,28 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   end
 
   describe 'POST /api/v1/groups/:group_id/tasks' do
-    # let(:headers) do
-    #   {'Content-Type' => 'application/json'}
-    # end
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
 
-    let(:params) { { task: FactoryGirl.attributes_for(:task, group_id: group_id) } }
-    let(:group) { FactoryGirl.create(:group) }
+    let!(:user) { create(:user) }
+    let(:params) {
+      {
+        task: attributes_for(
+          :task,
+          group_id: group_id,
+          members_attributes: [
+            attributes_for(:member, item_id: nil, user_id: @user.id),
+            attributes_for(:member, item_id: nil, user_id: user.id)
+          ]
+        )
+      }
+    }
+
+    let(:group) { create(:group) }
     let(:group_id) { group.id }
 
     context 'with valid params' do
@@ -69,7 +78,8 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         expect(res['body']).to eq params[:task][:body]
         expect(res['priority']).to eq params[:task][:priority]
         expect(res['updated_at']).to eq res['created_at']
-        expect(res['members'][0]['id']).to eq @user.id
+        # expect(res['members'][0]['id']).to eq @user.id
+        expect(res['members'].size).to eq 2
         expect(response.header['location']).to eq '/api/v1/tasks/%d' % res['id']
       end
     end
@@ -88,8 +98,15 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   end
 
   describe 'POST /api/v1/groups/:group_id/tasks/dryrun' do
-    let(:params) { { task: FactoryGirl.attributes_for(:task, group_id: group_id) } }
-    let(:group) { FactoryGirl.create(:group) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let(:params) { { task: attributes_for(:task, group_id: group_id) } }
+    let(:group) { create(:group) }
     let(:group_id) { group.id }
 
     context 'with valid params' do
@@ -116,11 +133,18 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   end
 
   describe 'PATCH /api/v1/tasks/:id' do
-    let!(:task) { FactoryGirl.create(:task, user_id: @user.id + 1) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let!(:task) { create(:task, user_id: @user.id + 1) }
     let(:id) { task.id }
     let(:params) do
       {
-        task: FactoryGirl.attributes_for(
+        task: attributes_for(
           :task, subject: 'changed subject', body: 'changed body'
         )
       }
@@ -155,11 +179,18 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   end
 
   describe 'PATCH /api/v1/tasks/:id/dryrun' do
-    let!(:task) { FactoryGirl.create(:task) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let!(:task) { create(:task) }
     let(:id) { task.id }
     let(:params) do
       {
-        task: FactoryGirl.attributes_for(
+        task: attributes_for(
           :task, subject: 'changed subject', body: 'changed body'
         )
       }
@@ -190,7 +221,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   end
 
   describe 'DELETE /api/v1/tasks/:id' do
-    let!(:task) { FactoryGirl.create(:task) }
+    let!(:task) { create(:task) }
     let(:id) { task.id }
 
     context 'with valid id', autodoc: true do
@@ -211,8 +242,8 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   end
 
   describe 'GET /api/v1/groups/:group_id/tasks' do
-    let!(:tasks) { FactoryGirl.create_list(:task, 2, group_id: group_id) }
-    let(:group) { FactoryGirl.create(:group) }
+    let!(:tasks) { create_list(:task, 2, group_id: group_id) }
+    let(:group) { create(:group) }
     let(:group_id) { group.id }
 
     context 'with valid group id' do
