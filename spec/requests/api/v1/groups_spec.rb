@@ -46,7 +46,10 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         group: attributes_for(
           :group,
           board_id: board_id,
-          members_attributes: [attributes_for(:member, item_id: nil, user_id: user.id)]
+          members_attributes: [
+            attributes_for(:member, item_id: nil, user_id: @user.id),
+            attributes_for(:member, item_id: nil, user_id: user.id)
+          ]
         )
       }
     }

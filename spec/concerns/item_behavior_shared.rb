@@ -73,19 +73,6 @@ RSpec.shared_examples 'item behavior' do
     end
   end
 
-  describe '#save_member' do
-    let(:resource) { create(obj_name) }
-
-    context 'on created' do
-      it 'creates member' do
-        expect(resource.members.size).to eq 1
-        expect(resource.members.first.item_id).to eq resource.id
-        expect(resource.members.first.user_id).to eq resource.created_by
-        expect(resource.members.first.is_owner).to be true
-      end
-    end
-  end
-
   describe '#adjust_priority creates' do
     let!(:resource1) { create(obj_name, parent_id: 1, priority: 11) }
     let!(:resource2) { create(obj_name, parent_id: 1, priority: 12) }

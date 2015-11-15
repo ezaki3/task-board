@@ -57,7 +57,10 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         task: attributes_for(
           :task,
           group_id: group_id,
-          members_attributes: [attributes_for(:member, item_id: nil, user_id: user.id)]
+          members_attributes: [
+            attributes_for(:member, item_id: nil, user_id: @user.id),
+            attributes_for(:member, item_id: nil, user_id: user.id)
+          ]
         )
       }
     }

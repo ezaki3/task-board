@@ -10,7 +10,6 @@ class Item < ActiveRecord::Base
   validates :subject, presence: true
   validates :priority, numericality: {only_integer: true}, allow_blank: true
 
-  after_create :create_member
   before_save :adjust_priority
   after_destroy :slide_priority
 
@@ -18,16 +17,6 @@ class Item < ActiveRecord::Base
   scope :peers, ->(parent_id) { where(parent_id: parent_id) }
 
   private
-
-  def create_member
-    save_member(self.created_by, true)
-  end
-
-  def save_member(user_id, is_owner = false)
-    member = Member.find_or_initialize_by(item_id: self.id, user_id: user_id)
-    member.assign_attributes(is_owner: is_owner)
-    member.save!
-  end
 
   def adjust_priority
     if self.priority.blank?
