@@ -14,7 +14,6 @@ class Item < ActiveRecord::Base
 
   before_save :adjust_priority
   after_destroy :slide_priority
-  after_create :talk_to_slack
 
   scope :prior, -> { order(:priority, updated_at: :desc) }
   scope :peers, ->(parent_id) { where(parent_id: parent_id) }
@@ -51,15 +50,5 @@ class Item < ActiveRecord::Base
       .where('priority >= ?', priority)
       .where.not(id: self.id)
       .update_all('priority = priority - 1')
-  end
-
-  def talk_to_slack
-    text = <<-EOL
-[New #{self.class.name}] #{self.subject} created by #{self.user.nickname}
-#{self.body}
-    EOL
-    Slack.chat_postMessage(
-      text: text, username: ENV['SLACK_USERNAME'], channel: ENV['SLACK_CHANNEL']
-    )
   end
 end

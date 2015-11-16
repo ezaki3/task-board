@@ -1,6 +1,7 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
   include Membership
   include Draggable
+  include Talkable
 
   def index
     super
@@ -23,5 +24,9 @@ class Api::V1::TasksController < Api::V1::ApplicationController
       *@model.column_names.map(&:intern), :user_id, :group_id,
       members_attributes: [:item_id, :user_id, :is_owner]
     )
+  end
+
+  def my_url
+    url_for(instance_variable_get(resource).group.board)
   end
 end
