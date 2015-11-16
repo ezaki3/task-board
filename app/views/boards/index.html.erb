@@ -59,6 +59,10 @@
                         <p class="help-block" data-bind="text: $data"></p>
                         <!-- /ko -->
                     </div>
+                    <div class="form-group">
+                        <label for="subject" class="control-label">メンバー:</label>
+                        <select data-bind="options: baseViewModel.users, optionsText: 'nickname', selectedOptions: selectedUsers" multiple class="form-control"></select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

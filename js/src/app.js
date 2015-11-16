@@ -5,6 +5,7 @@ crossroads.addRoute('/', function() {
     var ViewModel = require('./viewmodel/boards/index.js');
     var viewModel = new ViewModel();
     viewModel.listBoard();
+    viewModel.listUser();
     ko.applyBindings(viewModel);
 });
 
