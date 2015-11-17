@@ -553,9 +553,6 @@ var ViewModel = function () {
                 self.task.body(response.body);
                 self.task.group_id(response.group.id);
                 self.task.priority(response.priority);
-                self.selectedUsers(response.members.map(function (user) {
-                    return new User(user.id, user.nickname, user.avatar_url);
-                }));
                 $('#taskModal').modal('show');
             })
             .fail(function (response) {
