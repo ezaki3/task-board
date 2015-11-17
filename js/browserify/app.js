@@ -6,6 +6,7 @@ crossroads.addRoute('/', function() {
     var ViewModel = require('./viewmodel/boards/index.js');
     var viewModel = new ViewModel();
     viewModel.listBoard();
+    viewModel.listUser();
     ko.applyBindings(viewModel);
 });
 
@@ -126,6 +127,8 @@ var Board = function (id, subject, priority) {
     this.priority = ko.observable(priority);
 
     this.groups = ko.observableArray();
+    this.members = ko.observableArray();
+    this.members_attributes = ko.observableArray();
 
     this.apiUrl = {
         'collection': null,
@@ -174,6 +177,9 @@ var Task = function (id, group_id, subject, body, priority) {
     this.body = ko.observable(body);
     this.priority = ko.observable(priority);
 
+    this.members = ko.observableArray();
+    this.members_attributes = ko.observableArray();
+
     this.apiUrl = {
         'collection': '/api/v1/groups/' + group_id + '/tasks',
         'member': '/api/v1/tasks'
@@ -190,17 +196,23 @@ Task.prototype = BaseModel.prototype;
 module.exports = Task;
 
 },{"./basemodel.js":2}],6:[function(require,module,exports){
+var BaseModel = require('./basemodel.js');
 var User = function (id, nickname, avatar_url) {
     this.id = ko.observable(id);
     this.nickname = ko.observable(nickname);
     this.avatar_url = ko.observable(avatar_url);
 
-    this.apiUrl = '/api/v1/users/current';
+    this.apiUrl = {
+        'collection': null,
+        'member': '/api/v1/users'
+    };
 };
+
+User.prototype = BaseModel.prototype;
 
 User.prototype.login = function () {
     var d = $.Deferred();
-    $.ajax({url: this.apiUrl})
+    $.ajax({url: this.apiUrl.member + '/current'})
         .done(function (response) {
             d.resolve(response);
         })
@@ -212,7 +224,7 @@ User.prototype.login = function () {
 
 module.exports = User;
 
-},{}],7:[function(require,module,exports){
+},{"./basemodel.js":2}],7:[function(require,module,exports){
 var User = require('../model/user.js');
 var BaseViewModel = function () {
     var self = this;
@@ -225,6 +237,8 @@ var BaseViewModel = function () {
     self.backUrl = location.pathname;
 
     self.user = new User(null, null, null);
+    self.users = ko.observableArray();
+
     self.user.login()
         .done(function (response) {
             self.user.id(response.id);
@@ -249,6 +263,7 @@ module.exports = BaseViewModel;
 },{"../model/user.js":6}],8:[function(require,module,exports){
 var BaseViewModel = require('../baseviewmodel.js');
 var Board = require('../../model/board.js');
+var User = require('../../model/user.js');
 var ViewModel = function () {
     var self = this;
 
@@ -258,6 +273,8 @@ var ViewModel = function () {
 
     self.baseViewModel = new BaseViewModel();
     self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
+
+    self.selectedUsers = ko.observableArray();
 
     self.boardValidation = ko.computed(function () {
         self.board.validation(ko.toJSON({'board': self.board}))
@@ -285,10 +302,23 @@ var ViewModel = function () {
             });
     }.bind(self);
 
+    self.listUser = function () {
+        self.baseViewModel.user.search()
+            .done(function (response) {
+                self.baseViewModel.users(response.map(function (user) {
+                    return new User(user.id, user.nickname, user.avatar_url);
+                }));
+            })
+            .fail(function (response) {
+                console.log(response);
+            });
+    }.bind(self);
+
     self.openBoardModal = function () {
         self.board.id(null);
         self.board.subject(null);
         self.board.priority(null);
+        self.selectedUsers([]);
         $('#boardModal').modal('show');
     }.bind(self);
 
@@ -313,6 +343,9 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createBoard = function () {
+        self.board.members_attributes(self.selectedUsers().map(function (user) {
+            return {'user_id': user.id};
+        }));
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
@@ -392,11 +425,12 @@ var ViewModel = function () {
 
 module.exports = ViewModel;
 
-},{"../../model/board.js":3,"../baseviewmodel.js":7}],9:[function(require,module,exports){
+},{"../../model/board.js":3,"../../model/user.js":6,"../baseviewmodel.js":7}],9:[function(require,module,exports){
 var BaseViewModel = require('../baseviewmodel.js');
 var Task = require('../../model/task.js');
 var Group = require('../../model/group.js');
 var Board = require('../../model/board.js');
+var User = require('../../model/user.js');
 var ViewModel = function () {
     var self = this;
 
@@ -413,6 +447,8 @@ var ViewModel = function () {
         'group': self.group.invalidMessages,
         'task': self.task.invalidMessages
     });
+
+    self.selectedUsers = ko.observableArray();
 
     self.groupValidation = ko.computed(function () {
         if (self.group.board_id() == null) {
@@ -478,6 +514,9 @@ var ViewModel = function () {
                     g.tasks.group_id = group.id; // use to moveTask
                     return g;
                 }));
+                self.board.members(response.members.map(function (user) {
+                    return new User(user.id, user.nickname, user.avatar_url);
+                }));
             })
             .fail(function (response) {
                 console.log(response);
@@ -491,6 +530,7 @@ var ViewModel = function () {
         self.task.body(null);
         self.task.group_id(group.id());
         self.task.priority(null);
+        self.selectedUsers([]);
         $('#taskModal').modal('show');
     }.bind(self);
 
@@ -548,6 +588,9 @@ var ViewModel = function () {
 
     self.createTask = function () {
         var task = new Task(null, self.task.group_id(), self.task.subject(), self.task.body(), self.task.priority());
+        self.task.members_attributes(self.selectedUsers().map(function (user) {
+            return {'user_id': user.id};
+        }));
         task.create(ko.toJSON({'task': self.task}), 'collection')
             .done(function (response) {
                 console.log(response);
@@ -706,7 +749,7 @@ var ViewModel = function () {
 
 module.exports = ViewModel;
 
-},{"../../model/board.js":3,"../../model/group.js":4,"../../model/task.js":5,"../baseviewmodel.js":7}],10:[function(require,module,exports){
+},{"../../model/board.js":3,"../../model/group.js":4,"../../model/task.js":5,"../../model/user.js":6,"../baseviewmodel.js":7}],10:[function(require,module,exports){
 /** @license
  * crossroads <http://millermedeiros.github.com/crossroads.js/>
  * Author: Miller Medeiros | MIT License

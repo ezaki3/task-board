@@ -34,6 +34,27 @@ describe('board', function () {
         expect(board.subject()).toBe('Happy board');
     });
 
+    it('listUser', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve([
+                {
+                    'id': 1,
+                    'nickname': 'Happy user',
+                    'avatar_url': 'https://avater_url.com/'
+                }
+            ]);
+            return d.promise();
+        });
+
+        viewModel.listUser();
+        expect(viewModel.baseViewModel.users().length).toBe(1);
+
+        var user = viewModel.baseViewModel.users()[0];
+        expect(user.id()).toBe(1);
+        expect(user.nickname()).toBe('Happy user');
+    });
+
     it('findBoard', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
