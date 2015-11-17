@@ -38,6 +38,7 @@ module Crudable
       if instance_variable_get(resource).save
         format.html { redirect_to action: :index, notice: 'Resource was successfully created.' }
         format.json { render :show, status: :created, location: get_location }
+        after_create
       else
         format.html { render :new }
         format.json { render json: instance_variable_get(resource).errors, status: :unprocessable_entity }
@@ -52,6 +53,7 @@ module Crudable
       if instance_variable_get(resource).update(resource_params)
         format.html { redirect_to action: :index, notice: 'Resource was successfully updated.' }
         format.json { render :show, status: :ok, location: get_location }
+        after_update
       else
         format.html { render :edit }
         format.json { render json: instance_variable_get(resource).errors, status: :unprocessable_entity }
@@ -68,5 +70,13 @@ module Crudable
       format.html { redirect_to action: :index, notice: 'Resource was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def after_create
+  end
+
+  def after_update
   end
 end
