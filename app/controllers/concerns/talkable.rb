@@ -16,22 +16,14 @@ module Talkable
     return unless talkable?
     user = User.find(session[:user_id])
     item = instance_variable_get(resource)
-    text = "*[#{action} #{model_name}] <#{my_url}|#{item.subject}> by #{user.nickname}*"
+    text = "[#{action} #{model_name}] *<#{my_url}|#{item.subject}>* by #{user.nickname}"
     item.previous_changes.each do |k, v|
       text += "\n#{k}: #{v.join(' -> ')}"
     end
-    logger.warn('##############################')
-    logger.warn("username: #{ENV['SLACK_USERNAME']}, channel: #{ENV['SLACK_CHANNEL']}")
-    logger.warn(
-      Slack.chat_postMessage(
-        text: text, username: ENV['SLACK_USERNAME'], channel: ENV['SLACK_CHANNEL']
-      )
+    response = Slack.chat_postMessage(
+      text: text, username: ENV['SLACK_USERNAME'], channel: ENV['SLACK_CHANNEL']
     )
-    logger.warn(
-      Slack.chat_postMessage(
-        text: text, username: ENV['SLACK_USERNAME'], channel: '#dqn-dot-cn'
-      )
-    )
+    logger.info("Slack's response: #{response}")
   end
 
   def my_url
@@ -39,18 +31,9 @@ module Talkable
   end
 
   def talkable?
-    if Rails.env == 'test'
-      logger.warn('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
-      logger.warn('Rails env eq test')
-      return
-    end
+    return if Rails.env == 'test'
     ['SLACK_API_TOKEN', 'SLACK_USERNAME', 'SLACK_CHANNEL'].each do |key|
-      # return false unless ENV[key]
-      unless ENV[key]
-        logger.warn('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
-        logger.warn("${key} is missing in environment variables")
-        return false
-      end
+      return false unless ENV[key]
     end
     return true
   end
