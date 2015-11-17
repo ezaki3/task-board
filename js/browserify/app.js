@@ -177,6 +177,9 @@ var Task = function (id, group_id, subject, body, priority) {
     this.body = ko.observable(body);
     this.priority = ko.observable(priority);
 
+    this.members = ko.observableArray();
+    this.members_attributes = ko.observableArray();
+
     this.apiUrl = {
         'collection': '/api/v1/groups/' + group_id + '/tasks',
         'member': '/api/v1/tasks'
@@ -427,6 +430,7 @@ var BaseViewModel = require('../baseviewmodel.js');
 var Task = require('../../model/task.js');
 var Group = require('../../model/group.js');
 var Board = require('../../model/board.js');
+var User = require('../../model/user.js');
 var ViewModel = function () {
     var self = this;
 
@@ -443,6 +447,8 @@ var ViewModel = function () {
         'group': self.group.invalidMessages,
         'task': self.task.invalidMessages
     });
+
+    self.selectedUsers = ko.observableArray();
 
     self.groupValidation = ko.computed(function () {
         if (self.group.board_id() == null) {
@@ -508,6 +514,9 @@ var ViewModel = function () {
                     g.tasks.group_id = group.id; // use to moveTask
                     return g;
                 }));
+                self.board.members(response.members.map(function (user) {
+                    return new User(user.id, user.nickname, user.avatar_url);
+                }));
             })
             .fail(function (response) {
                 console.log(response);
@@ -521,6 +530,7 @@ var ViewModel = function () {
         self.task.body(null);
         self.task.group_id(group.id());
         self.task.priority(null);
+        self.selectedUsers([]);
         $('#taskModal').modal('show');
     }.bind(self);
 
@@ -543,6 +553,9 @@ var ViewModel = function () {
                 self.task.body(response.body);
                 self.task.group_id(response.group.id);
                 self.task.priority(response.priority);
+                self.selectedUsers(response.members.map(function (user) {
+                    return new User(user.id, user.nickname, user.avatar_url);
+                }));
                 $('#taskModal').modal('show');
             })
             .fail(function (response) {
@@ -578,6 +591,9 @@ var ViewModel = function () {
 
     self.createTask = function () {
         var task = new Task(null, self.task.group_id(), self.task.subject(), self.task.body(), self.task.priority());
+        self.task.members_attributes(self.selectedUsers().map(function (user) {
+            return {'user_id': user.id};
+        }));
         task.create(ko.toJSON({'task': self.task}), 'collection')
             .done(function (response) {
                 console.log(response);
@@ -736,7 +752,7 @@ var ViewModel = function () {
 
 module.exports = ViewModel;
 
-},{"../../model/board.js":3,"../../model/group.js":4,"../../model/task.js":5,"../baseviewmodel.js":7}],10:[function(require,module,exports){
+},{"../../model/board.js":3,"../../model/group.js":4,"../../model/task.js":5,"../../model/user.js":6,"../baseviewmodel.js":7}],10:[function(require,module,exports){
 /** @license
  * crossroads <http://millermedeiros.github.com/crossroads.js/>
  * Author: Miller Medeiros | MIT License

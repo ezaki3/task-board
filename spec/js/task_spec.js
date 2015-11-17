@@ -25,7 +25,16 @@ describe('task', function () {
                     'id': 1,
                     'subject': 'Happy group',
                     'priority': 1
-                }
+                },
+                'members': [
+                    {
+                        'id': 1,
+                        'provider': 'Happy provider',
+                        'nickname': 'Happy member',
+                        'avatar_url': 'https://avatar_url.com/avatar/12345'
+                    }
+                ]
+
             });
             return d.promise();
         });
@@ -115,7 +124,15 @@ describe('task', function () {
                     'id': 1,
                     'subject': 'Happy group',
                     'priority': 1
-                }
+                },
+                'members': [
+                    {
+                        'id': 1,
+                        'provider': 'Happy provider',
+                        'nickname': 'Happy member',
+                        'avatar_url': 'https://avatar_url.com/avatar/12345'
+                    }
+                ]
             });
             return d.promise();
         });
