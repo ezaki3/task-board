@@ -20,9 +20,10 @@ module Talkable
     item.previous_changes.each do |k, v|
       text += "\n#{k}: #{v.join(' -> ')}"
     end
-    Slack.chat_postMessage(
+    response = Slack.chat_postMessage(
       text: text, username: ENV['SLACK_USERNAME'], channel: ENV['SLACK_CHANNEL']
     )
+    logger.info("Slack's response: #{response}")
   end
 
   def my_url
