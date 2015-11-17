@@ -21,9 +21,15 @@ module Talkable
       text += "\n#{k}: #{v.join(' -> ')}"
     end
     logger.warn('##############################')
+    logger.warn("username: #{ENV['SLACK_USERNAME']}, channel: #{ENV['SLACK_CHANNEL']}")
     logger.warn(
       Slack.chat_postMessage(
         text: text, username: ENV['SLACK_USERNAME'], channel: ENV['SLACK_CHANNEL']
+      )
+    )
+    logger.warn(
+      Slack.chat_postMessage(
+        text: text, username: ENV['SLACK_USERNAME'], channel: '#dqn-dot-cn'
       )
     )
   end
