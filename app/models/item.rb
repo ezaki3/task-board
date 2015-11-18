@@ -1,5 +1,5 @@
 class Item < ActiveRecord::Base
-  has_many :members
+  has_many :members, dependent: :destroy
   has_many :users, through: :members
 
   belongs_to :user, foreign_key: :created_by
@@ -19,6 +19,13 @@ class Item < ActiveRecord::Base
   scope :peers, ->(parent_id) { where(parent_id: parent_id) }
 
   private
+
+  def autosave_associated_records_for_members
+    members.each do |m|
+      member = Member.find_or_initialize_by(item_id: self.id, user_id: m.user_id)
+      member.save!
+    end
+  end
 
   def adjust_priority
     if self.priority.blank?
