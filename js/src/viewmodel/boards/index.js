@@ -67,6 +67,9 @@ var ViewModel = function () {
                 self.board.id(board.id());
                 self.board.subject(response.subject);
                 self.board.priority(response.priority);
+                self.selectedUsers(response.members.map(function (user) {
+                    return user.id;
+                }));
                 $('#boardModal').modal('show');
             })
             .fail(function (response) {
@@ -80,8 +83,8 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createBoard = function () {
-        self.board.members_attributes(self.selectedUsers().map(function (user) {
-            return {'user_id': user.id};
+        self.board.members_attributes(self.selectedUsers().map(function (id) {
+            return {'user_id': id};
         }));
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
@@ -102,6 +105,9 @@ var ViewModel = function () {
     }.bind(self);
 
     self.editBoard = function () {
+        self.board.members_attributes(self.selectedUsers().map(function (id) {
+            return {'user_id': id};
+        }));
         self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);

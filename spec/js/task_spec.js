@@ -113,27 +113,52 @@ describe('task', function () {
     });
 
     it('editTask', function () {
-        spyOn($, 'ajax').and.callFake(function() {
-            var d = $.Deferred();
-            d.resolve({
-                'id': 1,
-                'subject': 'Edit task',
-                'body': 'Create something new',
-                'priority': 1,
-                'group': {
+        spyOn($, 'ajax').and.callFake(function(params) {
+            var method = params.method || 'GET';
+            var response;
+            if (method == 'PATCH') {
+                response = {
                     'id': 1,
-                    'subject': 'Happy group',
-                    'priority': 1
-                },
-                'members': [
-                    {
+                    'subject': 'Edit task',
+                    'body': 'Create something new',
+                    'priority': 1,
+                    'group': {
                         'id': 1,
-                        'provider': 'Happy provider',
-                        'nickname': 'Happy member',
-                        'avatar_url': 'https://avatar_url.com/avatar/12345'
-                    }
-                ]
-            });
+                        'subject': 'Happy group',
+                        'priority': 1
+                    },
+                    'members': [
+                        {
+                            'id': 1,
+                            'provider': 'Happy provider',
+                            'nickname': 'Happy member',
+                            'avatar_url': 'https://avatar_url.com/avatar/12345'
+                        }
+                    ]
+                };
+            } else {
+                response = {
+                    'id': 1,
+                    'subject': 'Happy task',
+                    'body': 'Create something new',
+                    'priority': 1,
+                    'group': {
+                        'id': 1,
+                        'subject': 'Happy group',
+                        'priority': 1
+                    },
+                    'members': [
+                        {
+                            'id': 1,
+                            'provider': 'Happy provider',
+                            'nickname': 'Happy member',
+                            'avatar_url': 'https://avatar_url.com/avatar/12345'
+                        }
+                    ]
+                };
+            }
+            var d = $.Deferred();
+            d.resolve(response);
             return d.promise();
         });
 

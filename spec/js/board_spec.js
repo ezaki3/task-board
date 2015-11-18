@@ -62,7 +62,8 @@ describe('board', function () {
                 'id': 1,
                 'subject': 'Happy board',
                 'priority': 1,
-                'groups': []
+                'groups': [],
+                'members': []
             });
             return d.promise();
         });
@@ -125,14 +126,28 @@ describe('board', function () {
     });
 
     it('editBoard', function () {
-        spyOn($, 'ajax').and.callFake(function() {
+        spyOn($, 'ajax').and.callFake(function(params) {
+            var method = params.method || 'GET';
+            var response;
+            if (method == 'PATCH') {
+                response = {
+                    'id': 1,
+                    'subject': 'Edit board',
+                    'priority': 1,
+                    'groups': [],
+                    'members': []
+                };
+            } else {
+                response = {
+                    'id': 1,
+                    'subject': 'Happy board',
+                    'priority': 1,
+                    'groups': [],
+                    'members': []
+                };
+            }
             var d = $.Deferred();
-            d.resolve({
-                'id': 1,
-                'subject': 'Edit board',
-                'priority': 1,
-                'groups': []
-            });
+            d.resolve(response);
             return d.promise();
         });
 

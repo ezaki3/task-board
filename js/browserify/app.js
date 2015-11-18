@@ -330,6 +330,9 @@ var ViewModel = function () {
                 self.board.id(board.id());
                 self.board.subject(response.subject);
                 self.board.priority(response.priority);
+                self.selectedUsers(response.members.map(function (user) {
+                    return user.id;
+                }));
                 $('#boardModal').modal('show');
             })
             .fail(function (response) {
@@ -343,8 +346,8 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createBoard = function () {
-        self.board.members_attributes(self.selectedUsers().map(function (user) {
-            return {'user_id': user.id};
+        self.board.members_attributes(self.selectedUsers().map(function (id) {
+            return {'user_id': id};
         }));
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
@@ -365,6 +368,9 @@ var ViewModel = function () {
     }.bind(self);
 
     self.editBoard = function () {
+        self.board.members_attributes(self.selectedUsers().map(function (id) {
+            return {'user_id': id};
+        }));
         self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
@@ -553,6 +559,9 @@ var ViewModel = function () {
                 self.task.body(response.body);
                 self.task.group_id(response.group.id);
                 self.task.priority(response.priority);
+                self.selectedUsers(response.members.map(function (user) {
+                    return user.id;
+                }));
                 $('#taskModal').modal('show');
             })
             .fail(function (response) {
@@ -588,8 +597,8 @@ var ViewModel = function () {
 
     self.createTask = function () {
         var task = new Task(null, self.task.group_id(), self.task.subject(), self.task.body(), self.task.priority());
-        self.task.members_attributes(self.selectedUsers().map(function (user) {
-            return {'user_id': user.id};
+        self.task.members_attributes(self.selectedUsers().map(function (id) {
+            return {'user_id': id};
         }));
         task.create(ko.toJSON({'task': self.task}), 'collection')
             .done(function (response) {
@@ -628,6 +637,9 @@ var ViewModel = function () {
     }.bind(self);
 
     self.editTask = function () {
+        self.task.members_attributes(self.selectedUsers().map(function (id) {
+            return {'user_id': id};
+        }));
         self.task.edit(self.task.id(), ko.toJSON({'task': self.task}))
             .done(function (response) {
                 console.log(response);
