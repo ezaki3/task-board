@@ -22,6 +22,10 @@ class Item < ActiveRecord::Base
 
   def autosave_associated_records_for_members
     members.each do |m|
+      if m.release
+        Member.destroy_all(item_id: m.item_id, user_id: m.user_id)
+        next
+      end
       member = Member.find_or_initialize_by(item_id: self.id, user_id: m.user_id)
       member.save!
     end
