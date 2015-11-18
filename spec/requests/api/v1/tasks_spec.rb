@@ -176,6 +176,27 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
         }.not_to change(Task, :count)
       end
     end
+
+    context 'with _destroy flag on member' do
+      let!(:member) { create(:member, item_id: task.id) }
+      let!(:params) do
+        {
+          task: {
+            id: task.id,
+            members_attributes: [
+              { item_id: nil, user_id: @user.id },
+              { item_id: nil, user_id: member.user_id, release: '1' }
+            ]
+          }
+        }
+      end
+
+      it 'removes member' do
+        expect { is_expected.to eq 200 }.to change(Member, :count).by(+ 1 - 1)
+        expect(Member.count).to eq 1
+        expect(Member.first.user_id).to eq @user.id
+      end
+    end
   end
 
   describe 'PATCH /api/v1/tasks/:id/dryrun' do
