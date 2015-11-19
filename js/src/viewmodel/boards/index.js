@@ -1,5 +1,6 @@
 var BaseViewModel = require('../baseviewmodel.js');
 var Board = require('../../model/board.js');
+var User = require('../../model/user.js');
 var ViewModel = function () {
     var self = this;
 
@@ -9,6 +10,8 @@ var ViewModel = function () {
 
     self.baseViewModel = new BaseViewModel();
     self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
+
+    self.selectedUsers = ko.observableArray();
 
     self.boardValidation = ko.computed(function () {
         self.board.validation(ko.toJSON({'board': self.board}))
@@ -36,10 +39,23 @@ var ViewModel = function () {
             });
     }.bind(self);
 
+    self.listUser = function () {
+        self.baseViewModel.user.search()
+            .done(function (response) {
+                self.baseViewModel.users(response.map(function (user) {
+                    return new User(user.id, user.nickname, user.avatar_url);
+                }));
+            })
+            .fail(function (response) {
+                console.log(response);
+            });
+    }.bind(self);
+
     self.openBoardModal = function () {
         self.board.id(null);
         self.board.subject(null);
         self.board.priority(null);
+        self.selectedUsers([]);
         $('#boardModal').modal('show');
     }.bind(self);
 
@@ -51,6 +67,10 @@ var ViewModel = function () {
                 self.board.id(board.id());
                 self.board.subject(response.subject);
                 self.board.priority(response.priority);
+                self.board.members(response.members);
+                self.selectedUsers(response.members.map(function (user) {
+                    return user.id;
+                }));
                 $('#boardModal').modal('show');
             })
             .fail(function (response) {
@@ -64,6 +84,9 @@ var ViewModel = function () {
     }.bind(self);
 
     self.createBoard = function () {
+        self.board.members_attributes(self.selectedUsers().map(function (id) {
+            return {'user_id': id};
+        }));
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
@@ -83,6 +106,18 @@ var ViewModel = function () {
     }.bind(self);
 
     self.editBoard = function () {
+        self.board.members_attributes(self.selectedUsers().map(function (id) {
+            return {'user_id': id};
+        }));
+        self.board.members().forEach(function (val) {
+            if (self.selectedUsers().indexOf(val.id) == -1) {
+                self.board.members_attributes.push({
+                    'user_id': val.id,
+                    'release': 1
+                });
+            }
+        });
+
         self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);

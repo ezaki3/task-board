@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Group, type: :model do
-  it_behaves_like 'card behavior'
+  it_behaves_like 'item behavior'
 
   describe 'association dependent' do
     let(:group) { create(:group) }

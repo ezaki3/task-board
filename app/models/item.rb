@@ -1,22 +1,35 @@
-module CardBehavior
-  extend ActiveSupport::Concern
+class Item < ActiveRecord::Base
+  has_many :members, dependent: :destroy
+  has_many :users, through: :members
 
-  included do
-    belongs_to :user
+  belongs_to :user, foreign_key: :created_by
 
-    alias_attribute :name, :subject # For RSpec !?
+  accepts_nested_attributes_for :members, allow_destroy: true
 
-    validates :subject, presence: true
-    validates :priority, numericality: {only_integer: true}, allow_blank: true
+  alias_attribute :name, :subject # for RSpec ?
+  alias_attribute :user_id, :created_by
 
-    before_save :adjust_priority
-    after_destroy :slide_priority
+  validates :subject, presence: true
+  validates :priority, numericality: {only_integer: true}, allow_blank: true
 
-    scope :prior, -> { order(:priority, updated_at: :desc) }
-    scope :peers, ->(parent_id) { where(parent_id: parent_id) if parent_id.present? }
-  end
+  before_save :adjust_priority
+  after_destroy :slide_priority
+
+  scope :prior, -> { order(:priority, updated_at: :desc) }
+  scope :peers, ->(parent_id) { where(parent_id: parent_id) }
 
   private
+
+  def autosave_associated_records_for_members
+    members.each do |m|
+      if m.release
+        Member.destroy_all(item_id: m.item_id, user_id: m.user_id)
+        next
+      end
+      member = Member.find_or_initialize_by(item_id: self.id, user_id: m.user_id)
+      member.save!
+    end
+  end
 
   def adjust_priority
     if self.priority.blank?
@@ -36,8 +49,8 @@ module CardBehavior
       .where.not(id: self.id)
       .update_all('priority = priority %s 1' % operation)
 
-    if parent_changed
-      parent_id = parent_changed.first
+    if changes[:parent_id]
+      parent_id = changes[:parent_id].first
       priority = changes[:priority] ? changes[:priority].first : self.priority
       slide_priority(parent_id: parent_id, priority: priority)
     end
@@ -45,7 +58,7 @@ module CardBehavior
 
   def slide_priority(parent_id: self.parent_id, priority: self.priority)
     self.class.peers(parent_id)
-      .where('priority > ?', priority)
+      .where('priority >= ?', priority)
       .where.not(id: self.id)
       .update_all('priority = priority - 1')
   end

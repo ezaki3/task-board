@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
-  has_many :boards
-  has_many :groups
-  has_many :tasks
+  include KeywordSearch
+
+  has_many :members
+  has_many :items, through: :members
 
   def self.create_with_omniauth(auth)
     create!(

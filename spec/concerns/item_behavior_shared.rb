@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.shared_examples 'card behavior' do
+RSpec.shared_examples 'item behavior' do
   let(:model) { described_class }
   let(:obj_name) { model.to_s.underscore.to_sym }
 
@@ -14,7 +14,7 @@ RSpec.shared_examples 'card behavior' do
     context 'valid' do
       it { is_expected.to respond_to(:name) }
       it { is_expected.to respond_to(:parent_id) }
-      it { is_expected.to respond_to(:user_id) }
+      it { is_expected.to respond_to(:body) }
 
       it { is_expected.to be_valid }
     end

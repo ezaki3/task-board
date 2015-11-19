@@ -5,6 +5,8 @@ var Board = function (id, subject, priority) {
     this.priority = ko.observable(priority);
 
     this.groups = ko.observableArray();
+    this.members = ko.observableArray();
+    this.members_attributes = ko.observableArray();
 
     this.apiUrl = {
         'collection': null,

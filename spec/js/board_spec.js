@@ -34,6 +34,27 @@ describe('board', function () {
         expect(board.subject()).toBe('Happy board');
     });
 
+    it('listUser', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve([
+                {
+                    'id': 1,
+                    'nickname': 'Happy user',
+                    'avatar_url': 'https://avater_url.com/'
+                }
+            ]);
+            return d.promise();
+        });
+
+        viewModel.listUser();
+        expect(viewModel.baseViewModel.users().length).toBe(1);
+
+        var user = viewModel.baseViewModel.users()[0];
+        expect(user.id()).toBe(1);
+        expect(user.nickname()).toBe('Happy user');
+    });
+
     it('findBoard', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
@@ -41,7 +62,8 @@ describe('board', function () {
                 'id': 1,
                 'subject': 'Happy board',
                 'priority': 1,
-                'groups': []
+                'groups': [],
+                'members': []
             });
             return d.promise();
         });
@@ -104,14 +126,28 @@ describe('board', function () {
     });
 
     it('editBoard', function () {
-        spyOn($, 'ajax').and.callFake(function() {
+        spyOn($, 'ajax').and.callFake(function(params) {
+            var method = params.method || 'GET';
+            var response;
+            if (method == 'PATCH') {
+                response = {
+                    'id': 1,
+                    'subject': 'Edit board',
+                    'priority': 1,
+                    'groups': [],
+                    'members': []
+                };
+            } else {
+                response = {
+                    'id': 1,
+                    'subject': 'Happy board',
+                    'priority': 1,
+                    'groups': [],
+                    'members': []
+                };
+            }
             var d = $.Deferred();
-            d.resolve({
-                'id': 1,
-                'subject': 'Edit board',
-                'priority': 1,
-                'groups': []
-            });
+            d.resolve(response);
             return d.promise();
         });
 

@@ -70,6 +70,10 @@
                         <p class="help-block" data-bind="text: $data"></p>
                         <!-- /ko -->
                     </div>
+                    <div class="form-group">
+                        <label for="members" class="control-label">メンバー:</label>
+                        <select id="members" data-bind="options: board.members, optionsText: 'nickname', optionsValue: 'id', selectedOptions: selectedUsers" multiple class="form-control"></select>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

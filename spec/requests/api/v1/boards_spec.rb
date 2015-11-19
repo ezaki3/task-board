@@ -9,15 +9,8 @@ RSpec.describe 'Api::V1::Boards', type: :request do
     truncate_users
   end
 
-  let(:headers) do
-    {
-      'Content-Type' => 'application/json',
-      'Accept' => 'application/json'
-    }
-  end
-
   describe 'GET /api/v1/boards/:id' do
-    let(:board) { FactoryGirl.create(:board) }
+    let(:board) { create(:board) }
     let(:id) { board.id }
 
     context 'with valid id' do
@@ -27,7 +20,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
         expect(res['id']).to eq id
         expect(res['subject']).to eq board['subject']
         expect(res['priority']).to eq board['priority']
-        expect(res['user']['id']).to eq board['user_id']
+        expect(res['members']).to be_truthy
       end
     end
 
@@ -40,7 +33,25 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'POST /api/v1/boards' do
-    let(:params) { { board: FactoryGirl.attributes_for(:board) } }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let!(:user) { create :user }
+    let(:params) {
+      {
+        board: attributes_for(
+          :board,
+          members_attributes: [
+            attributes_for(:member, item_id: nil, user_id: @user.id),
+            attributes_for(:member, item_id: nil, user_id: user.id)
+          ]
+        )
+      }
+    }
 
     context 'with valid params' do
       it 'adds a new board', autodoc: true do
@@ -49,7 +60,8 @@ RSpec.describe 'Api::V1::Boards', type: :request do
         expect(res['subject']).to eq params[:board][:subject]
         expect(res['priority']).to eq params[:board][:priority]
         expect(res['updated_at']).to eq res['created_at']
-        expect(res['user']['id']).to eq @user.id
+        # expect(res['members'][0]['id']).to eq @user.id
+        expect(res['members'].size).to eq 2
         expect(response.header['location']).to eq '/api/v1/boards/%d' % res['id']
       end
     end
@@ -66,7 +78,14 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'POST /api/v1/boards/dryrun' do
-    let(:params) { { board: FactoryGirl.attributes_for(:board) } }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let(:params) { { board: attributes_for(:board) } }
 
     context 'with valid params' do
       it 'returns OK and not creates' do
@@ -91,19 +110,30 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'PATCH /api/v1/boards/:id' do
-    let(:user) { FactoryGirl.create(:user, id: @user.id + 1) }
-    let!(:board) { FactoryGirl.create(:board, user_id: user.id) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let(:user) { create(:user, id: @user.id + 1) }
+    let!(:board) { create(:board, user_id: user.id) }
     let(:id) { board.id }
     let(:params) do
       {
-        board: FactoryGirl.attributes_for(
-          :board, subject: 'changed subject'
+        board: attributes_for(
+          :board, subject: 'changed subject',
+          members_attributes: [
+            attributes_for(:member, item_id: nil, user_id: @user.id),
+            attributes_for(:member, item_id: nil, user_id: user.id)
+          ]
         )
       }
     end
 
     context 'with valid params' do
-      it 'updates a board (but not user_id)', autodoc: true do
+      it 'updates a board', autodoc: true do
         expect {
           is_expected.to eq 200
         }.not_to change(Board, :count)
@@ -112,7 +142,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
         expect(res['subject']).to eq params[:board][:subject]
         expect(res['priority']).to eq params[:board][:priority]
         expect(res['updated_at']).not_to eq res['created_at']
-        expect(res['user']['id']).to eq board.user_id
+        expect(res['members'].size).to eq 2
         expect(response.header['location']).to eq '/api/v1/boards/%d' %id
       end
     end
@@ -126,14 +156,42 @@ RSpec.describe 'Api::V1::Boards', type: :request do
         }.not_to change(Board, :count)
       end
     end
+
+    context 'with _destroy flag on member' do
+      let!(:member) { create(:member, item_id: board.id) }
+      let!(:params) do
+        {
+          board: {
+            id: board.id,
+            members_attributes: [
+              { item_id: nil, user_id: @user.id },
+              { item_id: nil, user_id: member.user_id, release: '1' }
+            ]
+          }
+        }
+      end
+
+      it 'removes member' do
+        expect { is_expected.to eq 200 }.to change(Member, :count).by(+ 1 - 1)
+        expect(Member.count).to eq 1
+        expect(Member.first.user_id).to eq @user.id
+      end
+    end
   end
 
   describe 'PATCH /api/v1/boards/:id/dryrun' do
-    let!(:board) { FactoryGirl.create(:board) }
+    let(:headers) do
+      {
+        'Content-Type' => 'application/json',
+        'Accept' => 'application/json'
+      }
+    end
+
+    let!(:board) { create(:board) }
     let(:id) { board.id }
     let(:params) do
       {
-        board: FactoryGirl.attributes_for(
+        board: attributes_for(
           :board, subject: 'changed subject'
         )
       }
@@ -163,7 +221,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'DELETE /api/v1/boards/:id' do
-    let!(:board) { FactoryGirl.create(:board) }
+    let!(:board) { create(:board) }
     let(:id) { board.id }
 
     context 'with valid id' do
@@ -183,7 +241,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'GET /api/v1/boards' do
-    let!(:boards) { FactoryGirl.create_list(:board, 2) }
+    let!(:boards) { create_list(:board, 2) }
 
     it 'returns boards', autodoc: true do
       is_expected.to eq 200

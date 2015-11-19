@@ -1,7 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe Board, type: :model do
-  it_behaves_like 'card behavior'
+  it_behaves_like 'item behavior'
+
+  describe 'parent_id' do
+    let(:board) { create(:board) }
+
+    it 'is allways zero' do
+      expect(board.parent_id).to eq 0
+    end
+  end
 
   describe 'association dependent' do
     let(:board) { create(:board) }

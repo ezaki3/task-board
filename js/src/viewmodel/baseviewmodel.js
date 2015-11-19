@@ -10,6 +10,8 @@ var BaseViewModel = function () {
     self.backUrl = location.pathname;
 
     self.user = new User(null, null, null);
+    self.users = ko.observableArray();
+
     self.user.login()
         .done(function (response) {
             self.user.id(response.id);

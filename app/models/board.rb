@@ -1,17 +1,11 @@
-class Board < ActiveRecord::Base
-  include CardBehavior
+class Board < Item
+  has_many :groups, -> { order(:priority) }, dependent: :destroy, foreign_key: :parent_id
 
-  has_many :groups, -> { order(:priority) }, dependent: :destroy
-
-  attr_accessor :parent_id
-
-  def parent_id
-    nil
-  end
+  after_initialize :set_default_value, if: :new_record?
 
   private
 
-  def parent_changed
-    nil
+  def set_default_value
+    self.parent_id ||= 0
   end
 end

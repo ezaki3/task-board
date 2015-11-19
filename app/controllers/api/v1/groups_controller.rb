@@ -1,5 +1,7 @@
 class Api::V1::GroupsController < Api::V1::ApplicationController
-  include Ownable
+  include Membership
+  include Draggable
+  include Talkable
 
   def index
     super
@@ -15,5 +17,18 @@ class Api::V1::GroupsController < Api::V1::ApplicationController
     else
       super
     end
+  end
+
+  private
+
+  def resource_params
+    params.require(model_name.underscore.intern).permit(
+      *@model.column_names.map(&:intern), :user_id, :board_id,
+      members_attributes: [:item_id, :user_id, :is_owner, :release]
+    )
+  end
+
+  def my_url
+    url_for(instance_variable_get(resource).board)
   end
 end

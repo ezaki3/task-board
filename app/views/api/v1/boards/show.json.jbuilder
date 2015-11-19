@@ -2,19 +2,25 @@ json.partial! @board
 json.groups do
   json.array! @board.groups do |group|
     json.partial! group
-    json.user do
-      json.partial! group.user if group.user
+    json.members do
+      json.array! group.users do |user|
+        json.partial! user if user
+      end
     end
     json.tasks do
       json.array! group.tasks do |task|
         json.partial! task
-        json.user do
-          json.partial! task.user if task.user
+        json.members do
+          json.array! task.users do |user|
+            json.partial! user if user
+          end
         end
       end
     end
   end
 end
-json.user do
-  json.partial! @board.user if @board.user
+json.members do
+  json.array! @board.users do |user|
+    json.partial! user if user
+  end
 end
