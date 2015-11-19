@@ -125,6 +125,7 @@ var ViewModel = function () {
                 self.task.body(response.body);
                 self.task.group_id(response.group.id);
                 self.task.priority(response.priority);
+                self.task.members(response.members);
                 self.selectedUsers(response.members.map(function (user) {
                     return user.id;
                 }));
@@ -206,6 +207,14 @@ var ViewModel = function () {
         self.task.members_attributes(self.selectedUsers().map(function (id) {
             return {'user_id': id};
         }));
+        self.task.members().forEach(function (val) {
+            if (self.selectedUsers().indexOf(val.id) == -1) {
+                self.task.members_attributes.push({
+                    'user_id': val.id,
+                    'release': 1
+                });
+            }
+        });
         self.task.edit(self.task.id(), ko.toJSON({'task': self.task}))
             .done(function (response) {
                 console.log(response);
