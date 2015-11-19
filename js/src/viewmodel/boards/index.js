@@ -67,6 +67,7 @@ var ViewModel = function () {
                 self.board.id(board.id());
                 self.board.subject(response.subject);
                 self.board.priority(response.priority);
+                self.board.members(response.members);
                 self.selectedUsers(response.members.map(function (user) {
                     return user.id;
                 }));
@@ -108,6 +109,15 @@ var ViewModel = function () {
         self.board.members_attributes(self.selectedUsers().map(function (id) {
             return {'user_id': id};
         }));
+        self.board.members().forEach(function (val) {
+            if (self.selectedUsers().indexOf(val.id) == -1) {
+                self.board.members_attributes.push({
+                    'user_id': val.id,
+                    'release': 1
+                });
+            }
+        });
+
         self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
