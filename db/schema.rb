@@ -11,26 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151110091503) do
-
-  create_table "boards", force: :cascade do |t|
-    t.string   "subject",    null: false
-    t.integer  "priority"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "user_id"
-  end
-
-  create_table "groups", force: :cascade do |t|
-    t.string   "subject",    null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "priority"
-    t.integer  "board_id"
-    t.integer  "user_id"
-  end
-
-  add_index "groups", ["board_id"], name: "index_groups_on_board_id"
+ActiveRecord::Schema.define(version: 20151119060423) do
 
   create_table "items", force: :cascade do |t|
     t.integer  "parent_id",  null: false
@@ -55,18 +36,6 @@ ActiveRecord::Schema.define(version: 20151110091503) do
 
   add_index "members", ["item_id"], name: "index_members_on_item_id"
   add_index "members", ["user_id"], name: "index_members_on_user_id"
-
-  create_table "tasks", force: :cascade do |t|
-    t.string   "subject",    null: false
-    t.text     "body"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "group_id"
-    t.integer  "priority"
-    t.integer  "user_id"
-  end
-
-  add_index "tasks", ["group_id"], name: "index_tasks_on_group_id"
 
   create_table "users", force: :cascade do |t|
     t.string   "provider",    null: false
