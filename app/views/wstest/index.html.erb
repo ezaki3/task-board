@@ -1,0 +1,17 @@
+<h1>WS Test</h1>
+
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+
+<script>
+  var dispatcher = new WebSocketRails('localhost:3000/websocket', true);
+  channel = dispatcher.subscribe('update_notification');
+  channel.bind('Board', function(action) {
+    console.log('Board ' + action);
+  });
+  channel.bind('Group', function(action) {
+    console.log('Group ' + action);
+  });
+  channel.bind('Task', function(action) {
+    console.log('Task ' + action);
+  });
+</script>

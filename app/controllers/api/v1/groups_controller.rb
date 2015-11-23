@@ -1,6 +1,7 @@
 class Api::V1::GroupsController < Api::V1::ApplicationController
   include Membership
   include Draggable
+  include UpdateNotifier
   include Talkable
 
   def index
