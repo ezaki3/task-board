@@ -1,17 +1,29 @@
 <h1>WS Test</h1>
 
+<!-- TODO: Adjust `task-board` assets layout style -->
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
 <script>
-  var dispatcher = new WebSocketRails('localhost:3000/websocket', true);
-  channel = dispatcher.subscribe('update_notification');
-  channel.bind('Board', function(action) {
-    console.log('Board ' + action);
+  var dispatcher = new WebSocketRails('localhost:3000/websocket')
+
+  // Listens to `update_notification` channel
+    channel = dispatcher.subscribe('update_notification');
+
+  /*
+   * Resources updated events
+   */
+
+  // Binds `Board` events on `update_notification` channel
+  channel.bind('Board', function(data) {
+    console.log('Board ' + data);
   });
-  channel.bind('Group', function(action) {
-    console.log('Group ' + action);
+
+  channel.bind('Group', function(data) {
+    console.log('Group ' + data);
   });
-  channel.bind('Task', function(action) {
-    console.log('Task ' + action);
+
+  channel.bind('Task', function(data) {
+    // `Group` events and `Task` events respond same `data` now...
+    console.log('Task ' + data);
   });
 </script>

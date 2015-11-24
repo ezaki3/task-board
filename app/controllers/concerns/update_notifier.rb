@@ -14,6 +14,20 @@ module UpdateNotifier
   end
 
   def notify(action)
-    WebsocketRails[:update_notification].trigger model_name, action.to_s.capitalize
+    resource_for_notification
+    WebsocketRails[:update_notification].trigger(
+      model_name,
+      render_to_string(
+        template_for_notification, :formats => [:json], :handlers => [:jbuilder]
+      )
+    )
+  end
+
+  def resource_for_notification
+    instance_variable_set(resource(:tableize), @model.all).inspect
+  end
+
+  def template_for_notification
+    'index'
   end
 end
