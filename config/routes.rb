@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   root 'boards#index'
 
+  get 'wstest' => 'wstest#index'
+
   get 'auth/:provider/callback' => 'sessions#create'
   get 'logout' => 'sessions#destroy'
 

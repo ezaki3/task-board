@@ -35,6 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dotenv-rails'
 gem 'omniauth-github'
 gem 'slack-api'
+gem 'websocket-rails'
 
 group :development, :test do
   gem 'sqlite3'

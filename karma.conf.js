@@ -18,6 +18,12 @@ module.exports = function(config) {
         'app/assets/javascripts/jquery-1.11.3.min.js',
         'app/assets/javascripts/bootstrap.min.js',
         'app/assets/javascripts/knockout-3.3.0.js',
+        'app/assets/javascripts/websocket_rails.js',
+        'app/assets/javascripts/event.js',
+        'app/assets/javascripts/abstract_connection.js',
+        'app/assets/javascripts/http_connection.js',
+        'app/assets/javascripts/websocket_connection.js',
+        'app/assets/javascripts/channel.js',
         'spec/js/**/*.js'
     ],
 

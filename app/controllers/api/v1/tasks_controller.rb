@@ -1,6 +1,7 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
   include Membership
   include Draggable
+  include UpdateNotifier
   include Talkable
 
   def index
@@ -28,5 +29,13 @@ class Api::V1::TasksController < Api::V1::ApplicationController
 
   def my_url
     url_for(instance_variable_get(resource).group.board)
+  end
+
+  def resource_for_notification
+    @board = Board.find(@task.group.board_id)
+  end
+
+  def template_for_notification
+    'api/v1/boards/show'
   end
 end

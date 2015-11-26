@@ -27,6 +27,12 @@ var ViewModel = function () {
             });
     });
 
+    self.baseViewModel.channel.bind('Board', function(data) {
+      self.boards(JSON.parse(data).map(function (board) {
+          return new Board(board.id, board.subject, board.priority);
+      }));
+    });
+
     self.listBoard = function () {
         self.board.search()
             .done(function (response) {
@@ -90,7 +96,6 @@ var ViewModel = function () {
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
-                self.boards.push(new Board(response.id, response.subject, response.priority));
                 $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })

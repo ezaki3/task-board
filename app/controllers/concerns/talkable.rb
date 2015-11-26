@@ -51,14 +51,16 @@ module Talkable
   end
 
   def after_create
-    after_save(:created)
+    super
+    talk_to_about(:created)
   end
 
   def after_update
-    after_save(:updated)
+    super
+    talk_to_about(:updated)
   end
 
-  def after_save(action)
+  def talk_to_about(action)
     return unless talkable?
     text = build_message(
       instance_variable_get(resource),

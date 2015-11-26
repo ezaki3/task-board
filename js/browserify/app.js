@@ -236,6 +236,9 @@ var BaseViewModel = function () {
 
     self.backUrl = location.pathname;
 
+    var dispatcher = new WebSocketRails(window.location.host + '/websocket');
+    self.channel = dispatcher.subscribe('update_notification');
+
     self.user = new User(null, null, null);
     self.users = ko.observableArray();
 
@@ -249,11 +252,11 @@ var BaseViewModel = function () {
             console.log(response);
         });
 
-    this.closeAlertSuccess = function () {
+    self.closeAlertSuccess = function () {
         self.alertSuccessMessage(null);
     }.bind(self);
 
-    this.closeErrorSuccess = function () {
+    self.closeErrorSuccess = function () {
         self.alertErrorMessage(null);
     }.bind(self);
 };
@@ -288,6 +291,12 @@ var ViewModel = function () {
                     self.baseViewModel.invalidMessages({'board': response.responseJSON});
                 }
             });
+    });
+
+    self.baseViewModel.channel.bind('Board', function(data) {
+      self.boards(JSON.parse(data).map(function (board) {
+          return new Board(board.id, board.subject, board.priority);
+      }));
     });
 
     self.listBoard = function () {
@@ -353,7 +362,6 @@ var ViewModel = function () {
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
-                self.boards.push(new Board(response.id, response.subject, response.priority));
                 $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -516,23 +524,38 @@ var ViewModel = function () {
             });
     });
 
+    self.updateItems = function (board) {
+        if (self.board.id() != board.id) {
+            return false;
+        }
+        self.board.subject(board.subject);
+        self.board.priority(board.priority);
+        self.board.groups(board.groups.map(function (group) {
+            var g = new Group(group.id, board.id, group.subject, group.priority);
+            g.tasks(group.tasks.map(function (task) {
+                return new Task(task.id, group.id, task.subject, task.body, task.priority);
+            }));
+            g.tasks.group_id = group.id; // use to moveTask
+            return g;
+        }));
+        self.board.members(board.members.map(function (user) {
+            return new User(user.id, user.nickname, user.avatar_url);
+        }));
+    };
+
+    self.baseViewModel.channel.bind('Group', function(data) {
+        self.updateItems(JSON.parse(data));
+    });
+
+    self.baseViewModel.channel.bind('Task', function(data) {
+        self.updateItems(JSON.parse(data));
+    });
+
     self.listGroup = function (id) {
         self.board.find(id)
             .done(function (response) {
                 self.board.id(response.id);
-                self.board.subject(response.subject);
-                self.board.priority(response.priority);
-                self.board.groups(response.groups.map(function (group) {
-                    var g = new Group(group.id, response.id, group.subject, group.priority);
-                    g.tasks(group.tasks.map(function (task) {
-                        return new Task(task.id, group.id, task.subject, task.body, task.priority);
-                    }));
-                    g.tasks.group_id = group.id; // use to moveTask
-                    return g;
-                }));
-                self.board.members(response.members.map(function (user) {
-                    return new User(user.id, user.nickname, user.avatar_url);
-                }));
+                self.updateItems(response);
             })
             .fail(function (response) {
                 console.log(response);
@@ -614,7 +637,6 @@ var ViewModel = function () {
         task.create(ko.toJSON({'task': self.task}), 'collection')
             .done(function (response) {
                 console.log(response);
-                self.selectedGroup.tasks.push(new Task(response.id, response.group_id, response.subject, response.body, response.priority));
                 $('#taskModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -633,7 +655,6 @@ var ViewModel = function () {
         group.create(ko.toJSON({'group': group}), 'collection')
             .done(function (response) {
                 console.log(response);
-                self.board.groups.push(new Group(response.id, response.board.id, response.subject, response.priority));
                 $('#groupModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
