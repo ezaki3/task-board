@@ -125,7 +125,7 @@ describe('group', function () {
         expect(viewModel.baseViewModel.invalidMessages().group.subject.length).toBe(1);
     });
 
-    it('createGroup', function () {
+    xit('createGroup', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
             d.resolve({
