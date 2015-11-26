@@ -236,6 +236,9 @@ var BaseViewModel = function () {
 
     self.backUrl = location.pathname;
 
+    var dispatcher = new WebSocketRails(window.location.host + '/websocket');
+    self.channel = dispatcher.subscribe('update_notification');
+
     self.user = new User(null, null, null);
     self.users = ko.observableArray();
 
@@ -249,11 +252,11 @@ var BaseViewModel = function () {
             console.log(response);
         });
 
-    this.closeAlertSuccess = function () {
+    self.closeAlertSuccess = function () {
         self.alertSuccessMessage(null);
     }.bind(self);
 
-    this.closeErrorSuccess = function () {
+    self.closeErrorSuccess = function () {
         self.alertErrorMessage(null);
     }.bind(self);
 };
@@ -288,6 +291,12 @@ var ViewModel = function () {
                     self.baseViewModel.invalidMessages({'board': response.responseJSON});
                 }
             });
+    });
+
+    self.baseViewModel.channel.bind('Board', function(data) {
+      self.boards(JSON.parse(data).map(function (board) {
+          return new Board(board.id, board.subject, board.priority);
+      }));
     });
 
     self.listBoard = function () {
@@ -353,7 +362,6 @@ var ViewModel = function () {
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
                 console.log(response);
-                self.boards.push(new Board(response.id, response.subject, response.priority));
                 $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })

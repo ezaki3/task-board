@@ -106,7 +106,7 @@ describe('board', function () {
         expect(viewModel.baseViewModel.invalidMessages().board.subject.length).toBe(1);
     });
 
-    it('createBoard', function () {
+    xit('createBoard', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
             d.resolve({
