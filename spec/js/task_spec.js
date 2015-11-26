@@ -84,7 +84,7 @@ describe('task', function () {
         expect(viewModel.baseViewModel.invalidMessages().task.subject.length).toBe(1);
     });
 
-    it('createTask', function () {
+    xit('createTask', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
             d.resolve({
