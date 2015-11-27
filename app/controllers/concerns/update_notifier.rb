@@ -24,7 +24,7 @@ module UpdateNotifier
   end
 
   def resource_for_notification
-    instance_variable_set(resource(:tableize), @model.all).inspect
+    index
   end
 
   def template_for_notification
