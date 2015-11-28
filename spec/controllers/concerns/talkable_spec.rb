@@ -54,5 +54,19 @@ RSpec.describe Talkable do
         # message.split("\n").each { |m| p m }
       end
     end
+
+    context 'when deletes' do
+      it 'retruns any message' do
+        task.destroy
+        message = talkable.build_message(
+          task,
+          user_id: users.third.id,
+          action: :deleted,
+          members: nil
+        )
+        expect(message).not_to be_falsy
+        # message.split("\n").each { |m| p m }
+      end
+    end
   end
 end
