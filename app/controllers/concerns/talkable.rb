@@ -4,6 +4,7 @@ module Talkable
 
   included do
     before_action :set_old_members, only: [:update]
+    after_action :talk_to_about, only: [:destroy]
   end
 
   def build_message(item, **kwargs)
@@ -60,13 +61,13 @@ module Talkable
     talk_to_about(:updated)
   end
 
-  def talk_to_about(action)
+  def talk_to_about(action = :deleted)
     return unless talkable?
     text = build_message(
       instance_variable_get(resource),
       user_id: session[:user_id],
       action: action,
-      members: params[resource_name][:members_attributes]
+      members: params[resource_name] && params[resource_name][:members_attributes] || nil
     )
     res = Slack.chat_postMessage(
       text: text, username: ENV['SLACK_USERNAME'], channel: ENV['SLACK_CHANNEL']
