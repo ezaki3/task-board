@@ -1,6 +1,10 @@
 module UpdateNotifier
   extend ActiveSupport::Concern
 
+  included do
+    after_action :notify, only: [:destroy]
+  end
+
   private
 
   def after_create
@@ -13,7 +17,7 @@ module UpdateNotifier
     notify(:updated)
   end
 
-  def notify(action)
+  def notify(action = :deleted)
     resource_for_notification
     WebsocketRails[:update_notification].trigger(
       model_name,
