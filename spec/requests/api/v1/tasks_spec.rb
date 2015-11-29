@@ -140,7 +140,8 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       }
     end
 
-    let!(:task) { create(:task, user_id: @user.id + 1) }
+    let(:user) { create(:user, id: @user.id + 1) }
+    let!(:task) { create(:task, user_id: user.id) }
     let(:id) { task.id }
     let(:params) do
       {
@@ -178,14 +179,14 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     end
 
     context 'with _destroy flag on member' do
-      let!(:member) { create(:member, item_id: task.id) }
+      let!(:member) { create(:member, item_id: task.id, user_id: user.id) }
       let!(:params) do
         {
           task: {
             id: task.id,
             members_attributes: [
               { item_id: nil, user_id: @user.id },
-              { item_id: nil, user_id: member.user_id, release: '1' }
+              { item_id: nil, user_id: user.id, release: '1' }
             ]
           }
         }
@@ -193,8 +194,8 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
 
       it 'removes member' do
         expect { is_expected.to eq 200 }.to change(Member, :count).by(+ 1 - 1)
-        expect(Member.count).to eq 1
-        expect(Member.first.user_id).to eq @user.id
+        expect(Member.where(item_id: task.id).count).to eq 1
+        expect(Member.where(item_id: task.id).first.user_id).to eq @user.id
       end
     end
   end

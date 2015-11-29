@@ -20,14 +20,19 @@ class Item < ActiveRecord::Base
 
   private
 
+  def save_member(user_id, is_owner = false)
+    member = Member.find_or_initialize_by(item_id: self.id, user_id: user_id)
+    member.assign_attributes(is_owner: is_owner) if member.new_record?
+    member.save!
+  end
+
   def autosave_associated_records_for_members
     members.each do |m|
       if m.release
         Member.destroy_all(item_id: m.item_id, user_id: m.user_id)
         next
       end
-      member = Member.find_or_initialize_by(item_id: self.id, user_id: m.user_id)
-      member.save!
+      save_member(m.user_id)
     end
   end
 

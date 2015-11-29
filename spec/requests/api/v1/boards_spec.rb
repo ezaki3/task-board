@@ -45,24 +45,41 @@ RSpec.describe 'Api::V1::Boards', type: :request do
       {
         board: attributes_for(
           :board,
-          members_attributes: [
-            attributes_for(:member, item_id: nil, user_id: @user.id),
-            attributes_for(:member, item_id: nil, user_id: user.id)
-          ]
+          members_attributes: members
+          # attributes_for(:member, item_id: nil, user_id: @user.id),
+          # attributes_for(:member, item_id: nil, user_id: user.id)
         )
       }
     }
 
     context 'with valid params' do
-      it 'adds a new board', autodoc: true do
-        expect { is_expected.to eq 201 }.to change(Board, :count).by(1)
-        res = JSON(response.body)
-        expect(res['subject']).to eq params[:board][:subject]
-        expect(res['priority']).to eq params[:board][:priority]
-        expect(res['updated_at']).to eq res['created_at']
-        # expect(res['members'][0]['id']).to eq @user.id
-        expect(res['members'].size).to eq 2
-        expect(response.header['location']).to eq '/api/v1/boards/%d' % res['id']
+      context 'and members' do
+        let(:members) {
+          [
+            attributes_for(:member, item_id: nil, user_id: @user.id),
+            attributes_for(:member, item_id: nil, user_id: user.id)
+          ]
+        }
+        it 'adds a new board', autodoc: true do
+          expect { is_expected.to eq 201 }.to change(Board, :count).by(1)
+          res = JSON(response.body)
+          expect(res['subject']).to eq params[:board][:subject]
+          expect(res['priority']).to eq params[:board][:priority]
+          expect(res['updated_at']).to eq res['created_at']
+          expect(res['members'][0]['id']).to eq @user.id
+          expect(res['members'].size).to eq 2
+          expect(response.header['location']).to eq '/api/v1/boards/%d' % res['id']
+        end
+      end
+
+      context 'and no members' do
+        let(:members) { nil }
+        it 'adds a new board has default member' do
+          expect { is_expected.to eq 201 }.to change(Board, :count).by(1)
+          res = JSON(response.body)
+          expect(res['members'].size).to eq 1
+          expect(res['members'][0]['id']).to eq @user.id
+        end
       end
     end
 
@@ -158,14 +175,13 @@ RSpec.describe 'Api::V1::Boards', type: :request do
     end
 
     context 'with _destroy flag on member' do
-      let!(:member) { create(:member, item_id: board.id) }
       let!(:params) do
         {
           board: {
             id: board.id,
             members_attributes: [
               { item_id: nil, user_id: @user.id },
-              { item_id: nil, user_id: member.user_id, release: '1' }
+              { item_id: nil, user_id: user.id, release: '1' }
             ]
           }
         }
