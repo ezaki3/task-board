@@ -4,6 +4,10 @@ class Board < Item
   after_initialize :set_default_value, if: :new_record?
   after_create :create_owner
 
+  scope :readable, ->(user_id) {
+    joins(:members).where(members: {user_id: user_id})
+  }
+
   private
 
   def set_default_value

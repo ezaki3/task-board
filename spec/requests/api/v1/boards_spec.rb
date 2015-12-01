@@ -46,8 +46,6 @@ RSpec.describe 'Api::V1::Boards', type: :request do
         board: attributes_for(
           :board,
           members_attributes: members
-          # attributes_for(:member, item_id: nil, user_id: @user.id),
-          # attributes_for(:member, item_id: nil, user_id: user.id)
         )
       }
     }
@@ -257,7 +255,9 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'GET /api/v1/boards' do
-    let!(:boards) { create_list(:board, 2) }
+    let!(:boards) {
+      create_list(:board, 2, members: [create(:member, user_id: @user.id)])
+    }
 
     it 'returns boards', autodoc: true do
       is_expected.to eq 200

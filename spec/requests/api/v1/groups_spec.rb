@@ -219,7 +219,12 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'GET /api/v1/boards/:board_id/groups' do
-    let!(:groups) { create_list(:group, 2, board_id: board_id) }
+    let!(:groups) {
+      create_list(
+        :group, 2, board_id: board_id,
+        members: [create(:member, user_id: @user.id, item_id: board_id)]
+      )
+    }
     let(:board) { create(:board) }
     let(:board_id) { board.id }
 
