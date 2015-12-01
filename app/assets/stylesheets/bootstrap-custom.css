@@ -3,3 +3,8 @@
   margin-bottom: 20px;
   min-height: 2px;
 }
+
+.avatar-dropdown {
+  height:25px;
+  float-left;
+}
