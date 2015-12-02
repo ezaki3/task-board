@@ -35,10 +35,29 @@ module.exports = function (grunt) {
             }
         },
 
+        csslint: {
+            strict: {
+                options: {
+                    import: 2
+                },
+                src: ['app/assets/stylesheets/bootstrap-custom.css']
+            },
+            lax: {
+                options: {
+                    import: false
+                },
+                src: ['app/assets/stylesheets/bootstrap-custom.css']
+            }
+        },
+
         watch: {
             js: {
                 files: ['js/src/*.js', 'spec/js/*.js'],
                 tasks: ['karma:continuous:run', 'browserify', 'uglify']
+            },
+            css: {
+                files: ['app/assets/stylesheets/bootstrap-custom.css'],
+                tasks: ['csslint:strict']
             }
         }
     });
@@ -47,7 +66,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-karma');
     grunt.loadNpmTasks('grunt-browserify');
+    grunt.loadNpmTasks('grunt-contrib-csslint');
 
-    grunt.registerTask('default', ['karma:unit', 'browserify', 'uglify']);
+    grunt.registerTask('default', ['karma:unit', 'csslint:strict', 'browserify', 'uglify']);
     grunt.registerTask('serve', ['karma:continuous:start', 'watch'])
 };
