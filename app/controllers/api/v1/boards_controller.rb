@@ -16,4 +16,8 @@ class Api::V1::BoardsController < Api::V1::ApplicationController
   def my_url
     url_for(instance_variable_get(resource))
   end
+
+  def creatable!
+    # Anyone can create if logged in
+  end
 end

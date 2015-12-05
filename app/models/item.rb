@@ -7,7 +7,7 @@ class Item < ActiveRecord::Base
   accepts_nested_attributes_for :members, allow_destroy: true
 
   alias_attribute :name, :subject # for RSpec ?
-  alias_attribute :user_id, :created_by
+  # alias_attribute :user_id, :created_by # DELETEME: if not needed
 
   validates :subject, presence: true
   validates :priority, numericality: {only_integer: true}, allow_blank: true
