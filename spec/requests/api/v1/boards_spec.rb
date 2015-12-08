@@ -10,7 +10,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'GET /api/v1/boards/:id' do
-    let(:board) { create(:board) }
+    let(:board) { create(:board, created_by: @user.id) }
     let(:id) { board.id }
 
     context 'with valid id' do
@@ -133,7 +133,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
     end
 
     let(:user) { create(:user, id: @user.id + 1) }
-    let!(:board) { create(:board, user_id: user.id) }
+    let!(:board) { create(:board, created_by: @user.id) }
     let(:id) { board.id }
     let(:params) do
       {
@@ -178,8 +178,8 @@ RSpec.describe 'Api::V1::Boards', type: :request do
           board: {
             id: board.id,
             members_attributes: [
-              { item_id: nil, user_id: @user.id },
-              { item_id: nil, user_id: user.id, release: '1' }
+              { item_id: nil, user_id: @user.id, release: '1' },
+              { item_id: nil, user_id: user.id }
             ]
           }
         }
@@ -187,8 +187,8 @@ RSpec.describe 'Api::V1::Boards', type: :request do
 
       it 'removes member' do
         expect { is_expected.to eq 200 }.to change(Member, :count).by(+ 1 - 1)
-        expect(Member.count).to eq 1
-        expect(Member.first.user_id).to eq @user.id
+        expect(Member.where(item_id: board.id).count).to eq 1
+        expect(Member.where(item_id: board.id).first.user_id).to eq user.id
       end
     end
   end
@@ -201,7 +201,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
       }
     end
 
-    let!(:board) { create(:board) }
+    let!(:board) { create(:board, created_by: @user.id) }
     let(:id) { board.id }
     let(:params) do
       {
@@ -235,7 +235,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'DELETE /api/v1/boards/:id' do
-    let!(:board) { create(:board) }
+    let!(:board) { create(:board, created_by: @user.id) }
     let(:id) { board.id }
 
     context 'with valid id' do

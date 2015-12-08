@@ -10,7 +10,8 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'GET /api/v1/groups/:id' do
-    let(:group) { create(:group) }
+    let(:board) { create(:board, created_by: @user.id) }
+    let(:group) { create(:group, board_id: board.id) }
     let(:id) { group.id }
 
     context 'with valid id' do
@@ -53,7 +54,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
         )
       }
     }
-    let(:board) { create(:board) }
+    let(:board) { create(:board, created_by: @user.id) }
     let(:board_id) { board.id }
 
     context 'with valid params' do
@@ -89,7 +90,7 @@ RSpec.describe 'Api::V1::Groups', type: :request do
     end
 
     let(:params) { { group: attributes_for(:group, board_id: board_id) } }
-    let(:board) { create(:board) }
+    let(:board) { create(:board, created_by: @user.id) }
     let(:board_id) { board.id }
 
     context 'with valid params' do
@@ -122,7 +123,8 @@ RSpec.describe 'Api::V1::Groups', type: :request do
       }
     end
 
-    let!(:group) { create(:group, user_id: @user.id + 1) }
+    let(:board) { create(:board, created_by: @user.id) }
+    let!(:group) { create(:group, board_id: board.id) }
     let(:id) { group.id }
     let(:params) do
       {
@@ -165,7 +167,8 @@ RSpec.describe 'Api::V1::Groups', type: :request do
       }
     end
 
-    let!(:group) { create(:group) }
+    let(:board) { create(:board, created_by: @user.id) }
+    let!(:group) { create(:group, board_id: board.id) }
     let(:id) { group.id }
     let(:params) do
       {
@@ -199,7 +202,8 @@ RSpec.describe 'Api::V1::Groups', type: :request do
   end
 
   describe 'DELETE /api/v1/groups/:id' do
-    let!(:group) { create(:group) }
+    let(:board) { create(:board, created_by: @user.id) }
+    let!(:group) { create(:group, board_id: board.id) }
     let(:id) { group.id }
 
     context 'with valid id' do

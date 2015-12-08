@@ -15,7 +15,9 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   # describeで記述されている文字列の内容が解析されて、
   # subject { get '/tasks/#{id}' } というコードと同等の内容が自動的に定義されます
   describe 'GET /api/v1/tasks/:id' do
-    let(:task) { create(:task) }
+    let(:board) { create(:board, created_by: @user.id) }
+    let(:group) { create(:group, board_id: board.id) }
+    let(:task) { create(:task, group_id: group.id) }
     let(:id) { task.id }
 
     context 'with invalid id' do
@@ -140,8 +142,9 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       }
     end
 
-    let(:user) { create(:user, id: @user.id + 1) }
-    let!(:task) { create(:task, user_id: user.id) }
+    let(:board) { create(:board, created_by: @user.id) }
+    let(:group) { create(:group, board_id: board.id) }
+    let!(:task) { create(:task, group_id: group.id) }
     let(:id) { task.id }
     let(:params) do
       {
@@ -179,6 +182,7 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
     end
 
     context 'with _destroy flag on member' do
+      let(:user) { create(:user, id: @user.id + 1) }
       let!(:member) { create(:member, item_id: task.id, user_id: user.id) }
       let!(:params) do
         {
@@ -208,7 +212,9 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
       }
     end
 
-    let!(:task) { create(:task) }
+    let(:board) { create(:board, created_by: @user.id) }
+    let(:group) { create(:group, board_id: board.id) }
+    let!(:task) { create(:task, group_id: group.id) }
     let(:id) { task.id }
     let(:params) do
       {
@@ -243,7 +249,9 @@ RSpec.describe 'Api::V1::Tasks', type: :request do
   end
 
   describe 'DELETE /api/v1/tasks/:id' do
-    let!(:task) { create(:task) }
+    let(:board) { create(:board, created_by: @user.id) }
+    let(:group) { create(:group, board_id: board.id) }
+    let!(:task) { create(:task, group_id: group.id) }
     let(:id) { task.id }
 
     context 'with valid id', autodoc: true do
