@@ -278,6 +278,7 @@ var ViewModel = function () {
     self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
 
     self.selectedUsers = ko.observableArray();
+    self.suggestedUsers = ko.observableArray();
 
     self.boardValidation = ko.computed(function () {
         self.board.validation(ko.toJSON({'board': self.board}))
@@ -317,10 +318,21 @@ var ViewModel = function () {
                 self.baseViewModel.users(response.map(function (user) {
                     return new User(user.id, user.nickname, user.avatar_url);
                 }));
+                self.suggestedUsers(self.baseViewModel.users());
             })
             .fail(function (response) {
                 console.log(response);
             });
+    }.bind(self);
+
+    self.toggleUser = function (user) {
+        var idx = self.selectedUsers.indexOf(user.id());
+        if (idx == -1) {
+            self.selectedUsers.push(user.id());
+        } else {
+            self.selectedUsers.splice(idx, 1);
+        }
+        console.log(self.selectedUsers());
     }.bind(self);
 
     self.openBoardModal = function () {
