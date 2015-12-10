@@ -10,25 +10,37 @@ RSpec.describe 'Api::V1::Boards', type: :request do
   end
 
   describe 'GET /api/v1/boards/:id' do
-    let(:board) { create(:board, created_by: @user.id) }
+    let(:board) { create(:board, created_by: user.id) }
     let(:id) { board.id }
 
-    context 'with valid id' do
-      it 'returns a board', autodoc: true do
-        is_expected.to eq 200
-        res = JSON(response.body)
-        expect(res['id']).to eq id
-        expect(res['subject']).to eq board['subject']
-        expect(res['priority']).to eq board['priority']
-        expect(res['members']).to be_truthy
+    context 'user is not member' do
+      let(:user) { create(:user) }
+
+      it 'returns 404' do
+        is_expected.to eq 404
       end
     end
 
-    context 'with invalid id' do
-      let(:id) { 0 }
-      it {
-        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
-      }
+    context 'user is member' do
+      let(:user) { @user }
+
+      context 'with valid id' do
+        it 'returns a board', autodoc: true do
+          is_expected.to eq 200
+          res = JSON(response.body)
+          expect(res['id']).to eq id
+          expect(res['subject']).to eq board['subject']
+          expect(res['priority']).to eq board['priority']
+          expect(res['members']).to be_truthy
+        end
+      end
+
+      context 'with invalid id' do
+        let(:id) { 0 }
+        it {
+          expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+        }
+      end
     end
   end
 
@@ -132,8 +144,8 @@ RSpec.describe 'Api::V1::Boards', type: :request do
       }
     end
 
-    let(:user) { create(:user, id: @user.id + 1) }
-    let!(:board) { create(:board, created_by: @user.id) }
+    let(:another_user) { create(:user) }
+    let!(:board) { create(:board, created_by: user.id) }
     let(:id) { board.id }
     let(:params) do
       {
@@ -141,54 +153,66 @@ RSpec.describe 'Api::V1::Boards', type: :request do
           :board, subject: 'changed subject',
           members_attributes: [
             attributes_for(:member, item_id: nil, user_id: @user.id),
-            attributes_for(:member, item_id: nil, user_id: user.id)
+            attributes_for(:member, item_id: nil, user_id: another_user.id)
           ]
         )
       }
     end
 
-    context 'with valid params' do
-      it 'updates a board', autodoc: true do
-        expect {
-          is_expected.to eq 200
-        }.not_to change(Board, :count)
-        res = JSON(response.body)
-        expect(res['id']).to eq board.id
-        expect(res['subject']).to eq params[:board][:subject]
-        expect(res['priority']).to eq params[:board][:priority]
-        expect(res['updated_at']).not_to eq res['created_at']
-        expect(res['members'].size).to eq 2
-        expect(response.header['location']).to eq '/api/v1/boards/%d' %id
+    context 'user is not member' do
+      let(:user) { create(:user) }
+
+      it 'returns 404' do
+        is_expected.to eq 404
       end
     end
 
-    context 'with invalid params' do
-      let(:params) { { board: { subject: '' } } }
+    context 'user is member' do
+      let(:user) { @user }
 
-      it 'not updates a board' do
-        expect {
-          is_expected.to eq 422
-        }.not_to change(Board, :count)
+      context 'with valid params' do
+        it 'updates a board', autodoc: true do
+          expect {
+            is_expected.to eq 200
+          }.not_to change(Board, :count)
+          res = JSON(response.body)
+          expect(res['id']).to eq board.id
+          expect(res['subject']).to eq params[:board][:subject]
+          expect(res['priority']).to eq params[:board][:priority]
+          expect(res['updated_at']).not_to eq res['created_at']
+          expect(res['members'].size).to eq 2
+          expect(response.header['location']).to eq '/api/v1/boards/%d' %id
+        end
       end
-    end
 
-    context 'with _destroy flag on member' do
-      let!(:params) do
-        {
-          board: {
-            id: board.id,
-            members_attributes: [
-              { item_id: nil, user_id: @user.id, release: '1' },
-              { item_id: nil, user_id: user.id }
-            ]
+      context 'with invalid params' do
+        let(:params) { { board: { subject: '' } } }
+
+        it 'not updates a board' do
+          expect {
+            is_expected.to eq 422
+          }.not_to change(Board, :count)
+        end
+      end
+
+      context 'with _destroy flag on member' do
+        let!(:params) do
+          {
+            board: {
+              id: board.id,
+              members_attributes: [
+                { item_id: nil, user_id: @user.id, release: '1' },
+                { item_id: nil, user_id: user.id }
+              ]
+            }
           }
-        }
-      end
+        end
 
-      it 'removes member' do
-        expect { is_expected.to eq 200 }.to change(Member, :count).by(+ 1 - 1)
-        expect(Member.where(item_id: board.id).count).to eq 1
-        expect(Member.where(item_id: board.id).first.user_id).to eq user.id
+        it 'removes member' do
+          expect { is_expected.to eq 200 }.to change(Member, :count).by(+ 1 - 1)
+          expect(Member.where(item_id: board.id).count).to eq 1
+          expect(Member.where(item_id: board.id).first.user_id).to eq user.id
+        end
       end
     end
   end
@@ -201,7 +225,7 @@ RSpec.describe 'Api::V1::Boards', type: :request do
       }
     end
 
-    let!(:board) { create(:board, created_by: @user.id) }
+    let!(:board) { create(:board, created_by: user.id) }
     let(:id) { board.id }
     let(:params) do
       {
@@ -211,62 +235,107 @@ RSpec.describe 'Api::V1::Boards', type: :request do
       }
     end
 
-    context 'with valid params' do
-      it 'returns OK and not updates' do
-        expect { is_expected.to eq 200 }.not_to change(Board, :count)
-        res = JSON(response.body)
-        expect(res['id']).to eq board.id
-        expect(res['subject']).to eq params[:board][:subject]
-        expect(res['priority']).to eq params[:board][:priority]
-        expect(res['updated_at']).to eq res['created_at']
-        expect(response.header['location']).to eq '/api/v1/boards/%d' % id
+    context 'user is not member' do
+      let(:user) { create(:user) }
+
+      it 'returns 404' do
+        is_expected.to eq 404
       end
     end
 
-    context 'with invalid params' do
-      let(:params) { { board: { subject: '' } } }
+    context 'user is member' do
+      let(:user) { @user }
 
-      it 'returns NG and not updates', autodoc: true do
-        expect { is_expected.to eq 422 }.not_to change(Board, :count)
-        res = JSON(response.body)
-        expect(res['subject'].first).to eq "can't be blank"
+      context 'with valid params' do
+        it 'returns OK and not updates' do
+          expect { is_expected.to eq 200 }.not_to change(Board, :count)
+          res = JSON(response.body)
+          expect(res['id']).to eq board.id
+          expect(res['subject']).to eq params[:board][:subject]
+          expect(res['priority']).to eq params[:board][:priority]
+          expect(res['updated_at']).to eq res['created_at']
+          expect(response.header['location']).to eq '/api/v1/boards/%d' % id
+        end
+      end
+
+      context 'with invalid params' do
+        let(:params) { { board: { subject: '' } } }
+
+        it 'returns NG and not updates', autodoc: true do
+          expect { is_expected.to eq 422 }.not_to change(Board, :count)
+          res = JSON(response.body)
+          expect(res['subject'].first).to eq "can't be blank"
+        end
       end
     end
   end
 
   describe 'DELETE /api/v1/boards/:id' do
-    let!(:board) { create(:board, created_by: @user.id) }
+    # let(:headers) do
+    #   {
+    #     'Content-Type' => 'application/json',
+    #     'Accept' => 'application/json'
+    #   }
+    # end
+
+    let!(:board) { create(:board, created_by: user.id) }
     let(:id) { board.id }
 
-    context 'with valid id' do
-      it 'deletes a board', autodoc: true do
-        expect {
-          is_expected.to eq 204
-        }.to change(Board, :count).by(-1)
+    context 'user is not member' do
+      let(:user) { create(:user) }
+
+      it 'returns 404' do
+        is_expected.to eq 404
       end
     end
 
-    context 'with invalid id' do
-      let(:id) { 0 }
-      it {
-        expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
-      }
+    context 'user is member' do
+      let(:user) { @user }
+
+      context 'with valid id' do
+        it 'deletes a board', autodoc: true do
+          expect {
+            is_expected.to eq 204
+          }.to change(Board, :count).by(-1)
+        end
+      end
+
+      context 'with invalid id' do
+        let(:id) { 0 }
+        it {
+          expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
+        }
+      end
     end
   end
 
   describe 'GET /api/v1/boards' do
     let!(:boards) {
-      create_list(:board, 2, members: [create(:member, user_id: @user.id)])
+      create_list(:board, 2, members: [create(:member, user_id: user.id)])
     }
 
-    it 'returns boards', autodoc: true do
-      is_expected.to eq 200
-      res = JSON(response.body)
-      expect(res.size).to eq boards.size
-      expect(res.first['id']).to eq boards.first['id']
-      expect(res.first['subject']).to eq boards.first['subject']
-      expect(res.first['priority']).to eq boards.first['priority']
-      expect(res.second['id']).to eq boards.second['id']
+    context 'user is not member' do
+      let(:user) { create(:user) }
+
+      it 'returns 200 and only his groups' do
+        is_expected.to eq 200
+        res = JSON(response.body)
+        expect(res.size).to eq 0
+      end
+    end
+
+    context 'user is member' do
+      let(:user) { @user }
+
+      it 'returns boards', autodoc: true do
+        is_expected.to eq 200
+        res = JSON(response.body)
+        expect(res.size).to eq boards.size
+        expect(res.first['id']).to eq boards.first['id']
+        expect(res.first['subject']).to eq boards.first['subject']
+        expect(res.first['priority']).to eq boards.first['priority']
+        expect(res.second['id']).to eq boards.second['id']
+      end
     end
   end
 end
