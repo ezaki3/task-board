@@ -279,6 +279,7 @@ var ViewModel = function () {
 
     self.selectedUsers = ko.observableArray();
     self.suggestedUsers = ko.observableArray();
+    self.member = ko.observable();
 
     self.boardValidation = ko.computed(function () {
         self.board.validation(ko.toJSON({'board': self.board}))
@@ -292,6 +293,26 @@ var ViewModel = function () {
                     self.baseViewModel.invalidMessages({'board': response.responseJSON});
                 }
             });
+    });
+
+    self.suggestUser = ko.computed(function () {
+        var pattern = new RegExp(self.member());
+        self.suggestedUsers([]);
+        for (k in self.baseViewModel.users()) {
+            console.log(self.member());
+            if (pattern.test(self.baseViewModel.users()[k].nickname())) {
+                console.log('suggest id: ' + self.baseViewModel.users()[k].id());
+                self.suggestedUsers.push(new User(
+                    self.baseViewModel.users()[k].id(),
+                    self.baseViewModel.users()[k].nickname(),
+                    self.baseViewModel.users()[k].avatar_url()
+                ));
+            }
+        }
+        console.log('suggest length: ' + self.suggestedUsers().length);
+        if (self.suggestedUsers().length == 0) {
+            self.suggestedUsers(self.baseViewModel.users());
+        }
     });
 
     self.baseViewModel.channel.bind('Board', function(data) {
@@ -332,7 +353,6 @@ var ViewModel = function () {
         } else {
             self.selectedUsers.splice(idx, 1);
         }
-        console.log(self.selectedUsers());
     }.bind(self);
 
     self.openBoardModal = function () {
