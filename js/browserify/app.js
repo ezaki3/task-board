@@ -610,6 +610,15 @@ var ViewModel = function () {
             });
     }.bind(self);
 
+    self.toggleUser = function (user) {
+        var idx = self.selectedUsers.indexOf(user.id());
+        if (idx == -1) {
+            self.selectedUsers.push(user.id());
+        } else {
+            self.selectedUsers.splice(idx, 1);
+        }
+    }.bind(self);
+
     self.openTaskModal = function (group) {
         self.selectedGroup = group;
         self.task.id(null);

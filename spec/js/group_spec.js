@@ -65,6 +65,57 @@ describe('group', function () {
         expect(task.group_id()).toBe(1);
     });
 
+    it('suggestUser', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve(
+                {
+                    'id': 1,
+                    'subject': 'Happy board',
+                    'priority': 1,
+                    'groups': [
+                        {
+                            'id': 1,
+                            'subject': 'Happy group',
+                            'priority': 1,
+                            'tasks': [
+                                {
+                                    'id': 1,
+                                    'subject': 'Happy task',
+                                    'body': 'Create something new',
+                                    'priority': 1,
+                                }
+                            ]
+                        }
+                    ],
+                    'members': [
+                        {
+                            'id': 1,
+                            'nickname': 'abc',
+                            'avatar_url': 'https://avater_url.com/1'
+                        },
+                        {
+                            'id': 2,
+                            'nickname': 'xyz',
+                            'avatar_url': 'https://avater_url.com/2'
+                        }
+                    ]
+                }
+            );
+            return d.promise();
+        });
+
+        viewModel.listGroup(1);
+
+        viewModel.member('a');
+        expect(viewModel.suggestedUsers().length).toBe(1);
+        expect(viewModel.suggestedUsers()[0].nickname()).toBe('abc');
+
+        viewModel.member('x');
+        expect(viewModel.suggestedUsers().length).toBe(1);
+        expect(viewModel.suggestedUsers()[0].nickname()).toBe('xyz');
+    });
+
     it('findGroup', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
