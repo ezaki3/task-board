@@ -146,6 +146,7 @@ var ViewModel = function () {
         self.task.group_id(group.id());
         self.task.priority(null);
         self.selectedUsers([]);
+        self.member(null);
         $('#taskModal').modal('show');
     }.bind(self);
 
@@ -172,6 +173,7 @@ var ViewModel = function () {
                 self.selectedUsers(response.members.map(function (user) {
                     return user.id;
                 }));
+                self.member(null);
                 $('#taskModal').modal('show');
             })
             .fail(function (response) {
