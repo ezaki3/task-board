@@ -299,9 +299,7 @@ var ViewModel = function () {
         var pattern = new RegExp(self.member());
         self.suggestedUsers([]);
         for (k in self.baseViewModel.users()) {
-            console.log(self.member());
             if (pattern.test(self.baseViewModel.users()[k].nickname())) {
-                console.log('suggest id: ' + self.baseViewModel.users()[k].id());
                 self.suggestedUsers.push(new User(
                     self.baseViewModel.users()[k].id(),
                     self.baseViewModel.users()[k].nickname(),
@@ -309,7 +307,6 @@ var ViewModel = function () {
                 ));
             }
         }
-        console.log('suggest length: ' + self.suggestedUsers().length);
         if (self.suggestedUsers().length == 0) {
             self.suggestedUsers(self.baseViewModel.users());
         }
@@ -505,6 +502,8 @@ var ViewModel = function () {
     });
 
     self.selectedUsers = ko.observableArray();
+    self.suggestedUsers = ko.observableArray();
+    self.member = ko.observable();
 
     self.groupValidation = ko.computed(function () {
         if (self.group.board_id() == null) {
@@ -554,6 +553,23 @@ var ViewModel = function () {
                     });
                 }
             });
+    });
+
+    self.suggestUser = ko.computed(function () {
+        var pattern = new RegExp(self.member());
+        self.suggestedUsers([]);
+        for (k in self.board.members()) {
+            if (pattern.test(self.board.members()[k].nickname())) {
+                self.suggestedUsers.push(new User(
+                    self.board.members()[k].id(),
+                    self.board.members()[k].nickname(),
+                    self.board.members()[k].avatar_url()
+                ));
+            }
+        }
+        if (self.suggestedUsers().length == 0) {
+            self.suggestedUsers(self.board.members());
+        }
     });
 
     self.updateItems = function (board) {

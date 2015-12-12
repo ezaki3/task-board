@@ -41,7 +41,6 @@ var ViewModel = function () {
                 ));
             }
         }
-        console.log('suggest length: ' + self.suggestedUsers().length);
         if (self.suggestedUsers().length == 0) {
             self.suggestedUsers(self.baseViewModel.users());
         }

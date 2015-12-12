@@ -21,6 +21,8 @@ var ViewModel = function () {
     });
 
     self.selectedUsers = ko.observableArray();
+    self.suggestedUsers = ko.observableArray();
+    self.member = ko.observable();
 
     self.groupValidation = ko.computed(function () {
         if (self.group.board_id() == null) {
@@ -70,6 +72,23 @@ var ViewModel = function () {
                     });
                 }
             });
+    });
+
+    self.suggestUser = ko.computed(function () {
+        var pattern = new RegExp(self.member());
+        self.suggestedUsers([]);
+        for (k in self.board.members()) {
+            if (pattern.test(self.board.members()[k].nickname())) {
+                self.suggestedUsers.push(new User(
+                    self.board.members()[k].id(),
+                    self.board.members()[k].nickname(),
+                    self.board.members()[k].avatar_url()
+                ));
+            }
+        }
+        if (self.suggestedUsers().length == 0) {
+            self.suggestedUsers(self.board.members());
+        }
     });
 
     self.updateItems = function (board) {

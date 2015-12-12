@@ -78,8 +78,16 @@
                         <select id="group" data-bind="options: board.groups, optionsText: 'subject', optionsValue: 'id', value: task.group_id" class="form-control"></select>
                     </div>
                     <div class="form-group">
-                        <label for="members" class="control-label">メンバー:</label>
-                        <select id="members" data-bind="options: board.members, optionsText: 'nickname', optionsValue: 'id', selectedOptions: selectedUsers" multiple class="form-control"></select>
+                        <label for="member" class="control-label">メンバー:</label>
+                        <input type="text" class="form-control" id="member" placeholder="Search members" data-bind="value: member, valueUpdate: 'keyup'">
+                    </div>
+                    <div class="form-group">
+                        <div class="list-group" data-bind="foreach: suggestedUsers">
+                            <a href="#" class="list-group-item" data-bind="click: $parent.toggleUser, css: {active: $parent.selectedUsers().indexOf($data.id()) > -1}">
+                                <img class="avatar-member-select" data-bind="attr: {src: avatar_url}">
+                                <p style="margin-left:30px" data-bind="text: nickname"></p>
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>
