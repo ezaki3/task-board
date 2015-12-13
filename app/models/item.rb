@@ -7,7 +7,7 @@ class Item < ActiveRecord::Base
   accepts_nested_attributes_for :members, allow_destroy: true
 
   alias_attribute :name, :subject # for RSpec ?
-  alias_attribute :user_id, :created_by
+  # alias_attribute :user_id, :created_by # DELETEME: if not needed
 
   validates :subject, presence: true
   validates :priority, numericality: {only_integer: true}, allow_blank: true
@@ -20,14 +20,19 @@ class Item < ActiveRecord::Base
 
   private
 
+  def save_member(user_id, is_owner = false)
+    member = Member.find_or_initialize_by(item_id: self.id, user_id: user_id)
+    member.assign_attributes(is_owner: is_owner) if member.new_record?
+    member.save!
+  end
+
   def autosave_associated_records_for_members
     members.each do |m|
       if m.release
         Member.destroy_all(item_id: m.item_id, user_id: m.user_id)
         next
       end
-      member = Member.find_or_initialize_by(item_id: self.id, user_id: m.user_id)
-      member.save!
+      save_member(m.user_id)
     end
   end
 

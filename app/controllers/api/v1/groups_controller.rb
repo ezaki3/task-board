@@ -40,4 +40,10 @@ class Api::V1::GroupsController < Api::V1::ApplicationController
   def template_for_notification
     'api/v1/boards/show'
   end
+
+  def creatable!
+    unless Board.readable(session[:user_id]).find_by(id: params[:board_id])
+      render json: {error: 'not found'}, status: :not_found
+    end
+  end
 end
