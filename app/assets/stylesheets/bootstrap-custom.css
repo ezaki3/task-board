@@ -7,3 +7,8 @@
 .avatar-dropdown {
   height: 25px;
 }
+
+.avatar-member-select {
+  height: 25px;
+  float: left;
+}

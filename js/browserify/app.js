@@ -278,6 +278,8 @@ var ViewModel = function () {
     self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
 
     self.selectedUsers = ko.observableArray();
+    self.suggestedUsers = ko.observableArray();
+    self.member = ko.observable();
 
     self.boardValidation = ko.computed(function () {
         self.board.validation(ko.toJSON({'board': self.board}))
@@ -291,6 +293,23 @@ var ViewModel = function () {
                     self.baseViewModel.invalidMessages({'board': response.responseJSON});
                 }
             });
+    });
+
+    self.suggestUser = ko.computed(function () {
+        var pattern = new RegExp(self.member());
+        self.suggestedUsers([]);
+        for (k in self.baseViewModel.users()) {
+            if (pattern.test(self.baseViewModel.users()[k].nickname())) {
+                self.suggestedUsers.push(new User(
+                    self.baseViewModel.users()[k].id(),
+                    self.baseViewModel.users()[k].nickname(),
+                    self.baseViewModel.users()[k].avatar_url()
+                ));
+            }
+        }
+        if (self.suggestedUsers().length == 0) {
+            self.suggestedUsers(self.baseViewModel.users());
+        }
     });
 
     self.baseViewModel.channel.bind('Board', function(data) {
@@ -317,10 +336,20 @@ var ViewModel = function () {
                 self.baseViewModel.users(response.map(function (user) {
                     return new User(user.id, user.nickname, user.avatar_url);
                 }));
+                self.suggestedUsers(self.baseViewModel.users());
             })
             .fail(function (response) {
                 console.log(response);
             });
+    }.bind(self);
+
+    self.toggleUser = function (user) {
+        var idx = self.selectedUsers.indexOf(user.id());
+        if (idx == -1) {
+            self.selectedUsers.push(user.id());
+        } else {
+            self.selectedUsers.splice(idx, 1);
+        }
     }.bind(self);
 
     self.openBoardModal = function () {
@@ -328,6 +357,7 @@ var ViewModel = function () {
         self.board.subject(null);
         self.board.priority(null);
         self.selectedUsers([]);
+        self.member(null);
         $('#boardModal').modal('show');
     }.bind(self);
 
@@ -343,6 +373,7 @@ var ViewModel = function () {
                 self.selectedUsers(response.members.map(function (user) {
                     return user.id;
                 }));
+                self.member(null);
                 $('#boardModal').modal('show');
             })
             .fail(function (response) {
@@ -473,6 +504,8 @@ var ViewModel = function () {
     });
 
     self.selectedUsers = ko.observableArray();
+    self.suggestedUsers = ko.observableArray();
+    self.member = ko.observable();
 
     self.groupValidation = ko.computed(function () {
         if (self.group.board_id() == null) {
@@ -524,6 +557,23 @@ var ViewModel = function () {
             });
     });
 
+    self.suggestUser = ko.computed(function () {
+        var pattern = new RegExp(self.member());
+        self.suggestedUsers([]);
+        for (k in self.board.members()) {
+            if (pattern.test(self.board.members()[k].nickname())) {
+                self.suggestedUsers.push(new User(
+                    self.board.members()[k].id(),
+                    self.board.members()[k].nickname(),
+                    self.board.members()[k].avatar_url()
+                ));
+            }
+        }
+        if (self.suggestedUsers().length == 0) {
+            self.suggestedUsers(self.board.members());
+        }
+    });
+
     self.updateItems = function (board) {
         if (self.board.id() != board.id) {
             return false;
@@ -562,6 +612,15 @@ var ViewModel = function () {
             });
     }.bind(self);
 
+    self.toggleUser = function (user) {
+        var idx = self.selectedUsers.indexOf(user.id());
+        if (idx == -1) {
+            self.selectedUsers.push(user.id());
+        } else {
+            self.selectedUsers.splice(idx, 1);
+        }
+    }.bind(self);
+
     self.openTaskModal = function (group) {
         self.selectedGroup = group;
         self.task.id(null);
@@ -570,6 +629,7 @@ var ViewModel = function () {
         self.task.group_id(group.id());
         self.task.priority(null);
         self.selectedUsers([]);
+        self.member(null);
         $('#taskModal').modal('show');
     }.bind(self);
 
@@ -596,6 +656,7 @@ var ViewModel = function () {
                 self.selectedUsers(response.members.map(function (user) {
                     return user.id;
                 }));
+                self.member(null);
                 $('#taskModal').modal('show');
             })
             .fail(function (response) {
