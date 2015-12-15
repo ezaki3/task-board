@@ -11,6 +11,26 @@ RSpec.describe Board, type: :model do
     end
   end
 
+  describe 'scope' do
+    describe 'readable' do
+      let(:user) { create(:user) }
+      let!(:board) { create(:board, created_by: user.id) }
+
+      context 'user is member' do
+        it 'returns boards' do
+          expect(Board.readable(user.id).size).to eq 1
+        end
+      end
+
+      context 'user is not member' do
+        it 'returns no board' do
+          Member.find_by(item_id: board.id).delete
+          expect(Board.readable(user.id).size).to eq 0
+        end
+      end
+    end
+  end
+
   describe 'association dependent' do
     let(:board) { create(:board) }
     let!(:group) { create(:group, board_id: board.id) }
@@ -26,6 +46,18 @@ RSpec.describe Board, type: :model do
 
       it 'destroys them' do
         expect {  board.destroy }.to change(Task, :count).by(-1)
+      end
+    end
+  end
+
+  describe '#create_owner' do
+    let(:user) { create(:user) }
+    let!(:board) { create(:board, created_by: user.id) }
+    context 'after_create' do
+      it 'makes first member as an owner' do
+        expect(Member.where(item_id: board.id).size).to eq 1
+        member = Member.find_by(item_id: board.id)
+        expect(member.user_id).to eq user.id
       end
     end
   end

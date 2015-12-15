@@ -1,6 +1,7 @@
 class Api::V1::GroupsController < Api::V1::ApplicationController
   include Membership
   include Draggable
+  include UpdateNotifier
   include Talkable
 
   def index
@@ -30,5 +31,19 @@ class Api::V1::GroupsController < Api::V1::ApplicationController
 
   def my_url
     url_for(instance_variable_get(resource).board)
+  end
+
+  def resource_for_notification
+    @board = Board.find(@group.board_id)
+  end
+
+  def template_for_notification
+    'api/v1/boards/show'
+  end
+
+  def creatable!
+    unless Board.readable(session[:user_id]).find_by(id: params[:board_id])
+      render json: {error: 'not found'}, status: :not_found
+    end
   end
 end

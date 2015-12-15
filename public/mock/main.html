@@ -21,7 +21,10 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li><button type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-default navbar-btn">Add a group</button></li>
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">ユーザ名 <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            <img style="height:25px; float-left" src="https://avatars.githubusercontent.com/u/1151085?v=3">
+                            ユーザ名
+                        </a>
                         <ul class="dropdown-menu">
                             <li><a href="index_nologin.html">Log out</a></li>
                         </ul>
@@ -103,11 +106,27 @@
                             <textarea class="form-control" id="body"></textarea>
                         </div>
                         <div class="form-group">
-                            <label for="subject" class="control-label">メンバー:</label>
-                            <select multiple class="form-control">
-                                <option>ユーザ1</option>
-                                <option>ユーザ2</option>
+                            <label for="group" class="control-label">グループ:</label>
+                            <select class="form-control">
+                                <option>グループ1</option>
+                                <option>グループ2</option>
                             </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="member" class="control-label">メンバー:</label>
+                            <input type="text" class="form-control" id="member" placeholder="Search members">
+                        </div>
+                        <div class="form-group">
+                            <div class="list-group">
+                                <a href="#" class="list-group-item active">
+                                    <img style="height:25px; float:left" src="https://avatars.githubusercontent.com/u/1151085?v=3">
+                                    <p style="margin-left:30px">ezaki3</p>
+                                </a>
+                                <a href="#" class="list-group-item">
+                                    <img style="height:25px; float:left" src="https://avatars.githubusercontent.com/u/4407901?v=3">
+                                    <p style="margin-left:30px">tenkiwizard</p>
+                                </a>
+                            </div>
                         </div>
                     </form>
                 </div>

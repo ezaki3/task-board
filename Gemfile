@@ -35,6 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'dotenv-rails'
 gem 'omniauth-github'
 gem 'slack-api'
+gem 'websocket-rails'
 
 group :development, :test do
   gem 'sqlite3'
@@ -58,6 +59,7 @@ group :test do
   gem 'autodoc'
   gem "redcarpet"
   # gem 'database_rewinder'
+  gem "codeclimate-test-reporter", group: :test, require: nil
 end
 
 group :production do

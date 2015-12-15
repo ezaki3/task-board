@@ -9,6 +9,9 @@ var BaseViewModel = function () {
 
     self.backUrl = location.pathname;
 
+    var dispatcher = new WebSocketRails(window.location.host + '/websocket');
+    self.channel = dispatcher.subscribe('update_notification');
+
     self.user = new User(null, null, null);
     self.users = ko.observableArray();
 
@@ -22,11 +25,11 @@ var BaseViewModel = function () {
             console.log(response);
         });
 
-    this.closeAlertSuccess = function () {
+    self.closeAlertSuccess = function () {
         self.alertSuccessMessage(null);
     }.bind(self);
 
-    this.closeErrorSuccess = function () {
+    self.closeErrorSuccess = function () {
         self.alertErrorMessage(null);
     }.bind(self);
 };

@@ -21,6 +21,8 @@ var ViewModel = function () {
     });
 
     self.selectedUsers = ko.observableArray();
+    self.suggestedUsers = ko.observableArray();
+    self.member = ko.observable();
 
     self.groupValidation = ko.computed(function () {
         if (self.group.board_id() == null) {
@@ -72,27 +74,68 @@ var ViewModel = function () {
             });
     });
 
+    self.suggestUser = ko.computed(function () {
+        var pattern = new RegExp(self.member());
+        self.suggestedUsers([]);
+        for (k in self.board.members()) {
+            if (pattern.test(self.board.members()[k].nickname())) {
+                self.suggestedUsers.push(new User(
+                    self.board.members()[k].id(),
+                    self.board.members()[k].nickname(),
+                    self.board.members()[k].avatar_url()
+                ));
+            }
+        }
+        if (self.suggestedUsers().length == 0) {
+            self.suggestedUsers(self.board.members());
+        }
+    });
+
+    self.updateItems = function (board) {
+        if (self.board.id() != board.id) {
+            return false;
+        }
+        self.board.subject(board.subject);
+        self.board.priority(board.priority);
+        self.board.groups(board.groups.map(function (group) {
+            var g = new Group(group.id, board.id, group.subject, group.priority);
+            g.tasks(group.tasks.map(function (task) {
+                return new Task(task.id, group.id, task.subject, task.body, task.priority);
+            }));
+            g.tasks.group_id = group.id; // use to moveTask
+            return g;
+        }));
+        self.board.members(board.members.map(function (user) {
+            return new User(user.id, user.nickname, user.avatar_url);
+        }));
+    };
+
+    self.baseViewModel.channel.bind('Group', function(data) {
+        self.updateItems(JSON.parse(data));
+    });
+
+    self.baseViewModel.channel.bind('Task', function(data) {
+        self.updateItems(JSON.parse(data));
+    });
+
     self.listGroup = function (id) {
         self.board.find(id)
             .done(function (response) {
                 self.board.id(response.id);
-                self.board.subject(response.subject);
-                self.board.priority(response.priority);
-                self.board.groups(response.groups.map(function (group) {
-                    var g = new Group(group.id, response.id, group.subject, group.priority);
-                    g.tasks(group.tasks.map(function (task) {
-                        return new Task(task.id, group.id, task.subject, task.body, task.priority);
-                    }));
-                    g.tasks.group_id = group.id; // use to moveTask
-                    return g;
-                }));
-                self.board.members(response.members.map(function (user) {
-                    return new User(user.id, user.nickname, user.avatar_url);
-                }));
+                self.updateItems(response);
             })
             .fail(function (response) {
                 console.log(response);
             });
+    }.bind(self);
+
+    self.toggleUser = function (user) {
+        var idx = self.selectedUsers.indexOf(user.id());
+        if (idx == -1) {
+            self.selectedUsers.push(user.id());
+        } else {
+            self.selectedUsers.splice(idx, 1);
+        }
     }.bind(self);
 
     self.openTaskModal = function (group) {
@@ -103,6 +146,7 @@ var ViewModel = function () {
         self.task.group_id(group.id());
         self.task.priority(null);
         self.selectedUsers([]);
+        self.member(null);
         $('#taskModal').modal('show');
     }.bind(self);
 
@@ -129,6 +173,7 @@ var ViewModel = function () {
                 self.selectedUsers(response.members.map(function (user) {
                     return user.id;
                 }));
+                self.member(null);
                 $('#taskModal').modal('show');
             })
             .fail(function (response) {
@@ -170,7 +215,6 @@ var ViewModel = function () {
         task.create(ko.toJSON({'task': self.task}), 'collection')
             .done(function (response) {
                 console.log(response);
-                self.selectedGroup.tasks.push(new Task(response.id, response.group_id, response.subject, response.body, response.priority));
                 $('#taskModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
@@ -189,7 +233,6 @@ var ViewModel = function () {
         group.create(ko.toJSON({'group': group}), 'collection')
             .done(function (response) {
                 console.log(response);
-                self.board.groups.push(new Group(response.id, response.board.id, response.subject, response.priority));
                 $('#groupModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })

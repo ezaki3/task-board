@@ -1,5 +1,6 @@
 var ViewModel = require('../../js/src/viewmodel/boards/index.js');
 var Board = require('../../js/src/model/board.js');
+var User = require('../../js/src/model/user.js');
 
 describe('board', function () {
     var viewModel = null;
@@ -10,6 +11,35 @@ describe('board', function () {
 
     afterEach(function () {
         viewModel = null;
+    });
+
+    it('suggestUser', function () {
+        spyOn($, 'ajax').and.callFake(function() {
+            var d = $.Deferred();
+            d.resolve([
+                {
+                    'id': 1,
+                    'nickname': 'abc',
+                    'avatar_url': 'https://avater_url.com/1'
+                },
+                {
+                    'id': 2,
+                    'nickname': 'xyz',
+                    'avatar_url': 'https://avater_url.com/2'
+                }
+            ]);
+            return d.promise();
+        });
+
+        viewModel.listUser();
+
+        viewModel.member('a');
+        expect(viewModel.suggestedUsers().length).toBe(1);
+        expect(viewModel.suggestedUsers()[0].nickname()).toBe('abc');
+
+        viewModel.member('x');
+        expect(viewModel.suggestedUsers().length).toBe(1);
+        expect(viewModel.suggestedUsers()[0].nickname()).toBe('xyz');
     });
 
     it('listBoard', function () {
@@ -53,6 +83,17 @@ describe('board', function () {
         var user = viewModel.baseViewModel.users()[0];
         expect(user.id()).toBe(1);
         expect(user.nickname()).toBe('Happy user');
+    });
+
+    it('toggleUser', function () {
+        var user = new User(1, 'Happy user', 'https://avater_url.com/');
+        expect(viewModel.selectedUsers().length).toBe(0);
+
+        viewModel.toggleUser(user);
+        expect(viewModel.selectedUsers().length).toBe(1);
+
+        viewModel.toggleUser(user);
+        expect(viewModel.selectedUsers().length).toBe(0);
     });
 
     it('findBoard', function () {
@@ -106,7 +147,7 @@ describe('board', function () {
         expect(viewModel.baseViewModel.invalidMessages().board.subject.length).toBe(1);
     });
 
-    it('createBoard', function () {
+    xit('createBoard', function () {
         spyOn($, 'ajax').and.callFake(function() {
             var d = $.Deferred();
             d.resolve({

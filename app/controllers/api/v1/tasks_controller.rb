@@ -1,6 +1,7 @@
 class Api::V1::TasksController < Api::V1::ApplicationController
   include Membership
   include Draggable
+  include UpdateNotifier
   include Talkable
 
   def index
@@ -19,6 +20,8 @@ class Api::V1::TasksController < Api::V1::ApplicationController
     end
   end
 
+  private
+
   def resource_params
     params.require(model_name.underscore.intern).permit(
       *@model.column_names.map(&:intern), :user_id, :group_id,
@@ -28,5 +31,21 @@ class Api::V1::TasksController < Api::V1::ApplicationController
 
   def my_url
     url_for(instance_variable_get(resource).group.board)
+  end
+
+  def resource_for_notification
+    @board = Board.find(@task.group.board_id)
+  end
+
+  def template_for_notification
+    'api/v1/boards/show'
+  end
+
+  def creatable!
+    if g = Group.find_by(id: params[:group_id]) and
+      g.board.members.find_by(user_id: session[:user_id])
+      return
+    end
+    render json: {error: 'not found'}, status: :not_found
   end
 end

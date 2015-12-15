@@ -1,6 +1,7 @@
 class Api::V1::BoardsController < Api::V1::ApplicationController
   include Membership
   include Draggable
+  include UpdateNotifier
   include Talkable
 
   private
