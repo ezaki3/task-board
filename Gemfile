@@ -59,6 +59,7 @@ group :test do
   gem 'autodoc'
   gem "redcarpet"
   # gem 'database_rewinder'
+  gem "codeclimate-test-reporter", group: :test, require: nil
 end
 
 group :production do

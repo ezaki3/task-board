@@ -1,6 +1,8 @@
 machine:
   timezone:
     Asia/Tokyo
+  environment:
+    CODECLIMATE_REPO_TOKEN=77cb41820baa79893d2c07ef0b72b96681426938a1c4894d6225f6fc1cabb268
 
 test:
   override:
