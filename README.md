@@ -31,7 +31,11 @@ Task management tool like a kanban.
 
 ### Front-end
 
-* ...
+* Main Javascript library: **KnockoutJS**
+* CSS Framework: **Bootstrap**
+* Task Runner: **Grunt**
+* Unit Test: **Karma/Jasmine**
+* Build Tool: **browserify/uglify**
 
 
 ### Server-side
