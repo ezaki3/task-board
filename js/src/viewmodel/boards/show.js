@@ -100,7 +100,11 @@ var ViewModel = function () {
         self.board.groups(board.groups.map(function (group) {
             var g = new Group(group.id, board.id, group.subject, group.priority);
             g.tasks(group.tasks.map(function (task) {
-                return new Task(task.id, group.id, task.subject, task.body, task.priority);
+                var t = new Task(task.id, group.id, task.subject, task.body, task.priority);
+                t.members(task.members.map(function (user) {
+                    return new User(user.id, user.nickname, user.avatar_url);
+                }));
+                return t;
             }));
             g.tasks.group_id = group.id; // use to moveTask
             return g;
