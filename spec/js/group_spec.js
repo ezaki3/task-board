@@ -32,6 +32,14 @@ describe('group', function () {
                                     'subject': 'Happy task',
                                     'body': 'Create something new',
                                     'priority': 1,
+                                    'members': [
+                                        {
+                                            'id': 1,
+                                            'provider': 'Happy provider',
+                                            'nickname': 'Happy member',
+                                            'avatar_url': 'https://avatar_url.com/avatar/12345'
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -84,6 +92,14 @@ describe('group', function () {
                                     'subject': 'Happy task',
                                     'body': 'Create something new',
                                     'priority': 1,
+                                    'members': [
+                                        {
+                                            'id': 1,
+                                            'provider': 'Happy provider',
+                                            'nickname': 'Happy member',
+                                            'avatar_url': 'https://avatar_url.com/avatar/12345'
+                                        }
+                                    ]
                                 }
                             ]
                         }
