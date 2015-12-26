@@ -14,31 +14,6 @@ describe('task', function () {
     });
 
     it('findTask', function () {
-        spyOn($, 'ajax').and.callFake(function() {
-            var d = $.Deferred();
-            d.resolve({
-                'id': 1,
-                'subject': 'Edit task',
-                'body': 'Create something new',
-                'priority': 1,
-                'group': {
-                    'id': 1,
-                    'subject': 'Happy group',
-                    'priority': 1
-                },
-                'members': [
-                    {
-                        'id': 1,
-                        'provider': 'Happy provider',
-                        'nickname': 'Happy member',
-                        'avatar_url': 'https://avatar_url.com/avatar/12345'
-                    }
-                ]
-
-            });
-            return d.promise();
-        });
-
         expect(viewModel.task.id()).toBe(null);
         var task = new Task(1, 1, 'Happy task', 'Create something new', 1);
         viewModel.findTask({}, task);

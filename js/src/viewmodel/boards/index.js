@@ -18,11 +18,9 @@ var ViewModel = function () {
     self.boardValidation = ko.computed(function () {
         self.board.validation(ko.toJSON({'board': self.board}))
             .done(function (response) {
-                console.log(response);
                 self.baseViewModel.invalidMessages({'board': self.board.invalidMessages});
             })
             .fail(function (response) {
-                console.log(response);
                 if (response.status == 422) {
                     self.baseViewModel.invalidMessages({'board': response.responseJSON});
                 }
@@ -63,7 +61,6 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
             });
     }.bind(self);
 
@@ -79,7 +76,6 @@ var ViewModel = function () {
             })
             .fail(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
             });
     }.bind(self);
 
@@ -123,12 +119,10 @@ var ViewModel = function () {
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
                 self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
                 if (response.status == 401) {
                     $('#loginModal').modal('show');
                 } else {
@@ -155,14 +149,12 @@ var ViewModel = function () {
         self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
             .done(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
                 self.selectedBoard.subject(response.subject);
                 self.selectedBoard.priority(response.priority);
                 self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
                 if (response.status == 401) {
                     $('#loginModal').modal('show');
                 } else {
@@ -177,13 +169,11 @@ var ViewModel = function () {
         self.board.delete(self.selectedBoard.id())
             .done(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
                 self.boards.remove(self.selectedBoard);
                 self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
                 if (response.status == 401) {
                     $('#loginModal').modal('show');
                 } else {
@@ -202,12 +192,10 @@ var ViewModel = function () {
         self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
             .done(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
                 self.selectedBoard.priority(response.priority);
             })
             .fail(function (response) {
                 self.baseViewModel.loadingFlg(false);
-                console.log(response);
                 if (response.status == 401) {
                     $('#loginModal').modal('show');
                 }
