@@ -259,6 +259,8 @@ var BaseViewModel = function () {
     self.closeErrorSuccess = function () {
         self.alertErrorMessage(null);
     }.bind(self);
+
+    self.loadingFlg = ko.observable(false);
 };
 
 module.exports = BaseViewModel;
@@ -319,26 +321,32 @@ var ViewModel = function () {
     });
 
     self.listBoard = function () {
+        self.baseViewModel.loadingFlg(true);
         self.board.search()
             .done(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 self.boards(response.map(function (board) {
                     return new Board(board.id, board.subject, board.priority);
                 }));
             })
             .fail(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
             });
     }.bind(self);
 
     self.listUser = function () {
+        self.baseViewModel.loadingFlg(true);
         self.baseViewModel.user.search()
             .done(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 self.baseViewModel.users(response.map(function (user) {
                     return new User(user.id, user.nickname, user.avatar_url);
                 }));
                 self.suggestedUsers(self.baseViewModel.users());
             })
             .fail(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
             });
     }.bind(self);
@@ -363,42 +371,32 @@ var ViewModel = function () {
 
     self.findBoard = function (board) {
         self.selectedBoard = board;
-        self.board.find(board.id())
-            .done(function (response) {
-                console.log(response);
-                self.board.id(board.id());
-                self.board.subject(response.subject);
-                self.board.priority(response.priority);
-                self.board.members(response.members);
-                self.selectedUsers(response.members.map(function (user) {
-                    return user.id;
-                }));
-                self.member(null);
-                $('#boardModal').modal('show');
-            })
-            .fail(function (response) {
-                console.log(response);
-                if (response.status == 401) {
-                    $('#loginModal').modal('show');
-                } else {
-                    self.baseViewModel.alertErrorMessage('error');
-                }
-            });
+        self.board.id(board.id());
+        self.board.subject(board.subject());
+        self.board.priority(board.priority());
+        self.board.members(board.members());
+        self.selectedUsers(board.members().map(function (user) {
+            return user.id;
+        }));
+        self.member(null);
+        $('#boardModal').modal('show');
     }.bind(self);
 
     self.createBoard = function () {
+        $('#boardModal').modal('hide');
+        self.baseViewModel.loadingFlg(true);
         self.board.members_attributes(self.selectedUsers().map(function (id) {
             return {'user_id': id};
         }));
         self.board.create(ko.toJSON({'board': self.board}))
             .done(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
-                $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
-                $('#boardModal').modal('hide');
                 if (response.status == 401) {
                     $('#loginModal').modal('show');
                 } else {
@@ -408,6 +406,8 @@ var ViewModel = function () {
     }.bind(self);
 
     self.editBoard = function () {
+        $('#boardModal').modal('hide');
+        self.baseViewModel.loadingFlg(true);
         self.board.members_attributes(self.selectedUsers().map(function (id) {
             return {'user_id': id};
         }));
@@ -422,15 +422,15 @@ var ViewModel = function () {
 
         self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
             .done(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
                 self.selectedBoard.subject(response.subject);
                 self.selectedBoard.priority(response.priority);
-                $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
-                $('#boardModal').modal('hide');
                 if (response.status == 401) {
                     $('#loginModal').modal('show');
                 } else {
@@ -440,16 +440,18 @@ var ViewModel = function () {
     }.bind(self);
 
     self.deleteBoard = function () {
+        $('#boardModal').modal('hide');
+        self.baseViewModel.loadingFlg(true);
         self.board.delete(self.selectedBoard.id())
             .done(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
                 self.boards.remove(self.selectedBoard);
-                $('#boardModal').modal('hide');
                 self.baseViewModel.alertSuccessMessage('success');
             })
             .fail(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
-                $('#boardModal').modal('hide');
                 if (response.status == 401) {
                     $('#loginModal').modal('show');
                 } else {
@@ -463,13 +465,16 @@ var ViewModel = function () {
         self.board.id(sort.item.id());
         self.board.subject(sort.item.subject());
         self.board.priority(sort.targetIndex + 1);
+        self.baseViewModel.loadingFlg(true);
 
         self.board.edit(self.board.id(), ko.toJSON({'board': self.board}))
             .done(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
                 self.selectedBoard.priority(response.priority);
             })
             .fail(function (response) {
+                self.baseViewModel.loadingFlg(false);
                 console.log(response);
                 if (response.status == 401) {
                     $('#loginModal').modal('show');
