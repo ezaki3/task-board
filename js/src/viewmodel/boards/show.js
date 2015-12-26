@@ -174,29 +174,6 @@ var ViewModel = function () {
         }));
         self.member(null);
         $('#taskModal').modal('show');
-        // self.task.find(task.id())
-        //     .done(function (response) {
-        //         console.log(response);
-        //         self.task.id(response.id);
-        //         self.task.subject(response.subject);
-        //         self.task.body(response.body);
-        //         self.task.group_id(response.group.id);
-        //         self.task.priority(response.priority);
-        //         self.task.members(response.members);
-        //         self.selectedUsers(response.members.map(function (user) {
-        //             return user.id;
-        //         }));
-        //         self.member(null);
-        //         $('#taskModal').modal('show');
-        //     })
-        //     .fail(function (response) {
-        //         console.log(response);
-        //         if (response.status == 401) {
-        //             $('#loginModal').modal('show');
-        //         } else {
-        //             self.baseViewModel.alertErrorMessage('error');
-        //         }
-        //     });
     }.bind(self);
 
     self.findGroup = function (group) {
@@ -206,23 +183,6 @@ var ViewModel = function () {
         self.group.subject(group.subject());
         self.group.priority(group.priority());
         $('#groupModal').modal('show');
-        // self.group.find(group.id())
-        //     .done(function (response) {
-        //         console.log(response);
-        //         self.group.id(response.id);
-        //         self.group.board_id(response.board.id);
-        //         self.group.subject(response.subject);
-        //         self.group.priority(response.priority);
-        //         $('#groupModal').modal('show');
-        //     })
-        //     .fail(function (response) {
-        //         console.log(response);
-        //         if (response.status == 401) {
-        //             $('#loginModal').modal('show');
-        //         } else {
-        //             self.baseViewModel.alertErrorMessage('error');
-        //         }
-        //     });
     }.bind(self);
 
     self.createTask = function () {
