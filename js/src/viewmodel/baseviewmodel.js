@@ -32,6 +32,8 @@ var BaseViewModel = function () {
     self.closeErrorSuccess = function () {
         self.alertErrorMessage(null);
     }.bind(self);
+
+    self.loadingFlg = ko.observable(false);
 };
 
 module.exports = BaseViewModel;

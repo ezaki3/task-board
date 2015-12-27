@@ -97,18 +97,6 @@ describe('board', function () {
     });
 
     it('findBoard', function () {
-        spyOn($, 'ajax').and.callFake(function() {
-            var d = $.Deferred();
-            d.resolve({
-                'id': 1,
-                'subject': 'Happy board',
-                'priority': 1,
-                'groups': [],
-                'members': []
-            });
-            return d.promise();
-        });
-
         expect(viewModel.board.id()).toBe(null);
         var board = new Board(1, 'Happy board', 1);
         viewModel.findBoard(board);
