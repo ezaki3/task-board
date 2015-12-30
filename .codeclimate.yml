@@ -30,7 +30,7 @@ ratings:
   - "**.slim"
   - "**.css"
   - "**.inc"
-  - "**.js"
+  - "js/src/**/*.js"
   - "**.jsx"
   - "**.module"
   - "**.php"
