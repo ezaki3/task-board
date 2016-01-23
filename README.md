@@ -18,7 +18,7 @@ Task management tool like a kanban.
 * Realtime interactive communications by WebScocket
 * Push notifications to Slack
 
-### Planned futures
+### Planned features
 
 * Adaptable authentication with other OAuth providers
 * Adaptable push notifications to other web chat services
@@ -41,6 +41,15 @@ Task management tool like a kanban.
 ### Server-side
 
 * JSON Web-APIs based on **Ruby on Rails**
+  - **OmniAuth** for OAuth
+  - **websocket-rails** gem for using WebSocket technology
+  - **slack-api** gem for pushing to Slack WebChat service
+  - Depends on some RDBMS supported by **ActiveRecord** (We're using PostgreSQL and SQLite on developement)
+
+
+## Deploy on Heroku
+
+TODO: Write
 
 
 ## License
