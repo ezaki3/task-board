@@ -1,0 +1,6 @@
+{
+  "name": "ezaki3/task-board",
+  "scripts": {
+    "postdeploy": "bundle exec rake db:setup"
+  }
+}

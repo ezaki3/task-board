@@ -47,9 +47,9 @@ Task management tool like a kanban.
   - Depends on some RDBMS supported by **ActiveRecord** (We're using PostgreSQL and SQLite on developement)
 
 
-## Deploy on Heroku
+## Deploy to Heroku
 
-TODO: Write
+[![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
 
 
 ## License
