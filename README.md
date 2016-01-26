@@ -40,16 +40,25 @@ Task management tool like a kanban.
 
 ### Server-side
 
-* JSON Web-APIs based on **Ruby on Rails**
+* JSON Web-APIs based on **Ruby on Rails4**
   - **OmniAuth** for OAuth
   - **websocket-rails** gem for using WebSocket technology
   - **slack-api** gem for pushing to Slack WebChat service
   - Depends on some RDBMS supported by **ActiveRecord** (We're using PostgreSQL and SQLite on developement)
+  - Unit specs and request specs with **RSpec3**
 
 
 ## Deploy to Heroku
 
 [![Deploy](https://www.herokucdn.com/deploy/button.png)](https://heroku.com/deploy)
+
+_Required GitHub account_
+
+1. Push the button above and finish steps.
+2. Register application above to GitHub from [Developer applications page](https://github.com/settings/developers).
+  * **Authorization callback URL** is like https://*app-name-above*.heroku.com/auth/github/callback
+3. Configure environment variables on Heroku Dashboard.
+  * *See* `/app.json` of this repo about known environment variables
 
 
 ## License

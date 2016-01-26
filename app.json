@@ -1,6 +1,34 @@
 {
-  "name": "ezaki3/task-board",
-  "scripts": {
-    "postdeploy": "bundle exec rake db:setup"
-  }
+    "name": "ezaki3/task-board",
+    "logo": "https://avatars.githubusercontent.com/u/1151085?v=3"
+    "scripts": {
+        "postdeploy": "bundle exec rake db:setup"
+    },
+    "env": {
+        "GITHUB_CLIENT_ID": {
+            "description": "GitHub OAuth Client ID for OAuth",
+            "required": true,
+            "value": "__{client_id}__"
+        },
+        "GITHUB_CLIENT_SECRET": {
+            "description": "GitHub Oauth Client Secret for OAuth",
+            "required": true,
+            "value": "__{client_secret}__"
+        },
+        "SLACK_API_TOKEN": {
+            "description": "Slack API Token for push notifications (Remain blank if you don't need them)",
+            "required": false,
+            "value": ""
+        },
+        "SLACK_USERNAME": {
+            "description": "Username who pushes notifications to Slack",
+            "required": false,
+            "value": "ezaki3"
+        },
+        "SLACK_CHANNEL": {
+            "description": "Channel, Group or Private room of Sleck which receives notifications",
+            "required": false,
+            "value": "#task-board"
+        }
+    }
 }
