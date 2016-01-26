@@ -8,15 +8,15 @@
         "GITHUB_CLIENT_ID": {
             "description": "GitHub OAuth Client ID for OAuth",
             "required": true,
-            "value": "__{client_id}__"
+            "value": "GET_ID_AND_REPLACE_ME_WITH_HIM"
         },
         "GITHUB_CLIENT_SECRET": {
             "description": "GitHub Oauth Client Secret for OAuth",
             "required": true,
-            "value": "__{client_secret}__"
+            "value": "GET_SECRET_AND_REPLACE_ME_WITH_HER"
         },
         "SLACK_API_TOKEN": {
-            "description": "Slack API Token for push notifications (Remain blank if you don't need them)",
+            "description": "Slack API Token for push notifications (Remain blank unless you want them)",
             "required": false,
             "value": ""
         },
@@ -26,7 +26,7 @@
             "value": "ezaki3"
         },
         "SLACK_CHANNEL": {
-            "description": "Channel, Group or Private room of Sleck which receives notifications",
+            "description": "#channel, private group, encoded their ID or @user of Sleck which receives notifications",
             "required": false,
             "value": "#task-board"
         }

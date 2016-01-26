@@ -56,11 +56,11 @@ _Required GitHub account_
 
 1. Push the button above and finish steps.
 2. Register application above to GitHub from [Developer applications page](https://github.com/settings/developers).
-  * **Authorization callback URL** is a string like https://*app-name-above*.heroku.com/auth/github/callback
+  * **Authorization callback URL** is a string like https://*app-name-above*.herokuapp.com/auth/github/callback
 3. Configure environment variables on Heroku Dashboard.
   * *See* `/app.json` of this repo about known environment variables
 
 
 ## License
 
-MIT
+[MIT](http://opensource.org/licenses/mit-license.php)
