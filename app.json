@@ -15,6 +15,11 @@
             "required": true,
             "value": "GET_SECRET_AND_REPLACE_ME_WITH_HER"
         },
+        "SOCIAL_AUTH_REDIRECT_IS_HTTPS": {
+            "description": "Workaround OAuth's `redirect_url_mismatch` error (Keep me `true` perhaps)",
+            "required": true,
+            "value": true
+        },
         "SLACK_API_TOKEN": {
             "description": "Slack API Token for push notifications (Remain blank unless you want them)",
             "required": false,
