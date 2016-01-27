@@ -18,7 +18,7 @@
         "SOCIAL_AUTH_REDIRECT_IS_HTTPS": {
             "description": "Workaround OAuth's `redirect_url_mismatch` error (Keep me `true` perhaps)",
             "required": true,
-            "value": true
+            "value": "true"
         },
         "SLACK_API_TOKEN": {
             "description": "Slack API Token for push notifications (Remain blank unless you want them)",
