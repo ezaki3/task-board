@@ -1,7 +1,14 @@
+<%= render 'layouts/loader' %>
 <%= render 'layouts/navbar' %>
 <nav class="navbar navbar-default" data-bind="visible: baseViewModel.user.id() != null">
     <div class="container-fluid">
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
             <a class="navbar-brand" href="/">task-board</a>
         </div>
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -9,7 +16,7 @@
                 <li><button type="button" data-toggle="modal" class="btn btn-default navbar-btn" data-bind="click: openGroupModal">Add a group</button></li>
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                        <img class="avatar-dropdown" data-bind="attr: {src: baseViewModel.user.avatar_url}">
+                        <img class="avatar" data-bind="attr: {src: baseViewModel.user.avatar_url}" />
                         <!-- ko text: baseViewModel.user.nickname--><!--/ko-->
                     </a>
                     <ul class="dropdown-menu">
@@ -42,7 +49,12 @@
                     <!-- ko text: subject--><!--/ko-->
                 </div>
                 <div class="list-group" data-bind="sortable: {data: tasks, connectClass: 'list-group', afterMove: $parent.moveTask}">
-                    <a href="#" class="list-group-item" data-bind="text: subject, click: $parents[1].findTask.bind($data, $parent)"></a>
+                    <a href="#" class="list-group-item" data-bind="click: $parents[1].findTask.bind($data, $parent)">
+                        <p class="list-group-item-text" data-bind="text: subject"></p>
+                        <!-- ko foreach: members -->
+                        <img class="avatar" data-bind="attr: {src: avatar_url}" />
+                        <!-- /ko -->
+                    </a>
                 </div>
                 <div class="panel-footer"><a href="#" data-bind="click: $parent.openTaskModal">Add a task...</a></div>
             </div>
@@ -84,7 +96,7 @@
                     <div class="form-group">
                         <div class="list-group" data-bind="foreach: suggestedUsers">
                             <a href="#" class="list-group-item" data-bind="click: $parent.toggleUser, css: {active: $parent.selectedUsers().indexOf($data.id()) > -1}">
-                                <img class="avatar-member-select" data-bind="attr: {src: avatar_url}">
+                                <img class="avatar avatar-member-select" data-bind="attr: {src: avatar_url}">
                                 <p style="margin-left:30px" data-bind="text: nickname"></p>
                             </a>
                         </div>

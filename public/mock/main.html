@@ -15,6 +15,12 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <a class="navbar-brand" href="index.html">task-board</a>
             </div>
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -22,7 +28,7 @@
                     <li><button type="button" data-toggle="modal" data-target="#groupModal" class="btn btn-default navbar-btn">Add a group</button></li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <img style="height:25px; float-left" src="https://avatars.githubusercontent.com/u/1151085?v=3">
+                            <img style="height:25px; float-left" src="https://avatars.githubusercontent.com/u/1151085?v=3" />
                             ユーザ名
                         </a>
                         <ul class="dropdown-menu">
@@ -53,9 +59,17 @@
                         グループ1
                     </div>
                     <div class="list-group">
-                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク1</a>
-                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク2</a>
-                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク3</a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">
+                            <p class="list-group-item-text">タスク1</p>
+                            <img style="height:25px" src="https://avatars.githubusercontent.com/u/1151085?v=3" />
+                            <img style="height:25px" src="https://avatars.githubusercontent.com/u/4407901?v=3" />
+                        </a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">
+                            <p class="list-group-item-text">タスク2</p>
+                        </a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">
+                            <p class="list-group-item-text">タスク3</p>
+                        </a>
                     </div>
                     <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
                 </div>
@@ -67,8 +81,12 @@
                         グループ2
                     </div>
                     <div class="list-group">
-                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク4</a>
-                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク5</a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">
+                            <p class="list-group-item-text">タスク4</p>
+                        </a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">
+                            <p class="list-group-item-text">タスク5</p>
+                        </a>
                     </div>
                     <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
                 </div>
@@ -80,7 +98,9 @@
                         グループ3
                     </div>
                     <div class="list-group">
-                        <a href="#taskModal" data-toggle="modal" class="list-group-item">タスク6</a>
+                        <a href="#taskModal" data-toggle="modal" class="list-group-item">
+                            <p class="list-group-item-text">タスク6</p>
+                        </a>
                     </div>
                     <div class="panel-footer"><a href="#taskModal" data-toggle="modal">Add a task...</a></div>
                 </div>

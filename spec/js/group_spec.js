@@ -32,6 +32,14 @@ describe('group', function () {
                                     'subject': 'Happy task',
                                     'body': 'Create something new',
                                     'priority': 1,
+                                    'members': [
+                                        {
+                                            'id': 1,
+                                            'provider': 'Happy provider',
+                                            'nickname': 'Happy member',
+                                            'avatar_url': 'https://avatar_url.com/avatar/12345'
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -84,6 +92,14 @@ describe('group', function () {
                                     'subject': 'Happy task',
                                     'body': 'Create something new',
                                     'priority': 1,
+                                    'members': [
+                                        {
+                                            'id': 1,
+                                            'provider': 'Happy provider',
+                                            'nickname': 'Happy member',
+                                            'avatar_url': 'https://avatar_url.com/avatar/12345'
+                                        }
+                                    ]
                                 }
                             ]
                         }
@@ -117,21 +133,6 @@ describe('group', function () {
     });
 
     it('findGroup', function () {
-        spyOn($, 'ajax').and.callFake(function() {
-            var d = $.Deferred();
-            d.resolve({
-                'id': 1,
-                'subject': 'Happy group',
-                'priority': 1,
-                'board': {
-                    'id': 1,
-                    'subject': 'Happy board',
-                    'priority': 1
-                }
-            });
-            return d.promise();
-        });
-
         expect(viewModel.group.id()).toBe(null);
         var group = new Group(1, 1, 'Happy group', 1);
         viewModel.findGroup(group);
