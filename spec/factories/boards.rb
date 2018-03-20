@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :board do
     # sequence(:parent_id) { |n| }
     sequence(:subject) { |n| "ボード-#{n}" }

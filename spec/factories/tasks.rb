@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :task do
     group
     sequence(:subject) { |n| "タスク-#{n}" }

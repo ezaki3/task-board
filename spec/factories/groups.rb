@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :group do
     board
     sequence(:subject) { |n| "グループ-#{n}" }
